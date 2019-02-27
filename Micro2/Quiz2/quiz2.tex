@@ -1,0 +1,151 @@
+\documentclass[10pt]{paper}
+
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Quiz 2}
+\author{Timothy Schwieg}
+
+\begin{document}
+
+\maketitle
+
+\section*{7.5}
+
+\subsection*{a}
+
+This claim is false, consider the case when $N = 2$, then the pure
+strategy of picking one strictly dominates the pure strategy of
+picking 100.
+
+\begin{tabular*}{1.0\linewidth}{l|l|l|l}
+  & 1 & 2 - 99 & 100\\\hline
+  Pure 100 & 0 & 0 & 50\\
+  Pure 1 & 50 & 100 & 100\\
+\end{tabular*}
+
+
+As we can see, regardless of the move made by the other player in the
+2 person game, picking 1 always fares better than picking 100, and
+there is a pure strategy that strictly dominates picking 100, at least
+in the case of 2 players.
+
+\subsection*{b}
+
+Consider the strategy of picking any number with equal
+probability. Since the payoff of picking 100 is 0 for all cases except
+when everyone picks 100, we need only show that this strategy has a
+payoff greater than zero. Consider the case when not every player has
+picked 100. There is a number that is closest to the average divided
+by 3, and we have a positive probability of picking that number, so we
+have an expected utility that is greater than zero, and we are
+strictly better off than picking 100. 
+
+In the case when every other player picks 100, then with probability
+$\frac{1}{100}$ we pick 100 and earn 50\$, but with probability
+$\frac{99}{100}$ we earn 100\$ and are strictly better off than
+picking 100. Thus this strategy strictly dominates the pure strategy
+of picking 100.
+
+\subsection*{c}
+
+Consider the case when everyone else picks 100, then the payoff from
+picking 99 is 100\$. This is the maximum amount that a person could
+earn from the game, and can therefore not be strictly dominated.
+
+\subsection*{d}
+
+Since we can see that 100 is strictly dominated, we may iteratively
+eliminate this strategy. Our new strategy set for all palyers is
+picking betweeen 1-99. But the rules are the same in this game, so we
+should follow the same logic and eliminate the pure strategy of
+choosing 99. This leaves us after 2 rounds with the choices 1-98. This
+will continue by eliminating the highest numbered choice as it is
+strictly dominated.
+
+After 99 iterations, the only choice left is 1 and there is a unique
+choice left over.
+
+\subsection*{e}
+
+Let us approach this by fixing the choice of player 3 at 100. Consider
+three arbitrary cases: Player two picks from 15-100, Player two picks
+14, and Player two picks 1-13.
+
+\subsubsection*{15-100}
+
+If player two picks between 15-100, then the smallest that the average
+divided by three must be where his guess is 15: $\frac{115+x}{9}$.
+By choosing x so that we are closest to this number, we choose x =
+14. For any number greater than 15, if player 1 chooses 14, we will
+still obtain that 14 is the closest number. This occurs since:
+$$\left | \frac{114+y}{9} - y \right | \geq \left | \frac{114+y}{9} - 14
+\right | \quad \forall y \in [15,100] \subset \mathbb{Z}$$
+So for player 3 fixed at 100, and player 2 choosing 15-100, player 1
+finds that 14 weakly dominates every other number.
+
+\subsubsection*{14}
+If player two picks 14, and player 3 picks 100, then the best strategy
+for player 1 is to pick 14 as well.
+
+\subsubsection*{1-13}
+Since we can see that $\left | \frac{ 114+y}{9} - y \right| \geq \left |
+  \frac{114+y}{9} - 14 \right | \forall y \in [1,13] \subset \mathbb{Z}$.
+
+\begin{tabular*}{1.0\linewidth}{l|l|l}
+y & $\left | \frac{114+y}{9} - 14 \right |$ & $ \left | \frac{114+y}{9}- y \right |$\\\hline
+y = 1 & 2 & 11\\
+y = 2 & 2 & 10\\
+y = 3 & 1 & 10\\
+y = 4 & 1 & 9\\
+y = 5 & 1 & 8\\
+y = 6 & 1 & 7\\
+y = 7 & 1 & 6\\
+y = 8 & 1 & 5\\
+y = 9 & 1 & 4\\
+y = 10 & 1 & 3\\
+y = 11 & 1 & 2\\
+y = 12 & 0 & 2\\
+\end{tabular*}
+
+Clearly choosing 14 weakly dominates all other choices for player 3
+fixed at 100. 
+
+From this we can see that 14 weakly dominates all other choices when
+player 3 picks 100. We can lower player 3's guess, and without loss of
+generality state that player 2 can only pick between 0-99. From here
+we can see that the average will only be lowered, so there will never
+be a strategy higher than 14 that weakly dominates the
+others. As the max number lowers by 3, the weakly dominant strategy
+will be lowered, so we will see that each number from 1-14 will weakly
+dominate all other numbers for some choices of player 2 and 3. Since
+there is no time when 15-100 will weakly dominate all other choices,
+we find that those numbers are weakly dominated in the first step, and
+1-14 are the set of weakly dominant strategies.
+
+We may repeat this procedure, reaching only the options of \{1,2\}
+after the second iteration, and \{1\} after the third iteration.
+
+\section*{Question 3 }
+
+We can see plainly that both players want the combined effort level to
+be at 10. If they were willing to put forth effort, and the combined
+effort was greater than 10, they would benefit by using less effort
+until the combined level was 10. They would then be strictly better
+off since they are recieving the same benefit and excerting less effort.
+
+If the effort level was less than 10, they could increase their effort
+level such that the combined effort level was 10, excerting effort
+less than or equal to 10, and reaping the benefit of 100\$, making
+them strictly better off.
+
+Thus any combination of effort such that they both combine to excert
+10 effort is a Nash equilibrium. Without loss of generality, fix the
+effort of player 2, the best response of player one is to not change
+his effort, since lowering it costs him 100\$ and at best saves him
+10\$ in effort. Raising it gains him nothing, and costs him however
+much he raises his effort by. Thus this is a Nash equilibrium. 
+
+\end{document}

@@ -1,0 +1,17 @@
+\documentclass[10pt]{paper}
+
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Can you afford to buy a house}
+\author{Timothy Schwieg}
+
+\begin{document}
+The first step in determining if someone can afford to buy a house is
+ascertaining how expensive the house is, and working from
+there. Assume that the house has some value $V_0$ that it is on the
+market for. 
+\end{document}

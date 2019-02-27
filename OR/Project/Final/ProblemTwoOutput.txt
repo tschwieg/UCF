@@ -1,0 +1,6 @@
+Setup Time for path: [1, 16, 12, 6, 8, 5, 7, 9, 3, 14, 2, 13, 11, 4, 10, 15] is: 765
+Average Time for path: [1, 16, 12, 6, 8, 5, 7, 9, 3, 14, 2, 13, 11, 4, 10, 15] is: 7097.6
+Setup Time for path: [5, 7, 9, 3, 2, 14, 6] is: 375
+Average Time for path: [5, 7, 9, 3, 2, 14, 6] is: 6719.32
+Setup Time for path: [4, 13, 10, 15, 1, 16, 12, 8, 11] is: 525
+Average Time for path: [4, 13, 10, 15, 1, 16, 12, 8, 11] is: 6845.74

@@ -1,0 +1,110 @@
+Bayonet_Vanilla,2.736842105263158e-05
+Bayonet_Boreal Forest,2.736842105263158e-05
+Bayonet_Case Hardened,2.736842105263158e-05
+Bayonet_Crimson Web,2.736842105263158e-05
+Bayonet_Damascus Steel,2.736842105263158e-05
+Bayonet_Blue Steel,2.736842105263158e-05
+Bayonet_Doppler,2.736842105263158e-05
+Bayonet_Marble Fade,2.736842105263158e-05
+Bayonet_Tiger Tooth,2.736842105263158e-05
+Bayonet_Rust Coat,2.736842105263158e-05
+Bayonet_Ultraviolet,2.736842105263158e-05
+Bayonet_Fade,2.736842105263158e-05
+Bayonet_Forest DDPAT,2.736842105263158e-05
+Bayonet_Night,2.736842105263158e-05
+Bayonet_Safari Mesh,2.736842105263158e-05
+Bayonet_Scorched,2.736842105263158e-05
+Bayonet_Slaughter,2.736842105263158e-05
+Bayonet_Stained,2.736842105263158e-05
+Bayonet_Urban Masked,2.736842105263158e-05
+Gut Knife_Vanilla,2.736842105263158e-05
+Gut Knife_Boreal Forest,2.736842105263158e-05
+Gut Knife_Case Hardened,2.736842105263158e-05
+Gut Knife_Crimson Web,2.736842105263158e-05
+Gut Knife_Damascus Steel,2.736842105263158e-05
+Gut Knife_Blue Steel,2.736842105263158e-05
+Gut Knife_Doppler,2.736842105263158e-05
+Gut Knife_Marble Fade,2.736842105263158e-05
+Gut Knife_Tiger Tooth,2.736842105263158e-05
+Gut Knife_Rust Coat,2.736842105263158e-05
+Gut Knife_Ultraviolet,2.736842105263158e-05
+Gut Knife_Fade,2.736842105263158e-05
+Gut Knife_Forest DDPAT,2.736842105263158e-05
+Gut Knife_Night,2.736842105263158e-05
+Gut Knife_Safari Mesh,2.736842105263158e-05
+Gut Knife_Scorched,2.736842105263158e-05
+Gut Knife_Slaughter,2.736842105263158e-05
+Gut Knife_Stained Urban Masked,2.736842105263158e-05
+Flip Knife_Vanilla,2.736842105263158e-05
+Flip Knife_Boreal Forest,2.736842105263158e-05
+Flip Knife_Case Hardened,2.736842105263158e-05
+Flip Knife_Crimson Web,2.736842105263158e-05
+Flip Knife_Damascus Steel,2.736842105263158e-05
+Flip Knife_Blue Steel,2.736842105263158e-05
+Flip Knife_Doppler,2.736842105263158e-05
+Flip Knife_Marble Fade,2.736842105263158e-05
+Flip Knife_Tiger Tooth,2.736842105263158e-05
+Flip Knife_Rust Coat,2.736842105263158e-05
+Flip Knife_Ultraviolet,2.736842105263158e-05
+Flip Knife_Fade,2.736842105263158e-05
+Flip Knife_Forest DDPAT,2.736842105263158e-05
+Flip Knife_Night,2.736842105263158e-05
+Flip Knife_Safari Mesh,2.736842105263158e-05
+Flip Knife_Scorched,2.736842105263158e-05
+Flip Knife_Slaughter,2.736842105263158e-05
+Flip Knife_Stained,2.736842105263158e-05
+Flip Knife_Urban Masked,2.736842105263158e-05
+M9 Bayonet_Vanilla,2.736842105263158e-05
+M9 Bayonet_Boreal Forest,2.736842105263158e-05
+M9 Bayonet_Case Hardened,2.736842105263158e-05
+M9 Bayonet_Crimson Web,2.736842105263158e-05
+M9 Bayonet_Damascus Steel,2.736842105263158e-05
+M9 Bayonet_Blue Steel,2.736842105263158e-05
+M9 Bayonet_Doppler,2.736842105263158e-05
+M9 Bayonet_Marble Fade,2.736842105263158e-05
+M9 Bayonet_Tiger Tooth,2.736842105263158e-05
+M9 Bayonet_Rust Coat,2.736842105263158e-05
+M9 Bayonet_Ultraviolet,2.736842105263158e-05
+M9 Bayonet_Fade,2.736842105263158e-05
+M9 Bayonet_Forest DDPAT,2.736842105263158e-05
+M9 Bayonet_Night,2.736842105263158e-05
+M9 Bayonet_Safari Mesh,2.736842105263158e-05
+M9 Bayonet_Scorched,2.736842105263158e-05
+M9 Bayonet_Slaughter,2.736842105263158e-05
+M9 Bayonet_Stained,2.736842105263158e-05
+M9 Bayonet_Urban Masked,2.736842105263158e-05
+Karambit_Vanilla,2.736842105263158e-05
+Karambit_Boreal Forest,2.736842105263158e-05
+Karambit_Case Hardened,2.736842105263158e-05
+Karambit_Crimson Web,2.736842105263158e-05
+Karambit_Damascus Steel,2.736842105263158e-05
+Karambit_Blue Steel,2.736842105263158e-05
+Karambit_Doppler,2.736842105263158e-05
+Karambit_Marble Fade,2.736842105263158e-05
+Karambit_Tiger Tooth,2.736842105263158e-05
+Karambit_Rust Coat,2.736842105263158e-05
+Karambit_Ultraviolet,2.736842105263158e-05
+Karambit_Fade,2.736842105263158e-05
+Karambit_Forest DDPAT,2.736842105263158e-05
+Karambit_Night,2.736842105263158e-05
+Karambit_Safari Mesh,2.736842105263158e-05
+Karambit_Scorched,2.736842105263158e-05
+Karambit_Slaughter,2.736842105263158e-05
+Karambit_Stained,2.736842105263158e-05
+Karambit_Urban Masked,2.736842105263158e-05
+Bowie Knife_Vanilla,2.736842105263158e-05
+MAC-10 | Neon Rider,0.0032
+M4A1-S | Hyper Beast,0.0032
+FAMAS | Djinn,0.016
+Galil AR | Eco,0.0799
+Five-SeveN | Monkey Business,0.3996
+UMP-45 | Grand Prix,0.3996
+CZ75-Auto | Pole Position,0.3996
+MAG-7 | Heat,0.3996
+AWP | Worm God,0.3996
+Sawed-Off | Origami,0.3996
+Negev | Man-o'-war,0.3996
+P250 | Valence,0.3996
+Desert Eagle | Bronze Deco,0.3996
+MP7 | Armor Core,0.3996
+AK-47 | Elite Build,0.3996

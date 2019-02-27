@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+pdf\PYG{p}{(}\PYG{l+s}{\PYGZdq{}plot.pdf\PYGZdq{}}\PYG{p}{)}
+
+pot \PYG{o}{\PYGZlt{}\PYGZhy{}}  ggplot\PYG{p}{(} dataHorse\PYG{p}{,} aes\PYG{p}{(} x \PYG{o}{=} \PYG{l+m}{1}\PYG{o}{:}\PYG{k+kp}{nrow}\PYG{p}{(}dataHorse\PYG{p}{),} y \PYG{o}{=} simpleGLM\PYG{o}{\PYGZdl{}}residuals\PYG{p}{))}
+pot \PYG{o}{+} geom\PYGZus{}point\PYG{p}{(} aes\PYG{p}{(}color \PYG{o}{=} Corps\PYG{p}{,} shape \PYG{o}{=} Corps \PYG{p}{))} \PYG{o}{+} scale\PYGZus{}shape\PYGZus{}manual\PYG{p}{(} values \PYG{o}{=} \PYG{l+m}{1}\PYG{o}{:}\PYG{l+m}{14} \PYG{p}{)}
+
+dev.off\PYG{p}{()}
+\end{Verbatim}

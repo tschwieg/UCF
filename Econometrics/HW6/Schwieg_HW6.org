@@ -1,0 +1,106 @@
+
+
+* Question 1
+$$f_Y(y|\theta) = \theta \exp( - \theta y ) \quad y > 0, \theta > 0$$
+** a
+-Define: $\hat{\theta} = g(M_1) = \frac{1}{M_1} = \frac{ N }{ \sum_{n=1}^N Y_n }$
+-Taking a second-order Taylor-Series expansion of $\hat{\theta}$ gives us: 
+$$g(M_1) = g( \mu_1(\theta^0) ) + g'(\mu_1(\theta^0))( M_1 - \mu_1(\theta^0) ) + \frac{1}{2}g''( \mu_1(\theta^0) )(M_1 - \mu_1(\theta^0) )^2 + R_3$$
+-Ignoring the remainder, and applying $g(M_1) = \frac{1}{M_1}$
+$$\mathbb{E}[\hat{\theta}] = \theta^0 + \frac{2 \theta^0 V(Y)}{2N} = \frac{(N+1)\theta^0}{N}$$
+-The bias of $\hat{\theta}$ is given by: $\mathbb{E}[\hat{\theta}] - \theta^0 = \frac{\theta^0}{N}$
+#+BEGIN_SRC R :exports results :colnames no 
+n <- 1:20*5
+f <- (1 / n ) *100.0
+z <- t( data.frame( n[1:10], round(f[1:10],2), n[11:20], round(f[11:20],2) ) )
+#+END_SRC
+
+
+#+RESULTS:
+|    5 |   10 |   15 |   20 |   25 |   30 |   35 |   40 |   45 |  50 |
+|   20 |   10 | 6.67 |    5 |    4 | 3.33 | 2.86 |  2.5 | 2.22 |   2 |
+|   55 |   60 |   65 |   70 |   75 |   80 |   85 |   90 |   95 | 100 |
+| 1.82 | 1.67 | 1.54 | 1.43 | 1.33 | 1.25 | 1.18 | 1.11 | 1.05 |   1 | 
+  
+** b
+
+To establish the bias using the jackknife, first we define $\bar{
+\hat{ \theta } } = \frac{1}{N} \sum_{n=1}^N \hat{ \theta}_{-n}$ Our estimate of the bias
+is therefore: 
+
+$$\hat{ \text{ Bias}( \hat{ \theta } ) = (N-1)[ \bar{ \hat{ \theta } } - \hat{ \theta } ]$$
+
+** c
+
+#+BEGIN_SRC julia :results output :exports both
+using Distributions
+
+J = 1000000
+
+jackThetaBias = Vector{Float64}(J)
+deltaThetaBias = Vector{Float64}(J)
+trueBias = Vector{Float64}(J)
+
+
+for j = 1:J
+
+    N = 25
+
+    sims = rand( Exponential(1), N )
+
+    sumSims = sum( sims )
+    jackThetaHat = Vector{Float64}(N)
+    for i = 1:N
+        jackThetaHat[i] = (N-1)/(sumSims - sims[i])
+    end
+
+    jackThetaBias[j] = (N-1)*( mean( jackThetaHat) - (1.0 /mean( sims)))
+
+    #Delta method version
+    deltaThetaBias[j] = 1.0/ sumSims
+
+    trueBias[j] =  1.0 / mean( sims)
+end
+
+
+println( "The average bias for the Jackknife is: " * string( mean(jackThetaBias) ))
+println( "The average bias for the delta method is: " * string( mean(deltaThetaBias)))
+println( "The simulated bias for the sample is: " *string( mean(trueBias) - 1.0))
+
+#+END_SRC
+
+#+RESULTS:
+[[file:histogrm.jpg]]
+
+
+* Question 2
+
+** a
+First we may note that h(\beta) is continous for all values of beta.
+
+Since it is known that \hat{\beta} \toward \beta^0, we can apply Slutsky's
+theorem to h( $\hat{ \beta }$ ) to see that plim h( $\hat{ \beta }$ ) = $\plim
+\hat{\beta}_3 + \plim \hat{\beta}_2 \quad \plim \hat{\beta}_4$ This is equal to \beta_3 + \beta_2 \beta_4
+= h( \beta^0 ) and we can see that h( $\hat{ \beta }$ ) is a consistent estimator
+of h( \beta^0 ).
+
+** b
+Since h is not a linear function of \beta, we need a Wald statistic for
+non-linear hypothesis, which will make use of the \delta method.
+
+We will use the non-linear Wald statistic. This takes the form of: 
+
+\begin{equation}
+$$h(\hat{\theta)) [ h'( \hat{\theta} ) \mathbb{ V }( \hat{ \beta} ) h'( \hat{\theta} ) ]^{-1} h( \hat{\theta} ) \sim \chi^2 ( 1 )$$
+\end{equation}
+** c
+The advantage of using the Wald Statistic over the LR and LM tests is
+that it does not require using constrained optimization. Both the LR
+and the LM test would require that, which can be computationally
+ardous. However, the statistic is limited because it handles
+non-linearity by using the \delta method, which is simply a first order
+approximation of the result, and misses out on a lot of information
+that can be conveyed by curvature and other higher order information.
+
+The Wald test also has a slower rate of convergence than the liklihood
+ratio test, since it converges at a rate of $O( \frac{ 1} {\sqrt{N} } )$

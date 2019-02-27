@@ -1,0 +1,159 @@
+\documentclass[10pt]{paper}
+
+%\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Behavioral Homework 3}
+\author{Timothy Schwieg}
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1}
+\begin{align*}
+  F_V(v) = v \quad \forall v \in [0,1]\\
+  f_v(v) = 1 \quad \forall v \in [0,1]\\
+\end{align*}
+
+\subsection*{a}
+\begin{align*}
+  \sigma(v) = v - \frac{\int_0^v w^{N-1} dw}{v^{N-1}}\\
+  \sigma(v) = v - \frac{\frac{w^N}{N} \big |_0^v}{v^{N-1}}\\
+  \sigma(v) = v - \frac{v^N}{N v^{N-1}} = \frac{(N-1)v}{N}\\
+\end{align*}
+
+\subsection*{b}
+Since Y is the second order statistic coming from an iid distribution, it is
+known that its distribution function is given by:
+\begin{align*}
+  f_Y = N(N-1)F_V(y)^{N-2}(1-F_v(y))f_v(y)\\
+  f_Y = N(N-1)v^{N-2}(1-v)\\
+\end{align*}
+
+\subsection*{c}
+\begin{align*}
+  F_Y(y) = \int_0^yf_Y(v)dv = \int_0^y N(N-1)v^{N-2}(1-v)dv \\
+  N(N-1) \big [ \int_0^y v^{N-2}dv - \int_0^y v^{N-1} dv \big ]\\
+  N(N-1) \big ( \frac{y^{N-1}}{N-1} - \frac{y^N}{N} \big )\\
+  N(N-1) \big ( \frac{y^{N-1}N}{N(N-1)} - \frac{y^N(N-1)}{N(N-1)} \big )\\
+  y^{N-1}( N - yN + y)\\
+\end{align*}
+
+\subsection*{d}
+\begin{align*}
+  \mathbb{E}[Y] = \int_0^1 y f_Y(y)dy = \int_0^1 N(N-1)y^{N-1}(1-y)dy\\
+  N(N-1) ( \int_0^1 y^{N-1}dy - \int_0^1 y^N dy ) = N(N-1) \big ( \frac{1}{N} -\frac{1}{N+1} \big )\\
+  N(N-1) \big ( \frac{N+1}{N(N+1)} - \frac{N}{N(N+1)} \big ) = \frac{N-1}{N+1}\\
+\end{align*}
+
+\subsection*{e}
+
+\begin{align*}
+  \mathbb{E}[Y^2] = \int_0^1 y^2 f_Y(y)dy = \int_0^1 N(N-1)y^{N}(1-y)dy\\
+  N(N-1) ( \int_0^1 y^{N}dy - \int_0^1 y^{N+1} dy ) = N(N-1) \big ( \frac{1}{N+1} -\frac{1}{N+2} \big )\\
+  N(N-1) \big ( \frac{N+2}{(N+2)(N+1)} - \frac{N+1}{(N+2)(N+1)} \big ) = \frac{N(N-1)}{(N+1)(N+2)}\\
+  \mathbb{V}(Y) = \mathbb{E}[Y^2] -\mathbb{E}[Y]^2\\
+  \mathbb{V}(Y) = \frac{N(N-1)}{(N+1)(N+2)} -\frac{(N-1)^2}{(N+1)^2}\\
+  \frac{N(N-1)(N+1)}{(N+1)^2(N+2)} - \frac{(N+2)(N-1)^2}{(N+1)^2(N+2)}\\
+  \frac{(N-1)^2 }{(N+1)^2(N+2)}\\
+\end{align*}
+
+\subsection*{f}
+
+\begin{align*}
+  F_Z(z) = F_V(z)^N = z^N \forall v \in [0,1]
+\end{align*}
+
+\subsection*{g}
+
+\begin{align*}
+  f_Z(z) = \frac{\partial}{\partial z}F_Z(z) = N( z^{N-1} )
+\end{align*}
+
+\subsection*{h}
+
+\begin{align*}
+  \mathbb{E}[Z] = \int_0^1 zf_Z(z) = N \int_0^1 z^{N} dz = \frac{N}{N+1}
+\end{align*}
+
+\subsection*{i}
+
+\begin{align*}
+  \mathbb{E}[Z^2] = \int_0^1 N z^{N+1} = \frac{N}{N+2} z^{N+2} \big |_0^1 = \frac{N}{N+2}\\
+  Var(Z) = \mathbb{E}[Z^2] - \mathbb{E}[Z]^2 = \frac{N}{N+2}-(\frac{N}{N+1})^2 =\\
+  \frac{N(N+1)^2}{(N+2)(N+1)^2} - \frac{N^2(N+2)}{(N+2)(N+1)^2} = \frac{N}{(N+2)(N+1)^2}
+\end{align*}
+
+\subsection*{j}
+% \sigma(v) = \frac{(N-1)v}{N}
+First we must verify that $\sigma (v)$ is a monotonic transformation.
+\begin{align*}
+  \frac{\partial}{\partial v}\sigma (v) = \frac{N-1}{N} > 0
+\end{align*}
+Since it is a monotonic transformation, as the probability that the first order
+statistic is zero is 0 almost surely, we may proceed with the method of
+transformations for finding the pdf of W.
+\begin{align*}
+  \sigma^{-1}(w) = \frac{N}{N-1} w\\
+  \frac{\partial \sigma^{-1}}{\partial w} = \frac{N}{N-1}\\
+  f_W = f_{V_{(1:N)}}( \sigma^{-1}(w ) ) \big | \frac{\partial \sigma^{-1}}{\partial w} \big |\\
+  f_W = N( \frac{N-1}{N} w )^{N-1} \frac{ N}{N-1}\\
+\end{align*}
+
+\subsection*{k}
+\begin{align*}
+  \mathbb{E}[W] = \mathbb{E}[\frac{(N-1)v}{N}] = \frac{N-1}{N} \mathbb{E}[V_{(1:N)}]\\
+  \frac{N-1}{N} \frac{N}{N+1} = \frac{N-1}{N+1}
+\end{align*}
+
+\subsection*{l}
+
+\begin{align*}
+  \mathbb{V}(W) = \frac{(N-1)^2}{N^2} \mathbb{V}(V_{(1:N)}) = \\
+  \frac{(N-1)^2}{N^2} \frac{N}{(N+2)(N+1)^2} = \frac{(N-1)^2}{N(N+2)(N+1)}
+\end{align*}
+
+
+\section*{Question 2}
+
+\subsection*{a}
+
+Logically, the bidder will wish to not place any bid if his valuation is below
+the reserve price, so we shall assume that the new bids are uniform on the interval
+[r,1] and there will be M = $\sum_{n=1}^N 1_{v_n \geq r}$ participants. This  will be
+considered this exogenous.
+
+\begin{align*}
+  \max \mathbb{E}[ (v-s)P( win | s ) ] \\
+  \max (v-s)F_v(\sigma^{-1}(s_m))^{M-1}\\
+  \max (v-s) (\frac{\sigma^{-1}(s_m) -r }{1-r})^{M-1}\\
+  (v-s)(M-1)(\frac{\sigma^{-1}(s_m) - r}{1-r})^{M-2} \frac{1}{1-r} \frac{1}{\sigma'(v)} - (\frac{\sigma^{-1}(s_m) -r}{1-r})^{M-1} = 0\\
+  (v-\sigma(v))(M-1)(\frac{v - r}{1-r})^{M-2} (\frac{1}{1-r}) \frac{1}{\sigma'(v)} - (\frac{v -r}{1-r})^{M-1} = 0\\
+  \sigma'(v) (\frac{v-r}{1-r})^{M-1} + \sigma(v) (\frac{v-r}{1-r})^{M-2} (M-1) \frac{1}{1-r} = v(M-1)(\frac{v-r}{1-r})^{M-2} \frac{1}{1-r}\\
+  \sigma'(v) + \sigma(v) \frac{M-1}{v-r} = \frac{v(M-1)}{v-r} \text{ Applying } \mu = \exp( \int \frac{M-1}{v-r}) = (v-r)^{M-1}\\
+  (\sigma(v)(v-r)^{M-1})' = v(M-1)(v-r)^{M-2}\\
+  \sigma(v)(v-r)^{M-1} = v(v-r)^{M-1} - \frac{(v-r)^M}{M} + C\\
+  \sigma(v) = \frac{M-1}{M}v + \frac{r}{M} + C(v-r)^{1-M}\\
+  \sigma(v) = \frac{M-1}{M}v + \frac{r}{M}\\
+\end{align*}
+
+\subsection*{b}
+
+Since M = $\sum_{n=1}^N 1_{v_n \geq r}$ we can see that it is the sum of
+bernoulli random variables and thus is binomial. The probability that each event
+occurs is $P(v_n \geq r ) = 1 - F_V(r ).$ Thus $M \sim binom( N, 1- F_V(r) )$.
+
+\subsection*{c}
+The optimal reserve price can be found by solving the equation
+\begin{align*}
+  r^* = v^0 - \frac{1-F_V(r^*)}{f_V(r^*)}\\
+  r^* =v^0 + \frac{1-r^*}{1}\\
+  2r^* = v^0 + 1\\
+  r^* = \frac{v^0 + 1}{2}\\
+\end{align*}
+
+\end{document}

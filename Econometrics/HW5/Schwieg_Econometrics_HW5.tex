@@ -1,0 +1,309 @@
+\documentclass[10pt]{paper}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Econometrics HW5}
+\author{Timothy Schwieg}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+\maketitle
+\subsection*{a}
+
+
+\begin{align*}
+  \sum_{i=1}^\infty p_Y(y | \theta ) = \sum_{i=1}^\infty \frac{- \theta^y}{y \log( 1 - \theta)} = \frac{1 }{\log( 1- \theta)} \sum_{i=1}^\infty \frac{(-1)^{y+1} (-\theta)^y}{y} = \frac{\log(1-\theta)}{\log(1-\theta)} = 1\\
+\end{align*}
+
+\subsection*{b}
+
+\begin{align*}
+  \mathbb{E}[Y] = \sum_{i=1}^\infty \frac{- y \theta^y}{y log( 1 - \theta)} = \sum_{i=1}^\infty \frac{-\theta^y}{\log(1-\theta)} = \frac{-1}{\log(1-\theta)}\sum_{i=1}^\infty \theta^y = \frac{-\theta}{(1-\theta) \log( 1- \theta)}\\
+\end{align*}
+
+\subsection*{c}
+
+\begin{align*}
+  \mathbb{E}[Y^2] = \sum_{i=1}^\infty \frac{-y \theta^y}{\log(1-\theta)} = \frac{- \theta}{\log(1-\theta)} \sum_{i=1}^\infty y \theta^{y-1}
+  = \frac{- \theta}{\log( 1- \theta)} \frac{\partial}{\partial \theta} \sum_{i=1}^\infty \theta^y = \frac{-\theta}{\log(1-\theta)} \frac{\partial}{\partial \theta} \frac{\theta}{1-\theta} = \frac{- \theta}{\log(1-\theta) (1-\theta)^2}\\
+  \mathbb{V}(Y) = \mathbb{E}[Y^2] - \mathbb{E}[Y]^2 = \frac{- \theta}{\log(1-\theta) (1-\theta)^2} - \frac{\theta^2}{\log(1-\theta)^2 (1-\theta)^2} = \frac{- \theta \log( 1- \theta) - \theta^2}{\log(1-\theta)^2 (1-\theta)^2}\\
+\end{align*}
+
+\subsection*{d}
+
+
+Let $g(y) = \frac{1}{y}, h(\theta) = \frac{-1}{\log(1-\theta)}, \eta(\theta) = \log(\theta),
+\tau(y) = y$, this clearly implies the log-series is a member of the
+exponential family.
+
+Its sufficient statistic is given by: $T(y) = \sum_{n=1}^N \tau(y_n) =
+\sum_{n=1}^N y_n$.
+
+\subsection*{e}
+
+\begin{align*}
+  L( y_n | \theta) = \prod_{n=1}^N \frac{ - \theta^{y_n}}{y_n \log( 1 - \theta)}\\
+  f( \theta ) = \log( L( y_n | \theta ) ) = \sum_{n=1}^N y_n \log( \theta ) - \log( y_n ) - \log( - \log( 1- \theta ) )\\
+  f'( \theta ) = \sum_{n=1}^N \frac{y_n }{\theta} + \frac{1}{(1-\theta) \log( 1- \theta )} = 0\\
+  \sum_{n=1}^N y_n + \sum_{n=1}^N \frac{\theta}{(1-\theta)\log(1-\theta)} = 0\\
+  \bar{Y_N} + \frac{\theta}{(1-\theta)\log(1-\theta)} = 0\\
+\end{align*}
+The maximum liklihood estimator defined by this relationship can be
+given by the solution $\hat{\theta}$ to this equation. We shall find it
+using a Newton Step. Voraciously applying the quotient rule:
+
+\begin{align*}
+  f''(\theta) = \frac{\log(1-\theta) + \theta}{(1-\theta)^2 \log( 1- \theta)^2}\\
+\end{align*}
+
+\subsection*{f}
+
+
+We wish to show that $f'(\theta)$ is a monotonically decreasing function
+of $\theta$. We will show that $f''(\theta) < 0$ we may first note that that since the denominator is squared,
+it is non-negative, so we need only concern ourselves with the
+numerator. Taking the taylor series expansion of $\log( 1- \theta)$ and
+applying lagrange's remainder theorem, we may note that the numerator
+is equal to: $\theta - \theta - \frac{\xi^2}{2}$ which is strictly less than
+zero. This implies that $f'(\theta)$ is a decreasing function.
+
+\subsection*{g}
+The Newton steps we will take will being at some suitable starting
+guess $\theta_0$ and continue based on the following rule:
+\begin{align*}
+  \theta_{k+1} = \theta_k - \frac{f'(\theta_k)}{f''(\theta_k)}
+  \theta_{k+1} = \theta_k - \frac{\left(- \theta + \bar{Y_n} \left(\theta - 1\right) \log{\left (- \theta + 1 \right )}\right) \left(\theta - 1\right) \log{\left (- \theta + 1 \right )}}{\theta \log{\left (- \theta + 1 \right )} + \theta - \left(\theta - 1\right) \log{\left (- \theta + 1 \right )}}\\
+\end{align*}
+
+\subsection*{h}
+
+Since it is known that $f''(\theta) < 0$  we may apply the implicit
+function theorem to the equation $f'(\hat{\theta}) = 0$ which tells us that
+$\exists l(.) s.t. \hat{\theta} = l( \bar{Y_N} )$ which is continous and
+differentiable in a neighborhood around $\bar{Y_N}$. We may apply
+Slutsky's theorem to this continous function to reach: $plim \hat{\theta}
+= plim l (\bar{Y_N} ) = l( plim \bar{Y_N} ) = l( \mu^0 ) = \theta$.
+
+\subsection*{i}
+
+
+A consistent estimator of the variance of $\hat{\theta}$ using Fisher's
+Information matrix is the negative inverse Hessian.
+$$V(\hat{\theta}) \sim - [ f''(\theta) ]^{-1} = - \frac{(1-\theta)^2
+  \log(1-\theta)^2}{\log(1-\theta) + \theta}$$
+
+\subsection*{j}
+
+
+Since we know that our function l(.) was obtained from a sufficient
+statistic which is a sum, we may apply the delta method to reach the
+asymptotic distribution of $\hat{\theta} \rightarrow N( 0, V( \hat{\theta} ) ) = N
+( 0, - \frac{(1-\theta)^2
+  \log(1-\theta)^2}{\log(1-\theta) + \theta})$
+
+\subsection*{k}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{LogData} \hlkwb{<-} \hlkwd{c}\hlstd{(} \hlnum{710}\hlstd{,} \hlnum{175}\hlstd{,} \hlnum{74}\hlstd{,} \hlnum{23}\hlstd{,} \hlnum{10}\hlstd{,} \hlnum{4}\hlstd{,} \hlnum{2}\hlstd{,} \hlnum{1}\hlstd{,} \hlnum{1}\hlstd{)}
+\hlstd{barY} \hlkwb{<-} \hlnum{0}
+\hlstd{numMeasures} \hlkwb{<-} \hlnum{0}
+\hlkwa{for}\hlstd{( i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{9}\hlstd{)\{}
+ \hlstd{barY} \hlkwb{<-} \hlstd{barY} \hlopt{+} \hlstd{LogData[i]}\hlopt{*}\hlstd{i}
+ \hlstd{numMeasures} \hlkwb{<-} \hlstd{numMeasures} \hlopt{+} \hlstd{LogData[i]}
+\hlstd{\}}
+\hlstd{barY} \hlkwb{<-} \hlstd{barY} \hlopt{/} \hlstd{numMeasures}
+
+\hlstd{datapoints} \hlkwb{<-} \hlkwd{c}\hlstd{()}
+\hlkwa{for}\hlstd{( i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{9} \hlstd{)\{}
+    \hlstd{datapoints} \hlkwb{<-} \hlkwd{c}\hlstd{( datapoints,} \hlkwd{rep}\hlstd{( i, LogData[i] ) )}
+\hlstd{\}}
+
+\hlcom{#Should make the epsilon a variable or something}
+\hlstd{hatTheta} \hlkwb{<-} \hlnum{.5}
+\hlstd{fprime} \hlkwb{<-} \hlnum{1.0}
+
+\hlkwa{while}\hlstd{(} \hlkwd{abs}\hlstd{( fprime )} \hlopt{>} \hlnum{1e-9}\hlstd{) \{}
+ \hlstd{fprime} \hlkwb{<-} \hlstd{(barY} \hlopt{/} \hlstd{hatTheta)} \hlopt{-} \hlstd{(}\hlnum{1} \hlopt{/} \hlstd{((hatTheta}\hlopt{-}\hlnum{1}\hlstd{)}\hlopt{*}\hlkwd{log}\hlstd{(} \hlnum{1}\hlopt{-} \hlstd{hatTheta)))}
+ \hlstd{fdubprime} \hlkwb{<-} \hlstd{(} \hlopt{-}\hlstd{barY} \hlopt{/} \hlstd{hatTheta}\hlopt{^}\hlnum{2} \hlstd{)}\hlopt{+} \hlnum{1} \hlopt{/} \hlstd{((}\hlnum{1}\hlopt{-}\hlstd{hatTheta)}\hlopt{^}\hlnum{2} \hlopt{*} \hlkwd{log}\hlstd{(} \hlnum{1} \hlopt{-} \hlstd{hatTheta )}
+\hlopt{^}\hlnum{2} \hlstd{)} \hlopt{+} \hlnum{1} \hlopt{/} \hlstd{((}\hlnum{1}\hlopt{-}\hlstd{hatTheta)}\hlopt{^}\hlnum{2} \hlopt{*} \hlkwd{log}\hlstd{(} \hlnum{1}\hlopt{-} \hlstd{hatTheta ) )}
+ \hlstd{hatTheta} \hlkwb{<-} \hlstd{hatTheta} \hlopt{-} \hlstd{fprime} \hlopt{/} \hlstd{fdubprime}
+\hlstd{\}}
+\hlstd{barY}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.479
+\end{verbatim}
+\begin{alltt}
+\hlstd{hatTheta}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.5217389
+\end{verbatim}
+\begin{alltt}
+\hlstd{vTheta} \hlkwb{<-} \hlopt{-}\hlnum{1} \hlopt{/} \hlstd{fdubprime}
+\hlstd{vTheta}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.3007821
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+As we can see, the Maximum liklihood estimate for $\hat{\theta}$ is: 0.5217389
+
+\subsection*{L}
+
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{nullTheta} \hlkwb{<-} \hlnum{.5}
+\hlnum{1000}\hlopt{*}\hlstd{(hatTheta} \hlopt{-} \hlstd{nullTheta)}\hlopt{^}\hlnum{2} \hlopt{/} \hlstd{vTheta}
+\end{alltt}
+\begin{verbatim}
+## [1] 1.571174
+\end{verbatim}
+\begin{alltt}
+\hlnum{1}\hlopt{-} \hlkwd{pchisq}\hlstd{(} \hlnum{1000}\hlopt{*}\hlstd{(hatTheta} \hlopt{-} \hlstd{nullTheta)}\hlopt{^}\hlnum{2} \hlopt{/} \hlstd{vTheta,} \hlnum{1} \hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.2100366
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+
+Since we obtain a p-value of only around 0.2100366, we fail to reject
+the null hypothesis that $\theta \neq .5$
+
+\subsection*{M}
+
+Since it is known that the liklihood ratio test is invariant to
+nonlinear transformations, applying it to $\theta = \exp( -.7 )$ is
+equivalent to testing: $\log(\theta) = -.7$.
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+ \hlcom{#Since we're looking at a non-linear function we should use the liklihood ratio test instead of the Wald Test}
+ \hlstd{nullTheta} \hlkwb{<-} \hlkwd{exp}\hlstd{(} \hlopt{-}\hlnum{.7} \hlstd{)}
+ \hlstd{liklihoodThetaHat} \hlkwb{<-} \hlnum{0}
+ \hlstd{liklihoodNULL} \hlkwb{<-} \hlnum{0}
+
+ \hlcom{#Whats vectorization?}
+  \hlkwa{for}\hlstd{( i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{1000} \hlstd{)\{}
+      \hlstd{liklihoodThetaHat} \hlkwb{<-} \hlstd{liklihoodThetaHat} \hlopt{+} \hlstd{datapoints[i]}\hlopt{*}\hlkwd{log}\hlstd{( hatTheta)} \hlopt{-}
+          \hlkwd{log}\hlstd{( datapoints[i])} \hlopt{-} \hlkwd{log}\hlstd{(} \hlopt{-} \hlkwd{log}\hlstd{(} \hlnum{1} \hlopt{-} \hlstd{hatTheta ) )}
+      \hlstd{liklihoodNULL} \hlkwb{<-} \hlstd{liklihoodNULL} \hlopt{+} \hlstd{datapoints[i]}\hlopt{*}\hlkwd{log}\hlstd{( nullTheta)} \hlopt{-}
+          \hlkwd{log}\hlstd{( datapoints[i])} \hlopt{-} \hlkwd{log}\hlstd{(} \hlopt{-} \hlkwd{log}\hlstd{(} \hlnum{1} \hlopt{-} \hlstd{nullTheta ) )}
+ \hlstd{\}}
+
+ \hlnum{1} \hlopt{-} \hlkwd{pchisq}\hlstd{(}\hlnum{2}\hlopt{*}\hlstd{( liklihoodThetaHat} \hlopt{-} \hlstd{liklihoodNULL ),}\hlnum{1}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.1462737
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+As we can see from the p-value coming from the liklihood ratio test,
+we fail to reject the null hypothesis at a reasonable confidence
+level.
+
+\subsection*{N}
+Since the data is already in a relatively easily binned state, we may
+apply the chi-squared test to test if our estimates are consistent
+with the log-series law. 
+
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+ \hlstd{Probs} \hlkwb{<-} \hlkwd{numeric}\hlstd{(} \hlnum{9} \hlstd{)}
+ \hlstd{Probs[}\hlnum{9}\hlstd{]} \hlkwb{<-} \hlnum{1}
+ \hlkwa{for}\hlstd{( i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{8}\hlstd{) \{}
+     \hlstd{Probs[i]} \hlkwb{<-} \hlopt{-}\hlstd{hatTheta}\hlopt{^}\hlstd{i} \hlopt{/} \hlstd{( i}\hlopt{*}\hlkwd{log}\hlstd{(} \hlnum{1}\hlopt{-} \hlstd{hatTheta))}
+     \hlstd{Probs[}\hlnum{9}\hlstd{]} \hlkwb{<-} \hlstd{Probs[}\hlnum{9}\hlstd{]} \hlopt{-} \hlstd{Probs[i]}
+ \hlstd{\}}
+ \hlstd{Expected} \hlkwb{<-} \hlstd{Probs}\hlopt{*}\hlnum{1000}
+ \hlstd{Expected}
+\end{alltt}
+\begin{verbatim}
+## [1] 707.348120 184.525526  64.182767  25.114986  10.482773   4.557726
+## [7]   2.038237   0.930499   0.819366
+\end{verbatim}
+\begin{alltt}
+ \hlstd{ChiSum} \hlkwb{<-} \hlnum{0}
+ \hlkwa{for}\hlstd{( i} \hlkwa{in} \hlnum{1}\hlopt{:}\hlnum{9} \hlstd{)\{}
+     \hlstd{ChiSum} \hlkwb{<-} \hlstd{ChiSum} \hlopt{+} \hlstd{((LogData[i]}\hlopt{-}\hlstd{Expected[i])}\hlopt{^}\hlnum{2} \hlopt{/} \hlstd{Expected[i])}
+ \hlstd{\}}
+ \hlstd{ChiSum}
+\end{alltt}
+\begin{verbatim}
+## [1] 2.317605
+\end{verbatim}
+\begin{alltt}
+ \hlnum{1}\hlopt{-} \hlkwd{pchisq}\hlstd{(ChiSum,}\hlnum{8}\hlstd{)}
+\end{alltt}
+\begin{verbatim}
+## [1] 0.9696944
+\end{verbatim}
+\end{kframe}
+\end{knitrout}
+Again, we fail to reject the null hypothesis that the data is
+inconsistent with the log-series distribution, and are left to
+conclude that it is possible that it was generated from the distribution.
+
+\end{document}

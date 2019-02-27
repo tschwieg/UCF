@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k}{using} \PYG{n}{Distributions}
+\PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{2}\PYG{o}{:}\PYG{l+m+mi}{25}
+\PYG{n}{d} \PYG{o}{=} \PYG{n}{Normal}\PYG{p}{()}
+\PYG{n}{simSize} \PYG{o}{=} \PYG{l+m+mi}{1000000}
+\PYG{k}{for} \PYG{n}{i} \PYG{k+kp}{in} \PYG{n}{N}
+    \PYG{n}{Guesses} \PYG{o}{=} \PYG{n}{zeros}\PYG{p}{(}\PYG{n}{simSize}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{j} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{simSize}
+        \PYG{n}{normals} \PYG{o}{=} \PYG{n}{rand}\PYG{p}{(}\PYG{n}{d}\PYG{p}{,}\PYG{n}{i}\PYG{p}{)}
+        \PYG{n}{sort!}\PYG{p}{(} \PYG{n}{normals} \PYG{p}{)}
+        \PYG{n}{Guesses}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{n}{normals}\PYG{p}{[}\PYG{n}{i}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+    \PYG{k}{end}
+    \PYG{n}{average} \PYG{o}{=} \PYG{n}{mean}\PYG{p}{(} \PYG{n}{Guesses} \PYG{p}{)}
+    \PYG{n}{println}\PYG{p}{(} \PYG{l+s}{\PYGZdq{}For }\PYG{l+s+si}{\PYGZdl{}}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)}\PYG{l+s}{ bidders the expected log of the winning bid is: μ + σ}\PYG{l+s+si}{\PYGZdl{}}\PYG{p}{(}\PYG{n}{average}\PYG{p}{)}\PYG{l+s}{\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{end}
+\end{Verbatim}

@@ -1,0 +1,53 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+tonsilData \PYG{o}{\PYGZlt{}\PYGZhy{}} read.table\PYG{p}{(} \PYG{l+s}{\PYGZsq{}Tonsils.dat\PYGZsq{}}\PYG{p}{,} header\PYG{o}{=}\PYG{k+kc}{FALSE} \PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}Firstly, V5 is whether or not they have tonsils}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}V1 \PYGZhy{} D\PYGZus{}00}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}V2 \PYGZhy{} D\PYGZus{}01}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}V3 \PYGZhy{} D\PYGZus{}10}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{}V4 \PYGZhy{} D\PYGZus{}11}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} for the model X will be transformed into a tuple of 4 values:}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} X = (start state 0, tonsils; start 1, tonsils; start 0, no tonsils; start 1, no tonsils )}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} Y = end at state 1}
+
+tonsilModel \PYG{o}{\PYGZlt{}\PYGZhy{}} glm\PYG{p}{(} formula\PYG{o}{=}\PYG{k+kp}{I}\PYG{p}{(} V2 \PYG{o}{+} V4\PYG{p}{)} \PYG{o}{\PYGZti{}} \PYG{k+kp}{I}\PYG{p}{(}V5\PYG{o}{*}\PYG{p}{(}V1 \PYG{o}{+} V2\PYG{p}{)} \PYG{p}{)} \PYG{o}{+} \PYG{k+kp}{I}\PYG{p}{(} V5\PYG{o}{*}\PYG{p}{(}V3
+\PYG{o}{+} V4\PYG{p}{)} \PYG{p}{)} \PYG{o}{+} \PYG{k+kp}{I}\PYG{p}{(} \PYG{p}{(}\PYG{l+m}{1}\PYG{o}{\PYGZhy{}}V5\PYG{p}{)}\PYG{o}{*}\PYG{p}{(}V1 \PYG{o}{+} V2\PYG{p}{))} \PYG{o}{+} \PYG{k+kp}{I}\PYG{p}{(} \PYG{p}{(}\PYG{l+m}{1}\PYG{o}{\PYGZhy{}}V5\PYG{p}{)}\PYG{o}{*}\PYG{p}{(}V3\PYG{o}{+}V4\PYG{p}{))} \PYG{o}{\PYGZhy{}} \PYG{l+m}{1}\PYG{p}{,} family \PYG{o}{=}
+                                                             binomial\PYG{p}{,} data\PYG{o}{=}tonsilData \PYG{p}{)}
+noTonsilModel \PYG{o}{\PYGZlt{}\PYGZhy{}}
+    glm\PYG{p}{(} formula \PYG{o}{=} \PYG{k+kp}{I}\PYG{p}{(} V2 \PYG{o}{+} V4\PYG{p}{)} \PYG{o}{\PYGZti{}} \PYG{k+kp}{I}\PYG{p}{(}V1 \PYG{o}{+} V2\PYG{p}{)} \PYG{o}{+} \PYG{k+kp}{I}\PYG{p}{(}V3 \PYG{o}{+} V4\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m}{1}\PYG{p}{,} family\PYG{o}{=}binomial\PYG{p}{,} data\PYG{o}{=}tonsilData \PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} Under tonsil Model:}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} P( Y = 1 | X = ( 0, 0, 1, 0 ) ) = 1 \PYGZhy{} \PYGZbs{}pi\PYGZus{}\PYGZob{}00\PYGZcb{}\PYGZca{}N}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} P( Y = 1 | X = ( 0, 0, 0, 1 ) ) = \PYGZbs{}pi\PYGZus{}\PYGZob{}11\PYGZcb{}\PYGZca{}N}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} P( Y = 1 | X = ( 1, 0, 0, 0 ) ) = 1 \PYGZhy{} \PYGZbs{}pi\PYGZus{}\PYGZob{}00\PYGZcb{}\PYGZca{}W}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} P( Y = 1 | X = ( 0, 1, 0, 0 ) ) = \PYGZbs{}pi\PYGZus{}\PYGZob{}11\PYGZcb{}\PYGZca{}W}
+pi00.N \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{1.0} \PYG{o}{\PYGZhy{}}  \PYG{l+m}{1.0} \PYG{o}{/}
+    \PYG{p}{(} \PYG{l+m}{1.0} \PYG{o}{+} \PYG{k+kp}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{k+kp}{sum}\PYG{p}{(} tonsilModel\PYG{o}{\PYGZdl{}}coefficients\PYG{o}{*} \PYG{k+kt}{c}\PYG{p}{(}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{))} \PYG{p}{)} \PYG{p}{)}
+
+pi11.N \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{1.0} \PYG{o}{/}
+    \PYG{p}{(} \PYG{l+m}{1.0} \PYG{o}{+} \PYG{k+kp}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{k+kp}{sum}\PYG{p}{(} tonsilModel\PYG{o}{\PYGZdl{}}coefficients\PYG{o}{*} \PYG{k+kt}{c}\PYG{p}{(}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{))} \PYG{p}{)} \PYG{p}{)}
+
+pi00.W \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{1.0} \PYG{o}{\PYGZhy{}}  \PYG{l+m}{1.0} \PYG{o}{/}
+    \PYG{p}{(} \PYG{l+m}{1.0} \PYG{o}{+} \PYG{k+kp}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{k+kp}{sum}\PYG{p}{(} tonsilModel\PYG{o}{\PYGZdl{}}coefficients\PYG{o}{*}\PYG{k+kt}{c}\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{))} \PYG{p}{)} \PYG{p}{)}
+
+pi11.W \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{1.0} \PYG{o}{/}
+    \PYG{p}{(} \PYG{l+m}{1.0} \PYG{o}{+} \PYG{k+kp}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{k+kp}{sum}\PYG{p}{(} tonsilModel\PYG{o}{\PYGZdl{}}coefficients\PYG{o}{*}\PYG{k+kt}{c}\PYG{p}{(}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{))} \PYG{p}{)} \PYG{p}{)}
+
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{l+s}{\PYGZdq{}Under the alternate:\PYGZdq{}} \PYG{p}{)}
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{k+kp}{sprintf}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}pi00.N = \PYGZpc{}f, pi11.N = \PYGZpc{}f, pi00.W = \PYGZpc{}f, pi11.N = \PYGZpc{}f\PYGZdq{}}\PYG{p}{,} pi00.N\PYG{p}{,} pi11.N\PYG{p}{,} pi00.W\PYG{p}{,} pi11.W \PYG{p}{)} \PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} P( Y = 1 | X = ( 1, 0 ) ) = 1 \PYGZhy{} \PYGZbs{}pi\PYGZus{}\PYGZob{}00\PYGZcb{}}
+\PYG{c+c1}{\PYGZsh{}\PYGZsh{} P( Y = 1 | X = ( 0, 1 ) ) = \PYGZbs{}pi\PYGZus{}\PYGZob{}11\PYGZcb{}}
+
+pi11 \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{1.0} \PYG{o}{/} \PYG{p}{(} \PYG{l+m}{1.0} \PYG{o}{+} \PYG{k+kp}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{k+kp}{sum}\PYG{p}{(} noTonsilModel\PYG{o}{\PYGZdl{}}coefficients\PYG{o}{*}\PYG{k+kt}{c}\PYG{p}{(}\PYG{l+m}{0}\PYG{p}{,}\PYG{l+m}{1}\PYG{p}{))} \PYG{p}{)} \PYG{p}{)}
+pi00 \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{1.0} \PYG{o}{\PYGZhy{}}  \PYG{l+m}{1.0} \PYG{o}{/}
+    \PYG{p}{(} \PYG{l+m}{1.0} \PYG{o}{+} \PYG{k+kp}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{k+kp}{sum}\PYG{p}{(} noTonsilModel\PYG{o}{\PYGZdl{}}coefficients\PYG{o}{*}\PYG{k+kt}{c}\PYG{p}{(}\PYG{l+m}{1}\PYG{p}{,}\PYG{l+m}{0}\PYG{p}{))} \PYG{p}{)} \PYG{p}{)}
+
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{l+s}{\PYGZdq{}Under the Null:\PYGZdq{}} \PYG{p}{)}
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{k+kp}{sprintf}\PYG{p}{(} \PYG{l+s}{\PYGZdq{}pi11 = \PYGZpc{}f, pi00 = \PYGZpc{}f\PYGZdq{}}\PYG{p}{,} pi00\PYG{p}{,} pi11 \PYG{p}{)} \PYG{p}{)}
+
+chiStat \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{l+m}{2}\PYG{o}{*}\PYG{p}{(}logLik\PYG{p}{(} tonsilModel \PYG{p}{)[}\PYG{l+m}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}} logLik\PYG{p}{(} noTonsilModel \PYG{p}{)[}\PYG{l+m}{1}\PYG{p}{]} \PYG{p}{)}
+pValue \PYG{o}{\PYGZlt{}\PYGZhy{}} pchisq\PYG{p}{(} chiStat\PYG{p}{,} \PYG{l+m}{2}\PYG{p}{,} lower.tail \PYG{o}{=} \PYG{k+kc}{FALSE} \PYG{p}{)}
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{k+kp}{sprintf}\PYG{p}{(} \PYG{l+s}{\PYGZdq{}Using a Likelihood ratio test: p\PYGZhy{}value of: \PYGZpc{}f\PYGZdq{}}\PYG{p}{,} pValue \PYG{p}{)} \PYG{p}{)}
+\end{Verbatim}

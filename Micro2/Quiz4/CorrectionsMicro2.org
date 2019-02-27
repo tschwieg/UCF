@@ -1,0 +1,85 @@
+#+OPTIONS: toc:nil
+
+#+TITLE: Micro Quiz Corrections
+#+AUTHOR: Timothy Schwieg
+
+* Question 2
+** Part b
+The insurance company wishes to ensure that the consumer will still
+participate, so his utility under e = 1 must be higher than not having
+insurance.
+
+His utility for having insurance is given by: $\frac{2}{3} \sqrt{
+100 - p } + \frac{1}{3} \sqrt{ 100 - p - L + B } - \frac{1}{3}$ and his
+utility if he does not purchase insurance is: $\frac{1}{3} \sqrt{
+100 - L } + \frac{2}{3} \sqrt{ 100 } - \frac{1}{3}$
+
+His condition for ensuring participation for the consumer must then
+be:
+\begin{align*}
+\frac{2}{3} \sqrt{ 100 - p } - \frac{1}{3}\sqrt{ 100 - p - L + B }
+&\geq \frac{1}{3} \sqrt{ 100 - L } + 
+\frac{2}{3} \sqrt{ 100 } \\
+\sqrt{ 100 - p } &\geq \frac{1}{3} \sqrt{49} + \frac{2}{3} \sqrt{ 100
+}\\
+\sqrt{ 100 - p } &\geq \frac{7}{3} + \frac{ 20}{3} \\
+( 100 - p ) &\geq 81\\
+p &\leq 19
+\end{align*}
+
+* Question 3
+The consumer receives marginal benefit of $P(n-1) - P(n)$ with each
+additional search, and faces marginal cost of c. The consumer wishes
+to continue searching as long as his marginal benefit is greater than
+his marginal cost. So he will choose to search 
+\begin{align*}
+n^* = \max_{n \in
+\mathbb{Z}^+} n \text{ such that: } P(n-1) - P(n) \leq c
+\end{align*}
+
+To prove that this search rule is in fact optimal, first we will
+establish monotonicity then approach via Contradiction. 
+
+Monotonicity: We wish to show that $P(n-1) - P(n)$ is an decreasing
+function of n. 
+
+\begin{align*}
+P(n) = K \int_0^1( 1- F(p))^n dp
+\end{align*}
+
+Let $L(n) = P(n-1) - P(n)$. We wish to show that $L(n)$ is an
+decreasing function:
+
+\begin{align*}
+L(n+1) - L(n) = 
+P(n) - P(n+1) - P(n-1) + P(n) = \\
+K \left ( \int_0^1 (1-F(p))^n - (1-F(p))^{n+1} - (1-F(p))^{n-1} + (1-F(p))^n dp \right )\\
+K \left ( \int_0^1 (1-F(p))^{n-1} \big ( (1-F(p)) - (1-F(p))^2 - 1 + (1-F(p)) \big ) dp
+\right )\\
+K \left ( \int_0^1 (1-F(p))^{n-1} \big ( 1 - F(p) - 1 + 2F(p) - F(p)^2 - 1 + 1 - F(p)
+\big ) dp \right )\\
+K \left ( \int_0^1 (1-F(p))^{n-1} ( -F(p)^2 ) dp \right ) < 0\\
+\end{align*}
+
+
+Assume that $n^*$ is not optimal. Let $n' \neq n^*$ be the any optimal
+number of searches to make that minimizes the costs faced by the
+agent. Either $n' < n^*$ or $n' > n^*$.
+
+Case: $n' < n^*$ Consider the costs faced by searching $n' + 1$
+times. The difference of costs between this and n' is given by: $(n' +
+1)c + P(n' + 1 ) - n' c - P(n' ) = c + P(n' + 1) - P(n')$. Since it is
+known that $n' < n^*$, $P(n' ) - P(n' + 1) \leq c$ so $c + P(n' + 1) -
+P(n') \leq 0$. This contradicts $n'$ being the minimum of costs, as $n' +
+1$ has lower costs.
+
+Case: $n' > n^*$ .  Since n^* is the maximum n such that $P(n-1) - P(n)
+\leq c$, it must be true that $P(n'-1) - P(n') > c$.  Consider the
+difference between the cost of n' and n' - 1 given by: $(n' -1)c - n'
+c + P(n' - 1) - P(n')$. This is positive since it reduces to have
+$P(n'-1) - P(n') - c$ Since it is positive, $n'$ cannot be the minimum
+of the costs, as the cost of $n' - 1$ is less.  Therefore it is not
+possible for $n' > n^*$.
+
+This is a contradiction to $n' \neq n^*$, so there cannot be a minimum to
+costs that is not equal to $n^*$

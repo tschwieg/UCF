@@ -1,0 +1,130 @@
+\documentclass[10pt]{paper}
+
+
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Econometrics HW4}
+\author{Timothy Schwieg}
+
+\begin{document}
+\maketitle
+
+<<>>=
+library(sandwich)
+EngelData <- read.table( "Engel.dat" )
+
+summary( EngelData )
+
+firstReg <- lm( EngelData$V1 ~ EngelData$V2 )
+summary( firstReg )
+
+#This is the homoskedastic errors
+vcov( firstReg )
+
+#This is the heteroskadistic one
+vcovHC( firstReg, type = "HC1")
+
+
+@
+
+<<q1b>>=
+NoLogReg <- glm( EngelData$V2 ~ EngelData$V1, family="gaussian" )
+
+LogXOnly <- glm( EngelData$V2 ~ I( log( EngelData$V1 ) ), family="gaussian" )
+
+LogYOnly <- glm( I(log(EngelData$V2)) ~ EngelData$V1, family="gaussian" )
+
+logBoth <-  glm( I( log( EngelData$V2)) ~ I( log( EngelData$V1 ) ), family="gaussian" )
+
+plot( EngelData$V1, EngelData$V2 )
+xweight <- EngelData$V1
+yweight <- (predict(NoLogReg, type="response"))
+lines(xweight, yweight, col="red")
+
+#LogXOnly
+xweight <- sort(EngelData$V1)
+yweight <- sort(predict(LogXOnly, type="response"))
+lines(xweight, yweight, col="blue")
+
+#LogYOnly
+xweight <- sort(EngelData$V1)
+yweight <- exp( sort(predict(LogYOnly, type="response")) )
+lines(xweight, yweight, col="green")
+
+#logBoth
+xweight <- sort(EngelData$V1)
+yweight <- exp(sort(predict(logBoth, type="response")))
+lines(xweight, yweight, col="yellow")
+
+@
+
+\section*{c}
+
+We can see that if we take the limit as $\lambda$ tends towards zero,
+$\frac{Y_n^\lambda -1 }{\lambda}$ tends to $\log( Y_n )$, so letting $\lambda$ tend
+towards zero gives us the log in the Ys and letting $\lambda = 1$ gives us
+the standard form. The same can be done for $\psi$ to obtain $\log(x_n)$
+enabling us to nest all of these specifications in one model. We can
+see this because:
+\begin{align*}
+  \frac{\alpha^\beta-1}{\beta} = \frac{ \exp{ \beta \log{ \alpha } } -1 }{\beta} = \\
+  \frac{( 1 + \beta \log{ \alpha } + \frac{\beta^2}{2} \log{ \alpha }^2 + ... - 1}{\beta} \\
+  \log{ \alpha } + \frac{\beta}{2} \log{ \alpha }^2 + ... \\
+\end{align*}
+Taking the limit as $\beta$ tends towards zero, we see that this
+simplifies to $\log{\alpha}$.
+
+To test the different specifications from part b, we would take the
+liklihood with nothing imposed upon $\lambda, \psi$ and calculate the liklihood
+under the estimated models, twice the difference between those two
+would be distributed $\chi^2 (1)$ and from this we could test the
+hypothesis that those models are acceptable cases of the Box-Cox
+transformation.
+
+This introduces a problem, that we are merely testing if under the
+assumption that the Box-Cox Transformation captures the data, then
+these function forms are appropiate, not if they are appropiate given
+only the data. We have imposed a function form upon the data that
+affects our hypothesis testing. One possible way to get around this
+problem is to use non-parametrics and a kernal smoothed density
+function.
+
+\subsection*{d}
+
+
+<<>>=
+plot( EngelData$V1, EngelData$V2 )
+#Using our previous bandwidth estimates gave us some really bad stuff, so im sticking to .25
+SmoothBoy <- ksmooth( log(EngelData$V1), log(EngelData$V2),
+                     bandwidth=.25, kernel="normal", x.points = log(EngelData$V1) )
+xweight <- exp( SmoothBoy$x )
+yweight <- exp( SmoothBoy$y )
+lines(xweight, yweight, col="red")
+
+
+
+residuals <- (SmoothBoy$y - logBoth$coefficients[1] -
+              logBoth$coefficients[2]*SmoothBoy$x)
+
+summary( residuals )
+
+hist( residuals )
+
+@
+If we believe that the Non-parametric estimate is equal to the truth
+plus some error term, and under the null hypothesis we believe that
+$\log{ y_n } = \hat{\alpha} + \hat{\beta} + U_n$ then our residuals must be
+equal to the sum of these two error terms. Given that both error terms
+are normal, we can simply apply a test of normality to the residuals. 
+ 
+
+<<>>=
+shapiro.test(residuals)
+@
+
+Based on this p-value we find that the non-parametric regression
+rejects the null hypothesis that the model is a valid fit.
+\end{document}

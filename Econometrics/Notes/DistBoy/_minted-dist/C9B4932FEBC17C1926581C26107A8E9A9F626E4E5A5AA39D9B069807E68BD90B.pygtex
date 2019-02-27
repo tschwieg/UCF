@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+Error: ArgumentError: Module Distributions not found in current path.
+Run `Pkg.add(\PYGZdq{}Distributions\PYGZdq{})` to install the Distributions package.
+\end{Verbatim}

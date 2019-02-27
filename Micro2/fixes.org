@@ -1,0 +1,52 @@
+#+OPTIONS: toc:nil 
+#+BIBLIOGRAPHY: biblio.bib
+#+LATEX_HEADER: \usepackage{natbib}
+#+TITLE: Quiz 4 Corrections
+#+AUTHOR: Timothy Schwieg
+
+* Question 1b.
+
+** Pooling Equilibrium:
+The only pooling equilibiria that can form is when nobody buys any
+insurance, or insurance is offered at such a low price that everyone
+purchases insurance. For any other pricing strategy by the firm, some
+consumers will decide not to buy the insurance, and this will devolve
+into a semi-seperating equilibrium. 
+
+*** No Insurance is bought
+If no insurance is bought, the profit is zero.
+
+*** Everyone buys insurance
+This requires that every person is willing to buy insurance at the
+price of p', this means that h(p') = 0, as for any price below that,
+the firm would have an incentive to raise prices. Therefore profit is
+given by:
+$$p - L \mathbb{E}[ \pi ] = p - L \int_0^1 \pi dF(\pi)$$
+
+
+** Semi-seperating Equilibrium:
+In a semi-seperating equilibrium, the consumers seperate themselves by
+either purchasing insurance, indicating that their type is above some
+threshold, or they do not purchase insurance. This means that the
+insurance company only pays out, and recieves premiums from those they
+are purchasing insurance, and their profit is given by: 
+
+$$p - L \mathbb{E}[ \pi_i | \pi_i \geq h(p' ) ] = p - \frac{ L \int_{h(p')}^1 \pi
+dF(\pi)}{1 - F(p')}$$
+
+
+* Question 4
+** Part a
+For the L type to not seek tenure, we must require that his payoff is
+lower from the behavior seeking tenure than from his payoff for
+planning to attend Boondocks. Therefore we require that $2000 - 60N \leq
+500$. This leads to $60N \geq 1500 \text{ and } N \geq 25$, thus we
+     must have N be at least 25 in order to prevent the L type from
+     seeking tenure.
+
+** Part b
+For H to still be willing to participate, we need his utility from
+attempting to obtain tenure to be higher than working at Boondocks, so
+we require that: $2000 - 30N \leq 500$, this reduces to $1500 \leq 30N$, and $N
+\geq 50$. 50 is therefore the highest number of publication that can be
+required to still have H types willing to participate.

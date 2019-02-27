@@ -1,0 +1,249 @@
+% Created 2018-04-13 Fri 16:59
+\documentclass[bigger]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usepackage{minted}
+\usepackage{mathtools}
+\usepackage{tikz}
+\makeatletter
+\newcommand\mathcircled[1]{%
+\mathpalette\@mathcircled{#1}%
+}
+\newcommand\@mathcircled[2]{%
+\tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$\m@th#1#2$};%
+}
+\makeatother
+\usetheme{Montpellier}
+\author{Timothy Schwieg}
+\date{\today}
+\title{Risk, Ambiguity, and the Savage Axioms}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.3.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+
+\section{Uncertainty}
+\label{sec-1}
+\begin{frame}[label=sec-1-1]{How much uncertainty is there?}
+\begin{itemize}
+\item Even though Knight claims uncertainty dominates, people tend to
+behave "as if" they have numerical probabilities assigned to events.
+\item Shackle's Cricket Match
+\item Can we provide odds we are willing to back?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-1-2]{}
+\begin{itemize}
+\item "The race is not always to the swift nor the battle to the strong,
+but that's the way to bet." - Damon Runyon
+\item Do these bets reveal anything about our "hidden probabilities?"
+\item If this were possible, we could turn these uncertainties that people
+were willing to bet on, and transform them into something alike
+risk.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-1-3]{Enter Savage}
+\begin{itemize}
+\item Savage claims that for someone who is "rational" all uncertainties
+can be reduced into risks.
+\item A willingness to bet on 2:1 odds means a belief in a probability of
+$\frac{1}{3}$
+\item Must still somehow untangle probabilities from preferences, but in a
+controlled setting this is feasible.
+\item What does "rational" mean?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-1-4]{What can we infer from behavior?}
+\begin{itemize}
+\item What does indifference between two gambles imply?
+\item Equal probabilities, given you assigned probabilities.
+\item May just be attempting to mimimax - this only reflects they have the
+same worst-case.
+\item Seek an operator $\mathcircled { \geq }$ - Qualitative Probability
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-1-5]{What the operator gives us:}
+\begin{itemize}
+\item $\mathcircled { \geq }$ is a complete ordering among events
+\item If an event $\alpha$ is more probable than $\beta$, then $\bar{\alpha}$ is less
+probable than $\bar{\beta}$.
+\item If $\alpha$ and $\gamma$ are mutually exclusive and so are $\beta$ and $\gamma$, then if $\alpha$ is
+more probable than $\beta$, $\alpha \cup \gamma$ is more probable than $\beta \cup \gamma$
+\item Under the Savage axioms, $\mathcircled { \geq }$ holds these
+properties.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-1-6]{The Savage axioms}
+\begin{itemize}
+\item Gambles have a complete ordering
+\item If two gambles have the same payoff, its value is irrelevant.
+\item Dominated Actions are always rejected - "noncontroversial"
+\item Choice in a gamble is independent of the relative magnitudes of the
+rewards, only the ranking.
+
+Size of the prize doesn't affect choice.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-1-7]{What happens when these are not fulfilled?}
+\begin{itemize}
+\item We cannot infer probabilities from actions
+\item There is no VNM Utility function that we can apply.
+\item These are not met in a particular class of situations
+\item These situations are where ambiguity rules.
+\end{itemize}
+\end{frame}
+
+\section{Do the Axioms Apply?}
+\label{sec-2}
+\begin{frame}[label=sec-2-1]{Experiment Time}
+\begin{itemize}
+\item Which would you prefer to bet on?
+\end{itemize}
+\begin{center}
+\begin{tabular}{ll}
+Box I & 10 Red M\&Ms, 10 Green M\&Ms\\
+Box II & 20 M\&Ms All of which are Red or Green\\
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item Red M\&M or Green M\&M from Box I?
+\item Red M\&M or Green M\&M from Box II?
+\item Red M\&M from Box I or Red from BoxII?
+\item Green from Box I or Green from BoxII?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-2]{Honey I broke the axioms}
+\begin{itemize}
+\item Preferring Box I to Box II in both violates the savage axioms.
+\item If you prefer Box I Red, then you must view it as more probable, and
+therefore Box I Green as less probable than Box II Green.
+\item However you also prefer Box II Green to Box I Green, and we have a
+contradiction.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-3]{Do we really have total ignorance?}
+\begin{itemize}
+\item Lets take a few samples out of Box II.
+\item Have your preferences for betting changed?
+\item This is typical, and it only changes willingness to bet slightly.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-4]{Another Experiment}
+\begin{itemize}
+\item There are 20 known blue M\&Ms, and forty M\&Ms that are all red or
+green.
+\end{itemize}
+\begin{center}
+\begin{tabular}{ll}
+Bet on Blue & Bet on Red\\
+Bet on Blue or Green & Bet on Red or Green\\
+\end{tabular}
+\end{center}
+\begin{itemize}
+\item When the ambiguity is removed by Red or Green being an option, it is
+suddenly the preferred case.
+\item Sophisticated individuals still continue to violate the axioms even
+on reflection with the notion they are violating them.
+\end{itemize}
+\end{frame}
+
+\section{Ambiguity}
+\label{sec-3}
+\begin{frame}[label=sec-3-1]{Standard uncertainty behaviors}
+\begin{itemize}
+\item Individuals are not minimaxing purely.
+\item Nor are they maximizing any weighted average of the best and worst
+case.
+\item They aren't even minimaxing regret, as these examples are designed
+so that their regret would be identical.
+\item Yet these choices are fairly obvious and intuitive.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-2]{Ambiguity Aversion}
+\begin{itemize}
+\item We have some information about the problem, but we just aren't sure
+how good our information is.
+\item However we aren't "completely ignorant" so common techniques for
+handling uncertainty don't apply either.
+\item Limited to distributions $(\frac{1}{3}, \lambda, \frac{2}{3} - \lambda)$.
+\item No real knowledge of which of these distributions is more "likely"
+\item This is different from the uninformed prior!
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-3]{Further Problems}
+\begin{itemize}
+\item Even if an individual could assign relative weights to each possible
+distribution and apply a prior, he does not know how useful the data
+is.
+\item Information can still be ambiguous, for example hearing about a
+players' FG\% in basketball may inform you on their chances in the
+playoffs this year more or less depending on your knowledge.
+\item This cannot be expressed in terms of likelihoods.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-4]{Where does ambiguity apply?}
+\begin{itemize}
+\item Where information can often be unreliable.
+\item New processes. (Vegas Games rely on the same stochastic devices).
+\item Returning to the Cricket Game:
+
+You would be certain to bet on who bats first
+
+How certain are you on betting on who wins the game?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-5]{A possible Computational Device}
+\begin{itemize}
+\item It is possible that maybe there is an expected distribution (prior),
+but since the individual is not certain that he is correct, he
+weights it against the worst possible case.
+\item Ellsberg uses a linear combination for simplicity, but it could be
+more complex.
+\item Provides nothing more than a heuristic.
+\item No formal model presented.
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[label=sec-3-6]{How does this predict behavior?}
+\begin{itemize}
+\item When we are less sure of our predictions, we become more
+conservative.
+\item A bet on known things is preferred to a bet on unknown odds.
+\item This doesn't mean that people are not acting optimally, nor are they
+being "irrational"
+\end{itemize}
+\end{frame}
+% Emacs 25.3.1 (Org mode 8.2.10)
+\end{document}

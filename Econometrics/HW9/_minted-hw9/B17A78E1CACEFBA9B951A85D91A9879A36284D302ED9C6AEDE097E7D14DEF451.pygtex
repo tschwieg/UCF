@@ -1,0 +1,24 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+lvl \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{k+kp}{levels}\PYG{p}{(} dataHorse\PYG{o}{\PYGZdl{}}Corps \PYG{p}{)}
+year \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{k+kp}{unique}\PYG{p}{(} dataHorse\PYG{o}{\PYGZdl{}}Year\PYG{p}{)}
+
+dummyData \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{k+kt}{matrix}\PYG{p}{(}\PYG{l+m}{0}\PYG{p}{,} nrow \PYG{o}{=} \PYG{k+kp}{nrow}\PYG{p}{(}dataHorse\PYG{p}{),} ncol \PYG{o}{=} \PYG{p}{(}\PYG{k+kp}{length}\PYG{p}{(}lvl\PYG{p}{)}\PYG{o}{+}\PYG{k+kp}{length}\PYG{p}{(}year\PYG{p}{)}\PYG{l+m}{\PYGZhy{}1}\PYG{p}{))}
+
+dummyData\PYG{p}{[,}\PYG{l+m}{1}\PYG{p}{]} \PYG{o}{\PYGZlt{}\PYGZhy{}} dataHorse\PYG{p}{[,}\PYG{l+m}{3}\PYG{p}{]}
+
+\PYG{k+kr}{for}\PYG{p}{(} i \PYG{k+kr}{in} \PYG{l+m}{2}\PYG{o}{:}\PYG{k+kp}{length}\PYG{p}{(}lvl \PYG{p}{))\PYGZob{}}
+    dummyData\PYG{p}{[,}i\PYG{p}{]} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{k+kp}{as.integer}\PYG{p}{(}dataHorse\PYG{p}{[,}\PYG{l+m}{2}\PYG{p}{]} \PYG{o}{==} lvl\PYG{p}{[}i\PYG{p}{]} \PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+
+\PYG{k+kr}{for} \PYG{p}{(}i \PYG{k+kr}{in} \PYG{l+m}{2}\PYG{o}{:}\PYG{k+kp}{length}\PYG{p}{(}year\PYG{p}{))\PYGZob{}}
+    dummyData\PYG{p}{[,}\PYG{k+kp}{length}\PYG{p}{(}lvl\PYG{p}{)}\PYG{o}{+}i\PYG{l+m}{\PYGZhy{}1}\PYG{p}{]} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{k+kp}{as.integer}\PYG{p}{(} dataHorse\PYG{p}{[,}\PYG{l+m}{1}\PYG{p}{]} \PYG{o}{==} year\PYG{p}{[}i\PYG{p}{]} \PYG{p}{)}
+\PYG{p}{\PYGZcb{}}
+
+complexGLM \PYG{o}{\PYGZlt{}\PYGZhy{}} glm\PYG{p}{(} formula\PYG{o}{=}X1\PYG{o}{\PYGZti{}}\PYG{l+m}{.}\PYG{p}{,} family\PYG{o}{=}poisson\PYG{p}{,} data\PYG{o}{=}\PYG{k+kt}{data.frame}\PYG{p}{(}dummyData\PYG{p}{)} \PYG{p}{)}
+
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{k+kp}{summary}\PYG{p}{(} complexGLM \PYG{p}{)} \PYG{p}{)}
+
+
+pValue \PYG{o}{\PYGZlt{}\PYGZhy{}} pchisq\PYG{p}{(} \PYG{l+m}{2}\PYG{o}{*}\PYG{p}{(}logLik\PYG{p}{(}complexGLM\PYG{p}{)} \PYG{o}{\PYGZhy{}} logLik\PYG{p}{(}simpleGLM \PYG{p}{)),} df \PYG{o}{=} \PYG{l+m}{32}\PYG{p}{,}lower.tail \PYG{o}{=} \PYG{k+kc}{FALSE} \PYG{p}{)}
+\PYG{k+kp}{print}\PYG{p}{(} pValue \PYG{p}{)}
+\end{Verbatim}

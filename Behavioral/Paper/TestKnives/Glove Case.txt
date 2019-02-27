@@ -1,0 +1,24 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+M4A4 | Buzz Kill,0.0021333333333333334
+SSG 08 | Dragonfire,0.0021333333333333334
+Sawed-Off | Wasteland Princess,0.0021333333333333334
+P90 | Shallow Grave,0.053266666666666664
+FAMAS | Mecha Industries,0.053266666666666664
+USP-S | Cyrex,0.053266666666666664
+Nova | Gila,0.2664
+M4A1-S | Flashback,0.2664
+G3SG1 | Stinger,0.2664
+Dual Berettas | Royal Consorts,0.2664
+P2000 | Turf,0.2664
+MAG-7 | Sonar,0.2664
+MP9 | Sonar,0.2664
+MP9 | Sand Scale,0.2664
+Galil AR | Black Sand,0.2664
+MP7 | Cirrus,0.2664
+Glock-18 | Ironwork,0.2664
+CZ75-Auto | Polymer,0.2664

@@ -1,0 +1,114 @@
+\documentclass[10pt,letterpaper]{paper}
+
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{float}
+
+\title{ HW1  }
+\author{ Timothy Schwieg }
+\date{ December 31 2017 }
+
+\newcommand*{\ex}{\mathbb{E}}
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Question 1}
+
+\subsection*{a.}
+
+\begin{align*}
+  cov( U_1,U_2) = \mathbb{E}[(U_1-\mu_1)(U_2-\mu_2)]\\
+  \mathbb{E}[U_1U_2 - \mu_1U_2 - \mu_2U_1 + \mu_1\mu_2]\\
+  \mathbb{E}[U_1]\ex [U_2] - \mu_1 \ex [U_2] - \mu_2 \ex [U_1] + \mu_1\mu_2\\
+  \mu_1\mu_2 - \mu_1\mu_2 - \mu_2\mu_1 + \mu_1\mu_2 = 0
+\end{align*}
+
+\subsection*{b}
+
+No, while zero correlation is implied by independence, the reverse is not
+implied. Consider the example of The random variable X which is uniform on the
+interval (-1,1), and Y which is given by $X^2$. We can see that $Cov(X,Y) = \ex
+[X(Y-\mu_Y)] = \ex [XY] - \mu_Y \ex [X] = \ex [XY] = 0$ as they are
+symmetric. However, we can clearly see that X and Y are not independent, as Y is
+determined completely by X.
+
+\subsection*{c}
+
+\begin{align*}
+  S'(\mu) = \sum_{n=1}^N2(Y_n - \mu )(-1) = 0\\
+  \sum_{n=1}^NY_n - N\mu = 0\\
+  \mu = \frac{1}{N} \sum_{n=1}^N Y_n
+\end{align*}
+Verifying that it is a minimum:
+\begin{align*}
+  S''(\mu) = 2N > 0
+\end{align*}
+Since this is positive, our value of $\mu$ is a minimum.
+
+
+
+\subsection*{d}
+\begin{align*}
+  \ex [B] = \ex [\sum_{n=1}^N k_n Y_n ]\\
+  \sum_{n=1}^N k_n \ex [Y_n] = \sum_{n=1}^N k_n \mu_n\\
+  Var(B) = Var( \sum_{n=1}^N k_n Y_n ) =\\
+  \sum_{n=1}^N k_n^2 Var(Y_n) + 2\sum_{i< j}\sum k_ik_j Cov(Y_i, Y_j)=\\
+  \sum_{n=1}^N k_n^2 \sigma^2 + \sum_{i<j}\sum k_ik_j \sigma^2\\
+\end{align*}
+Since B is a linear combination of jointly normal random variables, it is
+normally distributed, with mean and variance given above.
+\subsection*{e}
+
+\subsubsection*{i}
+
+
+Note that since $Y_n$ is normally distributed, and $\bar{Y_N}$ is a linear
+combination at $Y_n$, thus $\bar{Y_N}$ is normally distributed. By d, we see
+that its mean is $\mu$ and its variance is $\sigma^2$. Thus
+$$\frac{\bar{Y_N} - \mu}{\sigma} \sim N(0,1)$$
+
+\subsubsection*{ii}
+
+
+
+First we note that:
+\begin{align*}
+  \frac{\sum_{n=1}^N(Y_n - \bar{ Y_N})^2}{\sigma^2} = \frac{\sum_{n=1}^N(Y_n - \mu + \mu - \bar{Y_N} )^2}{\sigma^2}\\
+  \frac{\sum_{n=1}^N((Y_n - \mu )-(\bar{Y_N} - \mu ))^2}{\sigma^2} = \frac{\sum_{n=1}^N((Y_n - \mu)^2 - (\bar{Y_n} - \mu)^2 )}{\sigma^2}\\
+  \sum_{n=1}^N (\frac{Y_n - \mu}{\sigma})^2 - N \frac{(\bar{Y_N} - \mu)}{\sigma}^2
+\end{align*}
+Since  $\frac{Y_n - \mu}{\sigma}$ is distributed $\mathcal{N} (0,1)$, its square is distributed
+$\chi^2(1)$, and $\sum_{n=1}^N (\frac{Y_n - \mu}{\sigma})^2 \sim \chi^2(N)$. We can also note that
+$(\frac{\bar{Y_N} - \mu}{\sigma})^2 \sim N(0,\frac{1}{N})$. So multiplying it by $\sqrt{N}$ should
+ensure that it is distributed $\mathcal{N} (0,1)$. Thus $N (\frac{ \bar{Y_N} -
+    \mu}{\sigma})^2 \sim \chi^2(1)$. The difference between two $\chi^2$ is $\chi^2$ itself so: $$\frac{\sum_{n=1}^N(Y_n - \bar{ Y_N})^2}{\sigma^2} \sim \chi^2(N-1)$$
+
+\subsubsection*{iii}
+$$\frac{\sqrt{ N} ( \bar{Y_N} - \mu )}{\sqrt{ \frac{\sum_{n=1}^N(Y_n - \bar{Y_N})^2}{N-1}}} = \sqrt{N} \frac{(\bar{Y_N} - \mu)}{\sigma} \sqrt{ \frac{\sigma^2 (N-1)}{\sum_{n=1}^N(Y_n -\bar{Y_N})^2} }$$
+We may note that this can be written in the form of:
+$$\frac{Z}{\sqrt{ \frac{\chi^2(N-1)}{N-1}}}$$
+since it is a normal distribution divided by the square root of an independent
+chi-squared divided by its degrees of freedom, this is a t-distribution with N-1
+degrees of freedom.
+
+\subsection*{f}
+
+\subsubsection*{i}
+
+This point estimator, $\bar{Y_N}$ converges by the law of large numbers to
+$\mathbb{E}[Y] = \theta$.
+
+\subsubsection*{ii}
+
+Since $Y \sim $ Bernoulli, $\ex [Y] = \theta, Var(Y) = \theta(1-\theta)$ This tells us that
+$\ex [\bar{Y_N}] = \theta, Var(\bar{Y_N}) = \frac{\theta(1-\theta)}{N}$. We may rewrite $Z_N =
+\frac{(\bar{Y_N} - \ex [\bar{Y_N}])}{\sqrt{Var(\bar{Y_N})}}$ We may apply the
+DeMoivre-Laplace Central Limit theorem, which tells us that $Z_N$ converges in
+distribution to $\mathcal{N}(0,1)$. This is in contrast to $\bar{Y_N}$ which
+converges to a point.
+\end{document}

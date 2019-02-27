@@ -1,0 +1,109 @@
+Assignment: Horizontally Partition assignments to only this current
+semester. This table fills up extremely quickly, as there are many
+classes each producing many assignments, but often only the ones in
+the current semester are of any relevance, so the partitioning can
+save a large amount of processing.
+
+AssnGrade: 1. Horizontally Partition based on Current Semester. Since
+there are many assignments, and many enrollments, and an element of
+AssnGrade for every enrollment and assignment pair, this will get
+extremely large extremely quickly, so removing the less visited
+elements, grades given to students in previous semesters will help to
+keep this table down to reasonable size.
+2. Violate Normal form by adding Points Possible to the table. This
+can speed up the operation since often we need to know out of how many
+points the assignment was, and looping through assignment can be time
+consuming, and as points possible is a small data type, it is
+relatively cost-less to add.
+
+CoAssn: Horizontally Partition based on the current semester. Since
+each assignment meets multiple course objectives, and we decided that
+assignment could benefit from horizontal partitioning, it is only
+normal to want to do the same for COAssn.
+
+Committee: No Changes
+
+Course: Horizontally Partition Courses based on if it satisfies a
+programReq for a currently active element of MajorMinor. While it was
+tempting to partition based upon the course being offered, there are
+many courses that are not offered each semester, and some offered once
+every two years, so the rules could get very complex very quickly, we
+chose to simply check if there was an active program that required the
+course to partition it.
+
+CourseObjective: No Changes
+
+Declaration: Horizontally Partition based on students that are
+attending the university still, do not partition based upon the
+programReq being able to be declared for. We chose this partition
+because there can be students that declared for a major/minor that is
+no longer offered, but they are still attending the university. We
+wanted them to still be able to quickly find their declaration.
+
+Enroll: 1. Horizontally Partition based upon Students that are
+actively enrolled in the University and Sections in the current
+term. This table gets quite large quite quickly, and we wish for it to
+be as small as possible since it is involved in many key operations,
+most of which only involve active students in currently enrolled
+courses.
+2. Denormalize the table by including Students First and Last Name in
+the enroll table. It is relatively expensive to get the students name
+from searching the students table, so we want to have it contained in
+the enroll table to speed up operations.
+
+Group: Horizontally Partition based on the current semester. Groups in
+past semesters are rarely called upon for any operation.
+
+GroupAssn: Horizontally Partition based on the current semester. Groups in
+past semesters are rarely called upon for any operation.
+
+GroupEnroll: Horizontally Partition based on the current semester. Groups in
+past semesters are rarely called upon for any operation.
+
+Instructor: Horizontally Partition based on faculty that are actively
+teaching at the university during the current term. This is a good
+idea because we would like to have the performance benefits of not
+going through professors that are not at the university anymore, and
+we will rarely reference these professors who are no longer
+teaching. Retaining these records in a separate table rather than
+removing them would be useful because we need to reference them again
+at some point.
+
+LearnOutcome: No Changes
+
+LearnOutcome: No Changes
+
+MajorMinor: Horizontally Partition based on major/minor programs that
+are available to students in the current catalog year. The old
+programs will rarely be called upon, while new ones will frequently be
+accessed by operations involving students currently enrolled at the
+university, so this will increase performance.
+
+ProgramCO: No Changes
+
+ProgramLO: No Changes
+
+ProgramReq: Horizontally Partition so that only the programReqs that
+meet currently available MajorMinor programs are contained in the
+table. The old program requirements will rarely be called upon, while
+new ones will frequently be accessed by operations involving students
+currently enrolled at the university, so this will increase
+performance.
+
+Section: Horizontally Partition Section by the currently available
+term. We will perform many operations involving the sections in the
+currently available term, with fewer operations on older ones. This
+will be very useful for performance reasons.
+
+Student: 1.Horizontally Partition Students based on whether or not
+they are attending the University.  2. Vertically Partition the
+students so that the regular student table only contains StudentID,
+LastName, Firstname, and the rest of the values, including the values
+for possible SAS, Masters, and Doctoral students are contained in a
+separate table.  3. Add the derived attribute GPA, this is calculated
+at the end of the semester and does not take up very much room as it
+is only a single element for students that is checked multiple times
+per semester
+
+Term: No Changes
+

@@ -1,0 +1,195 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{glob}
+\PYG{k+kn}{import} \PYG{n+nn}{csv}
+
+
+\PYG{k}{def} \PYG{n+nf}{PrintGunToFile}\PYG{p}{(}\PYG{n}{line}\PYG{p}{,} \PYG{n}{newfile}\PYG{p}{,} \PYG{n}{prob}\PYG{p}{):}
+    \PYG{n}{splitter} \PYG{o}{=} \PYG{n}{line}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}|\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{gun} \PYG{o}{=} \PYG{n}{splitter}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} \PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{skin} \PYG{o}{=} \PYG{n}{splitter}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{} \PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{facNew} \PYG{o}{=} \PYG{n+nb+bp}{False}
+    \PYG{n}{minWear} \PYG{o}{=} \PYG{n+nb+bp}{False}
+    \PYG{n}{fieldTest} \PYG{o}{=} \PYG{n+nb+bp}{False}
+    \PYG{n}{wellWorn} \PYG{o}{=} \PYG{n+nb+bp}{False}
+    \PYG{n}{batScar} \PYG{o}{=} \PYG{n+nb+bp}{False}
+    \PYG{c+c1}{\PYGZsh{} conditions = glob.glob(}
+    \PYG{c+c1}{\PYGZsh{}     \PYGZdq{}/root/Classes/Behavioral/Paper/CSV/\PYGZdq{} + gun + \PYGZdq{}/\PYGZdq{} + skin + \PYGZdq{}/*\PYGZdq{})}
+    \PYG{c+c1}{\PYGZsh{} stConditions = glob.glob(}
+    \PYG{c+c1}{\PYGZsh{}     \PYGZdq{}/root/Classes/Behavioral/Paper/CSV/StatTrak\PYGZdq{} + gun + \PYGZdq{}/\PYGZdq{} + skin + \PYGZdq{}/*\PYGZdq{})}
+    \PYG{n}{conditions} \PYG{o}{=} \PYG{n}{glob}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}
+        \PYG{l+s+s2}{\PYGZdq{}../CSV/\PYGZdq{}} \PYG{o}{+} \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}/*\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{stConditions} \PYG{o}{=} \PYG{n}{glob}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}
+        \PYG{l+s+s2}{\PYGZdq{}../CSV/StatTrak/\PYGZdq{}} \PYG{o}{+} \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}/*\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{condition} \PYG{o+ow}{in} \PYG{n}{conditions}\PYG{p}{:}
+        \PYG{c+c1}{\PYGZsh{}        print(condition)}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}FactoryNew\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{condition}\PYG{p}{):}
+            \PYG{n}{facNew} \PYG{o}{=} \PYG{n+nb+bp}{True}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MinimalWear\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{condition}\PYG{p}{):}
+            \PYG{n}{minWear} \PYG{o}{=} \PYG{n+nb+bp}{True}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Field\PYGZhy{}Tested\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{condition}\PYG{p}{):}
+            \PYG{n}{fieldTest} \PYG{o}{=} \PYG{n+nb+bp}{True}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Well\PYGZhy{}Worn\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{condition}\PYG{p}{):}
+            \PYG{n}{wellWorn} \PYG{o}{=} \PYG{n+nb+bp}{True}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Battle\PYGZhy{}Scarred\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{condition}\PYG{p}{):}
+            \PYG{n}{batScar} \PYG{o}{=} \PYG{n+nb+bp}{True}
+\PYG{c+c1}{\PYGZsh{}    for condition in stConditions:}
+\PYG{c+c1}{\PYGZsh{}        print(condition)}
+    \PYG{c+c1}{\PYGZsh{} 0 \PYGZhy{} 0.07       Factory New}
+        \PYG{c+c1}{\PYGZsh{} 0.07 \PYGZhy{} 0.15    Minimal Wear}
+        \PYG{c+c1}{\PYGZsh{} 0.15 \PYGZhy{} 0.38    Field\PYGZhy{}Tested}
+        \PYG{c+c1}{\PYGZsh{} 0.38 \PYGZhy{} 0.45    Well\PYGZhy{}Worn}
+        \PYG{c+c1}{\PYGZsh{} 0.45 \PYGZhy{} 1       Battle\PYGZhy{}Scarred}
+    \PYG{n}{totalFloat} \PYG{o}{=} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{facNew}\PYG{p}{)} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{+} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{minWear}\PYG{p}{)} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{08} \PYG{o}{+} \PYGZbs{}
+        \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{fieldTest}\PYG{p}{)} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{23} \PYG{o}{+} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{wellWorn}\PYG{p}{)} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{+} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{batScar}\PYG{p}{)} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{55}
+
+ \PYG{c+c1}{\PYGZsh{}   print(prob)}
+ \PYG{c+c1}{\PYGZsh{}   print(totalFloat)}
+
+    \PYG{k}{if}\PYG{p}{(}\PYG{n}{facNew}\PYG{p}{):}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}FactoryNew\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{stConditions}\PYG{p}{):}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}FactoryNew,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{9} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}StatTrak/\PYGZdq{}} \PYG{o}{+} \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+}
+                          \PYG{l+s+s2}{\PYGZdq{}FactoryNew,\PYGZdq{}} \PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}FactoryNew,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+    \PYG{k}{if}\PYG{p}{(}\PYG{n}{minWear}\PYG{p}{):}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}MinimalWear\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{stConditions}\PYG{p}{):}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}MinimalWear,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{08} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{9} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}StatTrak/\PYGZdq{}} \PYG{o}{+} \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+}
+                          \PYG{l+s+s2}{\PYGZdq{}MinimalWear,\PYGZdq{}} \PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{08} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}MinimalWear,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{08} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{if}\PYG{p}{(}\PYG{n}{fieldTest}\PYG{p}{):}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Field\PYGZhy{}Tested\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{stConditions}\PYG{p}{):}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}Field\PYGZhy{}Tested,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{23} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{9} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}StatTrak/\PYGZdq{}} \PYG{o}{+} \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+}
+                          \PYG{l+s+s2}{\PYGZdq{}Field\PYGZhy{}Tested,\PYGZdq{}} \PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{23} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}Field\PYGZhy{}Tested,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{23} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{if}\PYG{p}{(}\PYG{n}{wellWorn}\PYG{p}{):}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Well\PYGZhy{}Worn\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{stConditions}\PYG{p}{):}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}Well\PYGZhy{}Worn,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{9} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}StatTrak/\PYGZdq{}} \PYG{o}{+} \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+}
+                          \PYG{l+s+s2}{\PYGZdq{}Well\PYGZhy{}Worn,\PYGZdq{}} \PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}Well\PYGZhy{}Worn,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mo}{07} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+    \PYG{k}{if}\PYG{p}{(}\PYG{n}{batScar}\PYG{p}{):}
+        \PYG{k}{if}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Battle\PYGZhy{}Scarred\PYGZdq{}} \PYG{o+ow}{in} \PYG{n}{stConditions}\PYG{p}{):}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}Battle\PYGZhy{}Scarred,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{55} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{9} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}StatTrak/\PYGZdq{}} \PYG{o}{+} \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+}
+                          \PYG{l+s+s2}{\PYGZdq{}Battle\PYGZhy{}Scarred,\PYGZdq{}} \PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{55} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{*} \PYG{o}{.}\PYG{l+m+mi}{1} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{newfile}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}Battle\PYGZhy{}Scarred,\PYGZdq{}} \PYG{o}{+}
+                          \PYG{n+nb}{str}\PYG{p}{(}\PYG{o}{.}\PYG{l+m+mi}{55} \PYG{o}{*} \PYG{n}{prob} \PYG{o}{/} \PYG{n}{totalFloat}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+
+\PYG{c+c1}{\PYGZsh{}files = glob.glob(\PYGZdq{}/root/Classes/Behavioral/Paper/knives/*.txt\PYGZdq{})}
+\PYG{n}{files} \PYG{o}{=} \PYG{n}{glob}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}*.txt\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}csvfile = open(\PYGZdq{}/root/Classes/Behavioral/Paper/knives/knives.csv\PYGZdq{})}
+\PYG{n}{csvfile} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}knives.csv\PYGZdq{}}\PYG{p}{)}
+\PYG{n}{knifeInfo} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{reader}\PYG{p}{(}\PYG{n}{csvfile}\PYG{p}{,} \PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{)}
+
+\PYG{n}{knifeSkins} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+\PYG{c+c1}{\PYGZsh{} knifeSkinFileNames = glob.glob(}
+\PYG{c+c1}{\PYGZsh{}     \PYGZdq{}/root/Classes/Behavioral/Paper/knives/knifetypes/*.txt\PYGZdq{})}
+\PYG{n}{knifeSkinFileNames} \PYG{o}{=} \PYG{n}{glob}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}
+    \PYG{l+s+s2}{\PYGZdq{}knifetypes/*.txt\PYGZdq{}}\PYG{p}{)}
+\PYG{k}{for} \PYG{n}{filename} \PYG{o+ow}{in} \PYG{n}{knifeSkinFileNames}\PYG{p}{:}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{filename}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{words} \PYG{o}{=} \PYG{n}{f}\PYG{o}{.}\PYG{n}{read}\PYG{p}{()}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}r}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{n}{words}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{knifeSkins}\PYG{p}{[}\PYG{n}{lines}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{lines}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{k}{print}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{])}
+
+\PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{c+c1}{\PYGZsh{}files = [\PYGZdq{}glovecase.txt\PYGZdq{}]}
+
+\PYG{k}{for} \PYG{n}{filename} \PYG{o+ow}{in} \PYG{n}{files}\PYG{p}{:}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n}{filename}\PYG{p}{)} \PYG{k}{as} \PYG{n}{f}\PYG{p}{:}
+        \PYG{n}{lines} \PYG{o}{=} \PYG{n}{f}\PYG{o}{.}\PYG{n}{readlines}\PYG{p}{()}
+        \PYG{k}{print}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])}
+
+        \PYG{n}{numItems} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Prob of things occurring}
+        \PYG{n}{red} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}How many red?\PYGZdq{}}\PYG{p}{))}
+        \PYG{n}{pink} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}How many pink?\PYGZdq{}}\PYG{p}{))}
+        \PYG{n}{purple} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}How many purple?\PYGZdq{}}\PYG{p}{))}
+        \PYG{n}{blue} \PYG{o}{=} \PYG{n}{numItems} \PYG{o}{\PYGZhy{}} \PYG{n}{red} \PYG{o}{\PYGZhy{}} \PYG{n}{pink} \PYG{o}{\PYGZhy{}} \PYG{n}{purple} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}
+        \PYG{c+c1}{\PYGZsh{}Blue \PYGZhy{} .7992}
+        \PYG{c+c1}{\PYGZsh{}Purple \PYGZhy{} .1598}
+        \PYG{c+c1}{\PYGZsh{}Pink \PYGZhy{} .032}
+        \PYG{c+c1}{\PYGZsh{} Red .0064}
+        \PYG{c+c1}{\PYGZsh{} Yellow .0026}
+        \PYG{n}{itemName} \PYG{o}{=} \PYG{n}{lines}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}r}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} newfile = open(}
+        \PYG{c+c1}{\PYGZsh{}     \PYGZdq{}/root/Classes/Behavioral/Paper/ModifiedKnives/\PYGZdq{} + itemName + \PYGZdq{}.csv\PYGZdq{}, \PYGZdq{}w\PYGZdq{})}
+        \PYG{n}{newfile} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}
+            \PYG{l+s+s2}{\PYGZdq{}../ModifiedKnives/\PYGZdq{}} \PYG{o}{+} \PYG{n}{itemName} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}w\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Now we need to find the knives this case drop All Cases}
+        \PYG{c+c1}{\PYGZsh{} can recieve vanilla: Bayonet, Gut, Flip, m9, karambit,}
+        \PYG{c+c1}{\PYGZsh{} bowie knife}
+        \PYG{n}{knives} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{c+c1}{\PYGZsh{}csvfile = open(\PYGZdq{}/root/Classes/Behavioral/Paper/knives/knives.csv\PYGZdq{})}
+        \PYG{n}{csvfile} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}knives.csv\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{knifeInfo} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{reader}\PYG{p}{(}\PYG{n}{csvfile}\PYG{p}{,} \PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{knifeInfo}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{} print( row[1] )}
+            \PYG{k}{if}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{n}{itemName} \PYG{o+ow}{or} \PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s2}{\PYGZdq{}All\PYGZdq{}}\PYG{p}{):}
+                \PYG{n}{knives}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}|vanilla\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{drops} \PYG{o}{=} \PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{};\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{for} \PYG{n}{drop} \PYG{o+ow}{in} \PYG{n}{drops}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{}print( drop )}
+                \PYG{k}{if}\PYG{p}{(}\PYG{n}{drop} \PYG{o}{==} \PYG{n}{itemName}\PYG{p}{):}
+                    \PYG{k}{for} \PYG{n}{skin} \PYG{o+ow}{in} \PYG{n}{knifeSkins}\PYG{p}{[}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]]:}
+                        \PYG{n}{knives}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}|\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} Floats are uniform \PYGZhy{} here are the cutoffs}
+        \PYG{c+c1}{\PYGZsh{} 0 \PYGZhy{} 0.07       Factory New}
+        \PYG{c+c1}{\PYGZsh{} 0.07 \PYGZhy{} 0.15    Minimal Wear}
+        \PYG{c+c1}{\PYGZsh{} 0.15 \PYGZhy{} 0.38    Field\PYGZhy{}Tested}
+        \PYG{c+c1}{\PYGZsh{} 0.38 \PYGZhy{} 0.45    Well\PYGZhy{}Worn}
+        \PYG{c+c1}{\PYGZsh{} 0.45 \PYGZhy{} 1       Battle\PYGZhy{}Scarred}
+        \PYG{c+c1}{\PYGZsh{} Every item has a 10\PYGZpc{} chance of being StatTrak}
+
+        \PYG{c+c1}{\PYGZsh{} Certain items have limited float values:}
+
+        \PYG{n}{gold} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{knives}\PYG{p}{)}
+        \PYG{k}{for} \PYG{n}{knive} \PYG{o+ow}{in} \PYG{n}{knives}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{}print( knive )}
+            \PYG{n}{prob} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mo}{0026} \PYG{o}{/} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{gold}\PYG{p}{)}
+            \PYG{n}{PrintGunToFile}\PYG{p}{(}\PYG{n}{knive}\PYG{p}{,} \PYG{n}{newfile}\PYG{p}{,} \PYG{n}{prob}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{n}{numItems}\PYG{p}{):}
+            \PYG{n}{lines}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{lines}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{]}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,}
+                                          \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}r}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}t}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{if}\PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{red}\PYG{p}{):}
+                \PYG{n}{prob} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mo}{0064} \PYG{o}{/} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{red}\PYG{p}{)}
+            \PYG{k}{elif}\PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{red} \PYG{o}{+} \PYG{n}{pink}\PYG{p}{):}
+                \PYG{n}{prob} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mo}{032} \PYG{o}{/} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{pink}\PYG{p}{)}
+            \PYG{k}{elif}\PYG{p}{(}\PYG{n}{i} \PYG{o}{\PYGZlt{}=} \PYG{n}{red} \PYG{o}{+} \PYG{n}{pink} \PYG{o}{+} \PYG{n}{purple}\PYG{p}{):}
+                \PYG{n}{prob} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mi}{1598} \PYG{o}{/} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{purple}\PYG{p}{)}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{prob} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mi}{7992} \PYG{o}{/} \PYG{n+nb}{float}\PYG{p}{(}\PYG{n}{blue}\PYG{p}{)}
+
+            \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}sending \PYGZdq{}} \PYG{o}{+} \PYG{n}{lines}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{]} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{} to the printer\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{PrintGunToFile}\PYG{p}{(}\PYG{n}{lines}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{],} \PYG{n}{newfile}\PYG{p}{,} \PYG{n}{prob}\PYG{p}{)}
+            \PYG{c+c1}{\PYGZsh{} newfile.close()}
+
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

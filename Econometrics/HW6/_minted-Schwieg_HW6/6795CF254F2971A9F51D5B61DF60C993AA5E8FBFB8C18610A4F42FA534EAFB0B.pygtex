@@ -1,0 +1,38 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k}{using} \PYG{n}{Distributions}
+\PYG{k}{using} \PYG{n}{Plots}
+
+\PYG{n}{J} \PYG{o}{=} \PYG{l+m+mi}{1000000}
+
+\PYG{n}{jackThetaBias} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Float64}\PYG{p}{\PYGZcb{}(}\PYG{n}{J}\PYG{p}{)}
+\PYG{n}{deltaThetaBias} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Float64}\PYG{p}{\PYGZcb{}(}\PYG{n}{J}\PYG{p}{)}
+\PYG{n}{trueBias} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Float64}\PYG{p}{\PYGZcb{}(}\PYG{n}{J}\PYG{p}{)}
+
+
+\PYG{k}{for} \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{J}
+
+    \PYG{n}{N} \PYG{o}{=} \PYG{l+m+mi}{25}
+
+    \PYG{n}{sims} \PYG{o}{=} \PYG{n}{rand}\PYG{p}{(} \PYG{n}{Exponential}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n}{N} \PYG{p}{)}
+
+    \PYG{n}{sumSims} \PYG{o}{=} \PYG{n}{sum}\PYG{p}{(} \PYG{n}{sims} \PYG{p}{)}
+    \PYG{n}{jackThetaHat} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Float64}\PYG{p}{\PYGZcb{}(}\PYG{n}{N}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{N}
+        \PYG{n}{jackThetaHat}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{N}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{/}\PYG{p}{(}\PYG{n}{sumSims} \PYG{o}{\PYGZhy{}} \PYG{n}{sims}\PYG{p}{[}\PYG{n}{i}\PYG{p}{])}
+    \PYG{k}{end}
+
+    \PYG{n}{jackThetaBias}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{p}{(}\PYG{n}{N}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{o}{*}\PYG{p}{(} \PYG{n}{mean}\PYG{p}{(} \PYG{n}{jackThetaHat}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{l+m+mf}{1.0} \PYG{o}{/}\PYG{n}{mean}\PYG{p}{(} \PYG{n}{sims}\PYG{p}{)))}
+
+    \PYG{c}{\PYGZsh{}Delta method version}
+    \PYG{n}{deltaThetaBias}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mf}{1.0}\PYG{o}{/} \PYG{n}{sumSims}
+
+    \PYG{n}{trueBias}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{=}  \PYG{l+m+mf}{1.0} \PYG{o}{/} \PYG{n}{mean}\PYG{p}{(} \PYG{n}{sims}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{l+m+mf}{1.0}
+\PYG{k}{end}
+\PYG{n}{pyplot}\PYG{p}{()}
+
+\PYG{n}{jackKnifeDev} \PYG{o}{=} \PYG{n}{jackThetaBias} \PYG{o}{.\PYGZhy{}} \PYG{n}{trueBias}
+\PYG{n}{deltaDev} \PYG{o}{=} \PYG{n}{deltaThetaBias} \PYG{o}{.\PYGZhy{}} \PYG{n}{trueBias}
+
+\PYG{c}{\PYGZsh{}Average of jackKnifeDev:}
+\PYG{n}{println}\PYG{p}{(} \PYG{n}{mean}\PYG{p}{(} \PYG{n}{abs}\PYG{o}{.}\PYG{p}{(}\PYG{n}{jackKnifeDev}\PYG{p}{))} \PYG{p}{)}
+\end{Verbatim}

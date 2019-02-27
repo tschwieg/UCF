@@ -1,0 +1,245 @@
+\documentclass[grey,handout]{beamer}
+%\usetheme{Pittsburgh}
+\usetheme{Montpellier}
+\usepackage{amsmath}
+
+\renewcommand{\frametitle}[1]{\begin{center}\textbf{#1}\end{center}}
+
+\def\dd{{\rm d}}
+\def\E{\mathbb{E}}
+\def\BigO{{\cal O}}
+
+\begin{document}
+\title{Scheduling}
+
+\author{Timothy M Schwieg}
+\date{3 March 2018}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{ROADMAP OF SEMINAR}
+  \begin{enumerate}[<+->]
+  \item Introduction to Scheduling
+  \item Parts of each algorithm
+  \item Earliest Due Date
+  \item Shortest Processing Time
+  \item Moore's Algorithm
+  \item Preemption costs
+  \end{enumerate}
+\end{frame}
+
+\section{Introduction To Scheduling}
+
+\begin{frame}
+  \frametitle{History and Focus}
+  \begin{itemize}[<+->]
+  \item 1874: Frederick Taylor and Henry Gatt coin the terms scientific
+    management. Make public schedules but do not solve any problems
+  \item 1954: Selmer Johnson while working for RAND publishes a
+    solution for solving a two-machine process of book binding.
+  \item Focus upon a single machine. However the order we do it is
+    irrelevant to the time taken to solve the problem without order constraints.
+  \end{itemize}
+\end{frame}
+
+
+
+\begin{frame}
+  \frametitle{Complications}
+  \begin{itemize}
+  \item Differing weights between tasks - usually managable
+  \item Release times - Destroys Tractibility
+  \item Precendence Constraints
+  \item Preemption
+  \item Online Algorithms
+  \end{itemize}
+\end{frame}
+
+\section{Earliest Due Date}
+
+\begin{frame}
+  \frametitle{Earliest Due Date - Minimize Maximum Lateness}
+  \begin{itemize}
+  \item Cost Function: $c_j(t) = (t - d_j)^+$
+  \item Find a job k such that: $c_k(T) = \min \{ (T - d_j)^+ \} T =
+      \sum_{n=0}^N p_n$
+  \item This is equivalent to taking the task with the maximum due
+        date.
+  \item Complexity is $\BigO ( N \log( N ) )$, Independent of
+          Processing Time.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Precedence Constraints}
+  \begin{itemize}
+  \item We can't pick any job to go last, only since some jobs must
+    precede others. Define J to be the sets of jobs that do not have
+    to precede others.
+  \item Find a job $k \in J$ where $c_k(T) = \min_{j \in J} \{ (T - d_j
+      )^+ \}$
+  \item Schedule that job k to be last, recalculate the set J to
+        be the jobs not including k that can go last and repeat.
+  \item This is $\BigO ( N^2 )$ and processing time does not matter
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{ Preemption }
+  \begin{itemize}
+  \item Machine can switch to tasks for free, so only time machine is
+    idle is when nothing can be done
+  \item Seek blocks where there is no downtime.
+  \item Sort by release dates, and use this to break up the tasks into
+    blocks. This can be done in $\BigO ( N )$ time.
+  \item Find a job l in each block where $c_l(t(B) ) = \min_{b \in B}
+    \{ (t(B) - d_b)^+ \}$
+  \item Schedule this job last, then continue scheduling the block
+    with the same policy until it is fully scheduled.
+  \item This runs in $\BigO( N^2 )$ runtime, completing at most N-1 preemptions
+  \end{itemize}
+\end{frame}
+
+\section{Shortest Processing Time}
+
+\begin{frame}
+  \frametitle{Shortest Processing Time - Minimizing Outstanding Tasks}
+  \begin{itemize}
+  \item We want to get things done as quickly as possible, so start
+    with the tasks we can do the quickest
+  \item Sort the tasks based on processing time, and complete in
+    ascending order
+  \item This can be computed in $\BigO ( N \log( N ) )$ run-time as it
+    only really requires a sort.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{ Complications}
+  \begin{itemize}
+  \item Weights:
+    \begin{itemize}
+    \item Greedy Algorithm pays off - we can sort it based on:
+      $\frac{p_j}{w_j}$.
+    \item this is still $\BigO( N \log( N ) )$
+    \end{itemize}
+  \item Pre-emption:
+    \begin{itemize}
+    \item Switch at a start time when a new task is available, if it
+      has a lower processing time, otherwise continue as before.
+    \end{itemize}
+  \item Precedence Relations:
+    \begin{itemize}
+    \item This becomes NP-hard, and it is pretty difficult to break
+      the computational problem. Online algorithm is one method.
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Online Alogrithm}
+  \begin{itemize}
+  \item Greedy Algorithm doesn't work here, as we can be stuck doing something
+    when it is not optimal.
+  \item Change suggested by: Anderson and Potts 2004 - When a new job appears,
+    compare it to the current job by minimizing $\frac{p_j}{w_j}$, and
+    scheduling job j to start at: $\max \{ t, p_j \}$.
+  \item This ensures the algorithm is 2-competitive, at worst case twice as bad
+    as the offline version. This is the best any online algorithm can do.
+  \end{itemize}
+\end{frame}
+
+\section{Moore's Algorithm}
+
+\begin{frame}
+  \frametitle{Moore's Algorithm - Minimizing Number of Late Tasks}
+  \begin{itemize}
+    \item No penalty for how late a task is - No longer seeking a permutation,
+      only an optimal subset of the tasks
+    \item This leaves: $\sum_{n=0}^N \binom{ N}{n} = 2^N$ possible partitions.
+    \item Want to use Dynamic Programming to turn this into $\BigO( N \log(N) )$
+      or $\BigO( N^2 )$.
+    \item Integer Program: $x_n$ denotes if job n, ordered by earliest due date,
+      is late or not.
+    \item $\max \sum_{n=1}^N w_n x_n$ subject to: $\sum_{i=1}^j p_i x_i \leq d_j \quad \forall j 1 \leq j
+      \leq n$
+ \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dynamic Programming Algorithm}
+  \begin{itemize}
+    \item Create a function $F_j(t)$ which tells us the optimal subset of first
+      j jobs to complete in time t.
+    \item We seek $F_N(T)$ where T is the time
+      required to do all the jobs we choose to do.
+    \item Base Case: $F_0(0) = 0, F_0(t) = \infty, t > 0$.
+    \item If we add a new job: $F_j(t)= F_{j-1}(t) + w_j$
+    \item Don't add job: $F_j(t) = F_{j-1}(t - p_j)$
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Dynamic Programing Algorithm Conintued}
+  \begin{itemize}
+  \item Combine these two into a decision rule: $$F_j(t) = 
+    \begin{cases} \min \{ F_{j-1}(t-p_j), F_{j-1}(t) + w_j \} & \text{ if } 0 \leq t \le
+      d_j\\
+      F_j(d_j) & \text{ if } d_j \le t \le T\\
+    \end{cases}$$
+  \item Algorithm: For j in 1:N do:\newline
+    for t in 0:T do:\newline
+    Update $F_j(t)$
+  \item Optimal value is then $F_n(d_n)$ in $\BigO( N^2)$ time.
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Complications}
+  \begin{itemize}
+  \item Symmetry of the constraints was used to build the program, not possible
+    once precedence constraints and release dates are input.
+  \item This returns to the integer programs we saw in Operations
+    Research. These problems are NP-Hard.
+  \item If preemption is allowed, the problem may be solved in Pseudo-Polynomial
+    time. See Lawler (1990) for a $\BigO( N K^2 W^2)$ algorithm.
+  \end{itemize}
+\end{frame}
+
+\section{Preemption Costs}
+
+\begin{frame}
+  \frametitle{Preemption Costs}
+  \begin{itemize}
+  \item It is not always costs less to switch between tasks, but this is
+    difficult to compute tractably. This price is called a context-switch.
+  \item The time spent switching between tasks is called meta-work.
+  \item This creates a trade-off between Responsiveness, how quickly a machine
+    changes tasks, and Throughput, how much a machine can accomplish.
+  \item This is a vector optimization problem, and choices on the Pareto
+    Frontier must be made in the context of the specific machine. E.x. Computers
+    limit responsiveness of the mouse to the smallest interval the eye can
+    detect, but may increase it during a video game.
+  \end{itemize}
+\end{frame}
+
+\section{Summary and Conclusions}
+
+\begin{frame}
+  \frametitle{Summary and Conclusions}
+  \begin{itemize}[<+->]
+  \item What objective you choose determines what order tasks should
+    be done, and is dependent on your needs for the machine
+  \item Adding release dates or precedence constraints often has the
+    algorithm exit the realm of tractable problems.
+  \item Online algorithms and Preemption allow for a return back to
+    Tractibility.
+  \item Preemption is not always free, and context-switching too often
+    can lower throughput, or cause thrashing at worst case.
+  \end{itemize}
+\end{frame}
+
+\end{document}

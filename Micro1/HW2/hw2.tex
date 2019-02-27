@@ -1,0 +1,146 @@
+\documentclass[10pt, letterpaper]{paper}
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{cancel}
+\usepackage{tikz}
+
+\title{ Micro Theory 1 Problem Set 2}
+\author{ Timothy Schwieg }
+\date{ October 11 2017 }
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1}
+The three conditions that must be verified are: $p^T x = y$, $S$ is symmetric and $S$ is negative semi-definite.
+
+\begin{eqnarray*}
+&p_1 q_1 + p_2 q_2 = y\\
+&\frac{ 2 p_1 y }{ 2p_1 + p_2} + \frac{ p_2 y }{ 2p_1 + p_2 } = y \frac{ 2p_1 + p_2 }{ 2p_1 + p_2 } = y\\
+\end{eqnarray*}
+
+Symmetry: Note first that:
+\begin{equation*}
+\begin{alignedat}{6}
+&\frac{ \partial q_1}{\partial p_1} &= \frac{ -4y}{ {(2p_1 + p_2)}^2 } \quad& \frac{ \partial q_1 }{ \partial p_2} &= \frac{ -2y }{ {(2p_1 + p_2)}^2 } \quad& \frac{ \partial q_1}{ \partial y } &= \frac{ 2 }{ 2p_1 + p_2 }\\
+&\frac{ \partial q_2 }{ \partial p_1} &= \frac{ -y}{ {(2p_1 + p_2)}^2 } \quad&\frac{ \partial q_2}{ \partial p_2} &= \frac{ -y}{ {(2p_1 + p_2)}^2 } \quad &\frac{ \partial q_2}{ \partial y } &= \frac{ 1}{ 2p_1 + p_2 }\\
+\end{alignedat}
+\end{equation*}
+
+\begin{eqnarray*}
+S_{1,2} = \frac{ \partial q_1 }{\partial p_2} + q_2 \frac{ \partial q_1}{\partial y } = \frac{ -2y }{ {(2p_1 + p_2)}^2 } + \frac{ 2y }{ {(2p_1 + p_2)}^2 }  = 0\\
+\\
+S_{2,1} = \frac{ \partial q_2 }{\partial p_1} + q_1 \frac{ \partial q_2}{\partial y} = \frac{ -2y}{ {(2p_1 + p_2)}^2 } + \frac{ 2y}{ {(2p_1 + p_2)}^2 } = 0\\
+\end{eqnarray*}
+Thus we can see that S is symmetric.
+
+Negative Definite: First complete the slutsky matrix.
+\begin{eqnarray*}
+S_{1,1} = \frac{ \partial q_1}{\partial p_1} + q_1 \frac{ \partial q_1}{\partial y} = \frac{ -4y }{ (2p_1 + p_2)^2 } + \frac{ 4y}{ (2p_1 + p_2)^2 } = 0 \\
+S_{2,2} = \frac{ \partial q_2}{\partial p_2} + q_2 \frac{ \partial q_2}{\partial y} = \frac{ -y}{ (2p_1 + p_2)^2 } + \frac{ y }{ (2p_1 + p_2)^2 } = 0\\
+\end{eqnarray*}
+Thus we can plainly see that: $S = 0$ and $x^T S x = 0 \leq 0 \quad \forall x \in \mathbb{R}$
+\newline \newline
+While we cannot construct the exact utility function of the consumer, we can produce the indirect utility function that would produce these demand functions.
+\begin{equation*}
+\begin{alignedat}{6}
+&\frac{ \partial e }{\partial p_1} = \frac{ 2e}{2p_1 + p_2 } \quad & \frac{ \partial e }{\partial p_2} = \frac{ e}{ 2p_1 + p_2}\\
+&\frac{ \partial \log{e}}{\partial p_1} = \frac{ 2 }{ 2p_1 + p_2} \quad & \frac{ \partial \log{e} }{\partial p_2} = \frac{ 1}{ 2p_1 + p_2}\\
+\end{alignedat}
+\end{equation*}
+
+%\begin{eqnarray*}
+\begin{equation*}
+\begin{alignedat}{1}
+&\log{e} = \log{( 2p_1 + p_2 )} + C( p_2,u )\\
+&\frac{ \partial \log{e}}{ p_2} = \frac{ 1}{ 2p_1 + p_2 } + C_{p_2}( p_2, u ) = \frac{ 1}{ 2p_1 + p_2}\\
+&\text{Clearly: }  C_{p_2}( p_2, u ) = 0 \text{ and } C( p_2, u ) = C_1 (u )\\
+&\log{e} = \log{( 2p_1 + p_2 )} + C_1 (u) \\
+&e = C_2 (u) (2p_1 + p_2 )\\
+&e( p_1, p_2, u ) = u ( 2p_1 + p_2 )\\
+%\text{ Noting 	that: } e( p_1, p_2, V( p_1, p_2, y ) ) = y\\
+%V(p_1, p_2, y )(2p_1 + p_2 ) = y\\
+%V( p_1, p_2, y ) = \frac{ y }{2p_1 + p_2}\\
+&\text{Note that: }U(x) = max\{ u \geq 0 | p^T x \geq e( p, u) \quad \forall p >> 0 \}\\
+&U(x)= max\{ u \geq 0 | p_1 x_1 + p_2 x_2 \geq u( 2p_1 + p_2 ) \quad \forall p >> 0 \}\\
+&U(x) = max \left \{ u \geq 0 | p_1 ( x_1 - 2u ) + p_2 ( x_2 - u ) \geq 0 \quad \forall p >> 0 \right \}\\
+&p_1, p_2 \geq 0 \quad \forall p >> 0 \quad \text{ so: } (x_1 - 2u ), (x_2 - u ) \geq 0\\
+&u \leq \frac{ x_1 }{2} , u \leq x_2\\
+&U(x) = max \left \{ u \geq 0 | u \leq \frac{ x_1}{2}, u \leq x_2 \right \}\\
+&U(x) = min( \frac{x_1}{2},x_2 )\\ 
+\end{alignedat}
+\end{equation*}
+%\end{eqnarray*}
+
+
+\section*{Question 2.}
+\subsection*{Part a.}
+Let us begin by examining the prices of the different bundles.
+Let $x_0 = (3,1,7), x_1 = (7,3,1), x_2 = (1,7,3)$ and $p_0 = (2,3,3), p_1 = (3,2,3), p_2 = (3,3,2)$
+\begin{equation*}
+\begin{alignedat}{6}
+&p_0 x_0 = 30 \quad &p_1 x_0 = 32 \quad & p_2 x_0 = 26 \\
+&p_0 x_1 = 26 \quad &p_1 x_1 = 30 \quad & p_2 x_1 = 32 \\
+&p_0 x_2 = 32 \quad &p_1 x_2 = 26 \quad & p_2 x_2 = 30 \\
+&x_0 \text{ Preferred} \quad &x_1 \text{ Preferred} \quad &x_2 \text{ Preferred}\\
+\end{alignedat}
+\end{equation*}
+Weak Axiom of Revealed Preference: if $p_i x_j \leq p_i x_i \implies p_j x_i > p_j x_j$
+\newline
+This leaves three cases to check.
+\newline
+$p_0 x_1 \leq p_0 x_0$ and $p_1 x_0 > p_1 x_1$ \checkmark
+\newline
+$p_2 x_0 \leq p_2 x_2$ and $p_0 x_2 > p_0 x_0$ \checkmark
+\newline
+$p_2 x_1 \leq p_2 x_2$ and $p_1 x_2 > p_1 x_1$ \checkmark
+\newline
+So the Weak Axiom of Revealed Preference is satisfied by these choices.
+
+\subsection*{Part b.}
+Note: $x_0$ is revealed preferred to $x_1$ at price $p_0$, and $x_1$ is revealed preferred to $x_2$ at price $p_1$ and $x_2$ is revealed preferred to $x_0$ at price $p_2$. 
+This leads to the conclusion that $x_0$ is preferred to $x_1$ and $x_1$ is preferred to $x_2$ and $x_2$ is preferred to $x_0$. This is a violated of the Strong Axiom of Revealed Preference, so this behavior is not consistent.
+
+
+
+\section*{Question 4.}
+Since f has constant returns to scale, it is HOD 1, and by Euler's theorem: $f_1 (x_1,x_2) x_1 + f_2 (x_1,x_2 ) x_2 = f( x_1, x_2)$
+so: $f_1 (x_1,x_2) - f(x_1,x_2) = -f_2 (x_1,x_2)$
+\newline
+We may define Average product with respect to a good as: $AP_{x_1} = \frac{f( x_1, x_2 )}{x_1}$
+\newline
+If Average product with respect to $x_1$ is increasing then: $\frac{ \partial AP_{x_1} }{ \partial x_1} > 0$ and $\frac{ x_1 f_1 (x_1,x_2) - f( x_1, x_2 ) }{x_1^2} > 0$
+\newline
+Thus: $\frac{ -f_2 (x_1,x_2) x_2 }{x_1^2} > 0$ and $-f_2 (x_1,x_2) x_2 > 0$ so: $f_2 (x_1,x_2) < 0$
+\newline
+We can see that marginal product of good 2 is negative.
+
+\section*{ Question 5.}
+\subsection*{a.}
+Let $Y \subset \mathbb{R}^3 = \{ (x_1,x_2,x_3) | x_1,x_2 \leq 0, 0 \leq x_3 \leq A(-x_1)^{\alpha_1} (-x_2)^{\alpha_2} , A,\alpha_i > 0 \}$
+\newline
+$\frac{ \partial f }{\partial x_1 } = \alpha_1 A x_1^{\alpha_1 -1 } x_2^{\alpha_2}, \frac{ \partial f }{\partial x_2 } = \alpha_2 A x_1^{\alpha_1} x_2^{\alpha_2 -1} \text{ MRTS = } \frac{ \alpha_1 x_2 }{ \alpha_2 x_1 }$
+
+\subsection*{b.}
+$Y \subset \mathbb{R}^3 = \{ (x_1,x_2,x_3) | x_1,x_2 \leq 0, 0 \leq x_3 \leq min\{-a_1 x_1, -a_2 x_2 \}, a_1,a_2 > 0 \}$
+\newline
+Since this function is not differentiable everywhere, its MRTS is not defined everywhere, and does not make sense, as perfect compliments have no substitution.
+
+\subsection*{c.}
+Let $Y \subset \mathbb{R}^3 = \{ (x_1,x_2,x_3) | x_1,x_2 \leq 0, 0 \leq x_3 \leq -a_1 x_1 - a_2 x_2 \}$
+\newline
+$\frac{ \partial f }{\partial x_1 } = a_1 , \frac{ \partial f }{\partial x_2 } = a_2 \text{ MRTS = } \frac{ a_1 }{ a_2 }$
+
+\subsection*{d.}
+Let $Y \subset \mathbb{R}^3 = \{ (x_1,x_2,x_3) | x_1,x_2 \leq 0, 0 \leq x_3 \leq ( a_1 (-x_1)^\rho + a_2 (-x_2)^\rho )^\frac{ \epsilon }{\rho} \}$
+\newline
+$\frac{ \partial f }{\partial x_1 } = \frac{ \epsilon }{\rho} ( a_1 x_1^\rho + a_2 x_2^\rho )^{\frac{ \epsilon }{\rho} - 1} \rho a_1 x_1^{\rho-1}  , \frac{ \partial f }{\partial x_2 } = \frac{ \epsilon }{\rho} ( a_1 x_1^\rho + a_2 x_2^\rho )^{\frac{ \epsilon }{\rho} - 1} \rho a_2 x_2^{\rho-1} \text{ MRTS = } \frac{ a_1 x_1^{\rho-1} }{ a_2 x_2^{\rho-1} }$
+\newline \newline
+As $\rho$ tends to 1, the constant elasticity of substitution function tends to: $(a_1 x_1 + a_2 x_2 )^\epsilon$
+for $\epsilon = 1$ this is perfect substitutes, but in general it does not simplify to another known production function.
+
+
+
+\end{document}

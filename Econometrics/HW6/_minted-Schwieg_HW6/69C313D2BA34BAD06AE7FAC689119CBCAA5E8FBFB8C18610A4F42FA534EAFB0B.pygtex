@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c}{\PYGZsh{}Average deviation of delta method from true bias}
+\PYG{n}{println}\PYG{p}{(} \PYG{n}{mean}\PYG{p}{(} \PYG{n}{abs}\PYG{o}{.}\PYG{p}{(}\PYG{n}{deltaDev}\PYG{p}{)} \PYG{p}{)} \PYG{p}{)}
+\end{Verbatim}

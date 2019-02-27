@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c}{\PYGZsh{}Standard deviation of the deviations}
+\PYG{n}{println}\PYG{p}{(} \PYG{n}{std}\PYG{p}{(} \PYG{n}{jackKnifeDev}\PYG{p}{))}
+\end{Verbatim}

@@ -1,0 +1,39 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{using} \PYG{n}{QuantEcon}
+\PYG{k}{using} \PYG{n}{Plots}
+\PYG{k}{using} \PYG{n}{Plots}\PYG{o}{.}\PYG{n}{PlotMeasures}
+\PYG{n}{pyplot}\PYG{p}{()}
+
+
+
+\PYG{n}{r} \PYG{o}{=} \PYG{l+m+mf}{0.05}
+\PYG{n}{β} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{r}\PYG{p}{)}
+\PYG{n}{T} \PYG{o}{=} \PYG{l+m+mi}{45}
+\PYG{n}{c\PYGZus{}bar} \PYG{o}{=} \PYG{l+m+mf}{2.0}
+\PYG{n}{σ} \PYG{o}{=} \PYG{o}{.}\PYG{l+m+mi}{25}
+\PYG{n}{μ} \PYG{o}{=} \PYG{l+m+mf}{1.0}
+\PYG{n}{q} \PYG{o}{=} \PYG{l+m+mf}{1e6}
+
+\PYG{n}{Q} \PYG{o}{=} \PYG{l+m+mf}{1.0}
+\PYG{n}{R} \PYG{o}{=} \PYG{n}{zeros}\PYG{p}{(} \PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2} \PYG{p}{)}
+\PYG{n}{Rf} \PYG{o}{=} \PYG{n}{zeros}\PYG{p}{(} \PYG{l+m+mi}{2}\PYG{p}{,}\PYG{l+m+mi}{2} \PYG{p}{)}
+\PYG{n}{Rf}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{q}
+\PYG{n}{A} \PYG{o}{=} \PYG{p}{[} \PYG{l+m+mf}{1.0}\PYG{o}{+}\PYG{n}{r} \PYG{n}{μ}\PYG{o}{\PYGZhy{}}\PYG{n}{c\PYGZus{}bar}\PYG{p}{;}
+      \PYG{l+m+mf}{0.0} \PYG{l+m+mf}{1.0}\PYG{p}{]}
+\PYG{n}{B} \PYG{o}{=} \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0}\PYG{p}{;}\PYG{l+m+mf}{0.0}\PYG{p}{]}
+\PYG{n}{C}\PYG{o}{=} \PYG{p}{[}\PYG{n}{σ}\PYG{p}{;} \PYG{l+m+mf}{0.0}\PYG{p}{]}
+
+\PYG{n}{lq} \PYG{o}{=} \PYG{n}{LQ}\PYG{p}{(} \PYG{n}{Q}\PYG{p}{,} \PYG{n}{R}\PYG{p}{,} \PYG{n}{A}\PYG{p}{,} \PYG{n}{B}\PYG{p}{,} \PYG{n}{C}\PYG{p}{,} \PYG{n}{bet}\PYG{o}{=}\PYG{n}{β}\PYG{p}{,} \PYG{n}{capT} \PYG{o}{=} \PYG{n}{T}\PYG{p}{,} \PYG{n}{rf} \PYG{o}{=} \PYG{n}{Rf}\PYG{p}{)}
+\PYG{n}{x0} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mf}{0.0}\PYG{p}{,} \PYG{l+m+mf}{1.0}\PYG{p}{]}
+\PYG{n}{xp}\PYG{p}{,} \PYG{n}{up}\PYG{p}{,} \PYG{n}{wp} \PYG{o}{=} \PYG{n}{compute\PYGZus{}sequence}\PYG{p}{(} \PYG{n}{lq}\PYG{p}{,} \PYG{n}{x0}\PYG{p}{)}
+
+\PYG{n}{assets} \PYG{o}{=} \PYG{n}{vec}\PYG{p}{(}\PYG{n}{xp}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{:}\PYG{p}{])}
+\PYG{n}{c} \PYG{o}{=} \PYG{n}{vec}\PYG{p}{(} \PYG{n}{up} \PYG{o}{+} \PYG{n}{c\PYGZus{}bar}\PYG{p}{)}
+\PYG{n}{income} \PYG{o}{=} \PYG{n}{vec}\PYG{p}{(} \PYG{n}{σ} \PYG{o}{*}\PYG{n}{wp}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{o}{:}\PYG{k}{end}\PYG{p}{]} \PYG{o}{+} \PYG{n}{μ}\PYG{p}{)}
+
+\PYG{n}{p}\PYG{o}{=}\PYG{n}{plot}\PYG{p}{(}\PYG{k+kt}{Vector}\PYG{p}{[}\PYG{n}{assets}\PYG{p}{,} \PYG{n}{c}\PYG{p}{,} \PYG{n}{zeros}\PYG{p}{(}\PYG{n}{T} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{),} \PYG{n}{income}\PYG{p}{,} \PYG{n}{cumsum}\PYG{p}{(}\PYG{n}{income} \PYG{o}{\PYGZhy{}} \PYG{n}{μ}\PYG{p}{)],}
+  \PYG{n}{lab} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZdq{}assets\PYGZdq{}} \PYG{l+s}{\PYGZdq{}consumption\PYGZdq{}} \PYG{l+s}{\PYGZdq{}\PYGZdq{}} \PYG{l+s}{\PYGZdq{}non\PYGZhy{}financial income\PYGZdq{}} \PYG{l+s}{\PYGZdq{}cumulative unanticipated income\PYGZdq{}}\PYG{p}{],}
+  \PYG{n}{color} \PYG{o}{=} \PYG{p}{[}\PYG{o}{:}\PYG{n}{blue} \PYG{o}{:}\PYG{n}{green} \PYG{o}{:}\PYG{n}{black} \PYG{o}{:}\PYG{n}{orange} \PYG{o}{:}\PYG{n}{red}\PYG{p}{],}
+  \PYG{n}{width} \PYG{o}{=} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{n}{xaxis} \PYG{o}{=} \PYG{p}{(}\PYG{l+s}{\PYGZdq{}Time\PYGZdq{}}\PYG{p}{),} \PYG{n}{layout} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{),}
+  \PYG{n}{bottom\PYGZus{}margin} \PYG{o}{=} \PYG{l+m+mi}{20}\PYG{n}{mm}\PYG{p}{,} \PYG{n}{size} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{600}\PYG{p}{,} \PYG{l+m+mi}{600}\PYG{p}{),} \PYG{n}{show} \PYG{o}{=} \PYG{k+kc}{true}\PYG{p}{)}
+\end{Verbatim}

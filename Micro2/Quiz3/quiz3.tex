@@ -1,0 +1,78 @@
+\documentclass[10pt]{paper}
+
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Quiz 3 Corrections}
+\author{Timothy Schwieg}
+
+\begin{document}
+\section*{1. Nash Equilibrium of an Infinitely repeated game}
+
+Consider the trigger strategy of each player playing No, unless the
+opponent plays yes, in which case in all future repetitions the player
+plays yes.
+
+Each player discounts the future based upon the interest rate and the
+probability that the game will continue into the next period. The
+probability that the game will continue is given by $p = 1 - \sqrt{ .9 }$ and
+the interest rate is: $r = \frac{1}{\sqrt{.9}} - 1$. Therefore the
+discount factor is given by $\delta = \frac{p}{1+r} = \frac{1 - \sqrt{.9}}{1 +
+  \frac{1}{\sqrt{.9}}-1} = \sqrt{ .9 } - .9$
+
+The return to a player for playing No at a time period is $R_{No} = 4
+\sum_{t=0}^\infty \delta^t = \frac{4}{1-\delta} = \frac{4}{1.9 - \sqrt{ .9 }} \approx 4.205$.
+
+The return for deviating at any time period is given by: $R_{Yes} = 7
++ \sum_{t=1}^\infty \delta^t = 7 - 1 + \sum_{t=0}^\infty \delta^t = 7 - 1 + \frac{1}{1-\delta} = 6 +
+\frac{1}{1.9 - \sqrt{.9}} \approx 7.051$
+
+We can see that it is beneficial for players to deviate from the
+strategy of playing No each round, so there does not exist a Nash
+equilibrium where each player plays No in all periods.
+
+\section*{2. Folk Theorem}
+
+Let the dimension V of the space of feasible payoffs be equal to the
+number of players, then for any $v \in V$ with $v_i > v_{-i} \quad \forall$
+players i, $\exists \underline{\delta} < 1$ such that $\forall \delta \in ( \underline{\delta},1) \quad
+\exists$ a subgame perfect Nash Equilibrium of $G(\delta)$ with payoffs v.
+
+Feasible means that each player is doing better than their minmax
+payoffs, and dimension of a vector space is minimum number of linearly
+independent vectors required to span the space. 
+
+Proof sketch: All players are playing according to some strategy
+without deviation. If player i deviates from said strategy, all other
+players minmax him for N periods with N and $\delta$ chosen such that no
+other player wishes to deviate from this strategy.
+
+If nobody deviates from this minmax strategy, after N periods all
+other players are awarded $\epsilon$ above the minmax of i, and i continues
+to get his minmax. However, if any player deviates from the strategy,
+he is minmaxed by the same rules applied to player i.
+
+This reward after minmaxing incentivises players to minmax the
+deviants, while keeping the original deviant in a bad situation. 
+
+\section*{4. Subgame Perfect Nash Equilibrium}
+
+\subsection*{a}
+
+Note that if Firm E has decided to choose In, he finds that
+accommodate strictly dominates fight.
+
+This reduces firm I's information set, eliminating the option of Firm
+E choosing fight. Since Firm I knows that he is at In, Accommodate, he
+chooses to accommodate.
+
+Since Firm E knows that Firm I will choose accommodate, he knows that
+if he chooses in, he will recieve a return of 3, which is higher than
+the return of 0 for being Out. This means that he will choose In. 
+
+This leaves the strategies of Firm E choosiong: In, Accommodate.
+Firm I chooses: If In, choose accommodate, If Out, No choice. 
+
+\end{document}

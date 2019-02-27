@@ -1,0 +1,84 @@
+\documentclass[10pt, letterpaper]{paper}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+
+\title{ Operations Research HW6 }
+\author{ Timothy Schwieg }
+\date{ November 18th 2017 }
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1 }
+
+\subsection*{a.}
+At time t, the number of customers $N(t)$ is the counting process of the Poisson Process. This has distribution: $N(t) \sim Poisson( 10t )$
+\newline
+$P( N(t) = n ) = \frac{ e^{-10t} (10t)^n } { n!}$
+\newline
+$\mathbb{E}[N(t)] = 10t$. So during an 8 hour day, 80 Customers are expected.
+\newline
+$P( N(T) - N(T-1) = 3 ) = P( N(1) = 3 ) = \frac{ e^{-10} 10^3 }{ 3!} \approx 0.00756665$
+
+\subsection*{b}
+The nth customer's arrival time follow an Erlang(n, 10) distribution, which coincides with a gamma distribution for integer counts.
+\newline
+%( 10^8 x^7 e^(-10x)) / 7!
+The Density function is given by: $\frac{ 10^n x^{n-1} e^{ - \lambda x }}{ (n-1)!}$
+\newline
+Since the mean of an erlang is $\frac{ n }{10}$, we would expect it would take $\frac{4}{5}$ of an hour for eight people to arrive.
+\newline
+I am intpreting this question as: what is the probability that the eighth customer has arrived within one hour.
+$P( S_8 < 1 ) = \int_0^1 \frac{ 10^8 x^{7} e^{-10x}}{7!} \approx .77978$
+
+\subsection*{c}
+The inter-arrival time follows an exponential distribution, the parameter is: $\lambda = 10$ so $(S_{n+1} - S_n) \sim exp( 10 )$
+\newline
+$\mathbb{E}[S_{n+1} -S_n] = .1$  This is equivalent to 6 minutes. 
+
+
+
+\section*{Question 2}
+We first note that the queue described is an M/M/1 queue with $\lambda = \frac{2}{5}$ and $\mu = \frac{ 3}{2}$. We calculate $\rho = \frac{4}{15}$.
+\subsection*{a}
+The Probability that the queue is idle is the probability that there is 0 people in the queue: This is $p_0 = (1-\rho) = \frac{ 11 }{15}$
+\subsection*{b}
+The Expected number of people waiting in the queue is: $L_q = \frac{ \rho^2 }{ 1 - \rho } = \frac{ 16}{165}$
+\subsection*{c}
+The Expected Waiting time of people in the queue is: $W_q = \frac{ 1 }{ \mu - \lambda } - \frac{ 1}{ \mu} = \frac{ 10}{ 15 -4 } - \frac{ 2}{3} = \frac{ 8}{33}$
+\subsection*{d}
+Now the queue has been changed to an M/M/1/5 queue. 
+\begin{align*}
+p_0 &	= \frac{ 1 - \rho }{ 1 - \rho^6 } = \frac{ 759375}{1035139} \approx .73360\\
+p_5 &= \rho^5 \frac{ 1 - \rho }{ 1 - \rho^6} =\frac{1024}{1035139} \approx  .000989239\\
+\lambda_{eff} &= \lambda ( 1 - p_5 ) = \frac{ 413646}{1035139} \approx .39960430\\
+L_s &= \frac{ \rho [ 1 - 6\rho^5 + 5\rho^6 ]}{(1-\rho)(1-\rho^6)} = \frac{ 374180}{1035139} \approx .36147802\\
+L_q &= L_s - \frac{ \lambda_{eff} }{ \mu } = \frac{ 98416}{1035139} \approx .09507515\\
+W_q &= \frac{ L_q }{ \lambda_{eff} } = \frac{ 49208}{206823} \approx .237923\\
+\end{align*}
+
+\section*{Question 3}
+The Notation and formulas used in this question are found in "Modeling and Analysis of Stochastic Systems" Third Edition by Vidyadhar G. Kulkarni. 
+\newline
+We note that this is an M/M/s queue. Since the arrival time is a Poisson Process with $\lambda = \frac{1}{3}$, but only 80\% seek the queue; this is a split Poisson Process with parameter $\frac{4}{15}$. We can also see that: $\lambda = \frac{4}{15}, \mu = \frac{1}{5}, s = 2, r = \frac{\lambda}{\mu}, \rho = \frac{2}{3}$
+\newline
+Calculating the $p_n: p_0 = 1, p_1 = r = \frac{4}{3}, p_i = 2 \rho^i, \forall i \geq 2$
+\newline
+$\sum_{n=0}^\infty \rho_n = 1 + \frac{4}{3} + \frac{ 2 \rho^2 }{ 1 - \rho } = 1 + \frac{4}{3} + \frac{8}{3} = 5$
+
+\subsection*{a}
+If an arriving customer waits in line, he must seek the service window, and there must be 2 or more already in queue. This is the compliment of there be being 0 or 1 persons in queue.
+Thus the probability that he waits in line is: $\frac{4}{5} ( 1- p_0 - p_1 ) = \frac{4}{5} ( 1 - \frac{ 4}{15} - \frac{1}{5} ) = \frac{ 32}{75}$
+\subsection*{b} 
+$p_0 = \frac{ 1 }{ \sum_{n=0}^\infty \rho_n} = \frac{1}{5}$
+\subsection*{c}
+$L_q = \frac{ \rho }{ 1 - \rho } C( s,r )$ Where $C(s,r)$ is the Erlang-C formula $= \frac{ \rho }{ 1 - \rho } \frac{ r^s \frac{ s }{ s- r} }{ \sum_{j=0}^{s-1} \frac{r^j}{j!} + \frac{ r^s s }{s! (s-r)} } = \frac{ 32}{15}$
+\subsection*{d}
+If there was only one window, people would coninue to seek service with rate $\lambda = \frac{4}{15}$, however they would now be entering an M/M/1 queue with $\mu = \frac{1}{5}$ This would lead to a $\rho = \frac{4}{3} > 1$ Which has no steady-state distribution, as more people are entering than are being served. Thus reasonable service cannot be offered with only one window.
+
+
+\end{document}

@@ -1,0 +1,584 @@
+% Created 2018-03-30 Fri 20:22
+\documentclass[bigger]{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{fixltx2e}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{float}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{marvosym}
+\usepackage{wasysym}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\tolerance=1000
+\usetheme{Montpellier}
+\author{Timothy Schwieg}
+\date{\today}
+\title{The Signal and the Noise}
+\hypersetup{
+  pdfkeywords={},
+  pdfsubject={},
+  pdfcreator={Emacs 25.1.1 (Org mode 8.2.10)}}
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+\label{sec-1}
+
+\begin{frame}[label=sec-1-0-1]{Prediction}
+\begin{itemize}
+\item Separate Signal from the Noise
+\item We're Mostly bad at this. Very Bad
+\item Information Overload  Printing Press
+\item Productivity Paradox  Information Age
+\end{itemize}
+\end{frame}
+
+\section{Prediction - Where it works and where it doesn't}
+\label{sec-2}
+\subsection{The Great Recession}
+\label{sec-2-1}
+
+\begin{frame}[label=sec-2-1-1]{Rating Agencies}
+\begin{itemize}
+\item Forecasted the risk of CDOs at 0.12\%
+\item Actual Default Rate at 28\%
+\item Rating Quality had little effect on their profits
+\item Benefited almost solely from rating securities
+\item Simulated under assumptions and missed risk they were taking
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}[label=sec-2-1-2]{Risk and Uncertainty}
+\begin{itemize}
+\item Depending on the Dependence structure of the underlying assets,
+bundled securities can be much less or more risky than under
+assumptions such as independence.
+\item The Nature of the dependence is not known - Knightian Uncertainty
+\item Rating agencies claimed this uncertainty was risk - Moody's
+increased their estimate of default by 50\%. Which did nothing to
+mollify.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-1-3]{Prediction in the Housing Bubble}
+\begin{itemize}
+\item Homeowners assumed the prices would continue to rise -ignoring the
+bubble
+\item Banks and rating agencies did not understand the system risk present
+\item Economists did not understand how the leveraged bank sector was tied
+to the housing market
+\item Policy makers were overconfident in the rate of Recovery of the
+Economy - basing it falsely on recessions instead of financial
+crises.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-1-4]{Understanding Your Sample}
+\begin{itemize}
+\item Should you Drunk Drive or Call Uber?
+\item Can we trust Rating Agencies to know how to rate new assets?
+\item You should always use your sample to avoid false confidence
+\end{itemize}
+\end{frame}
+
+\subsection{Political Predictions}
+\label{sec-2-2}
+
+\begin{frame}[label=sec-2-2-1]{McLaughlin Show}
+\begin{itemize}
+\item Predictions occur at the final part of the episode
+\item Regardless of Political Affiliation, no guess is any better than 50\%
+\item However the Predictions are structured with 75z\% of them being
+completely false or Completely true
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-2-2]{Political Scientists}
+\begin{itemize}
+\item Almost nobody correctly predicted the Collapse of the Soviet Union
+\item Required piecing together structural problems with Soviet union and
+Gorbachev's motivations for reform.
+\item Poor estimates of Soviet GDP and its decline
+\item However this isn't unique to the Soviet Union - most political
+scientists are terrible at predicting anything.
+\item In fact, the ones that speak to the media do worse than ones that don't
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-2-3]{Foxes vs Hedgehogs}
+\begin{itemize}
+\item "The Fox knows many little things, but the hedgehog knows one big
+thing." - Archilochus
+\item Hedgehogs - Big ideas that govern all motion around us. Think Karl
+Marx
+\item Foxes - little ideas explain a little of an issue, but many of them
+combine to explain the picture. Usually multidisciplinary, cautious
+and empirical, as well as tolerant of complexity.
+\item Hedgehogs however make much better television guests, and receive
+the lion's share of publicity despite being worse at predictions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-2-4]{Lessons from Hedgehogs}
+\begin{itemize}
+\item Hedgehogs get worse at predicting as they get more experience
+\item They are letting their biases take over their prediction
+\item This occurs with television pundits and partisanship.
+\item Don't construct narratives, these become less like reality the more
+information you get, and become worse predictors.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-2-5]{How to Apply this to Prediction}
+\begin{itemize}
+\item Think Probabilistically ( Bayesian v Frequentist )
+\item Keep making forecasts and don't let the past affect today's prediction
+\item Consensus is a good sign, but not always
+\item There is no single data point that is sufficient for a complex
+system.
+\item Weigh Quantitative and Qualitative data together - Cook Political
+Report.
+\end{itemize}
+\end{frame}
+
+\subsection{Baseball}
+\label{sec-2-3}
+
+\begin{frame}[label=sec-2-3-1]{What makes baseball so easy to predict}
+\begin{itemize}
+\item There is a lot of good data
+\item Play is largely independent. Players responsible for their own
+statistics
+\item Relatively few problems with complexity or dynamics
+\item We understand the processes underlying the data
+\item Easy to account for unobserved heterogeneity.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-3-2]{PECOTA isn't God's gift to scouting}
+\begin{itemize}
+\item Outclassed by Professional scouting in predicting players' ability
+from minor to major league.
+\item A hybrid approach is the best predictive measure.
+\item Especially since there is interdependence between certain aspects
+(Pitchers in minor leagues aren't playing against great hitters).
+\item Bias can happen in statistical models - Billy Beane had bad
+defenses.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-3-3]{Don't Limit the Data}
+\begin{itemize}
+\item Being able to combine qualitative information is important for
+prediction
+\item Baseball scouts exist to find out this information and bring to
+attention
+\item Beware of discounting something we can't categorize easily such as
+the tool kit of Dustin Pedroia
+\end{itemize}
+\end{frame}
+
+\subsection{Weather Prediction - A Success Story}
+\label{sec-2-4}
+
+\begin{frame}[label=sec-2-4-1]{Predicting Weather}
+\begin{itemize}
+\item Laplace's Demon - If you knew the exact state of the universe and
+all the laws of motion, we could predict perfectly.
+\item While this may be false, if we know the laws of motion and know the
+states of the universe, we're going to make pretty good predictions.
+\item Weather is something that we understand the underlying motion very well.
+\item We don't however know the state of every molecule in Earth's atmosphere
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-4-2]{Predicting Weather}
+\begin{itemize}
+\item We can however, discretize space and apply equations to data
+gathered. First attempted by Lewis Richardson
+\item However there is a lot of number crunching, so computers are pretty
+much required.
+\item However, as you become more precise in the discretization of the
+atmosphere, there is a computational cost. Doubling Precision
+increases the grid by 16 times as much.
+\item However this is a dynamic system, with one dimension being time, and
+we are not very good at predicting these.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-4-3]{Chaos Theory}
+\begin{itemize}
+\item Applies to non-linear dynamic systems.
+\item Tiny changes in the initial conditions can have huge consequences in
+the outcomes, even in a completely deterministic model.
+\item This means measurement error, and human error can have huge
+consequences in the predictions.
+\item This is handled by perturbation of the initial conditions and simulation.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-4-4]{The Human Touch}
+\begin{itemize}
+\item It doesn't end there, there is still a human element to weather predictions.
+\item Humans attempt to account for mistakes that the computer may make,
+through their intuition about the machinations of the model.
+\item This is true because humans are much better still at visually
+identifying patterns and can correct for it much better than a
+computer can.
+\item This can lead to problems such as over fitting, but meteorologists
+improve predictions by about 25\%, and predictions keep improving
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-2-4-5]{Evaluating a Forecast}
+\begin{itemize}
+\item Industry competition is not always seeking a more precise forecast,
+but a more useful one.
+\item The Economist's view on the Receiver Operating Curve.
+\item This can lead to dishonest predictions that are not necessarily bad,
+they simply are responding to other objectives.
+\item Be aware of goals other than strictly reporting truth.
+\end{itemize}
+\end{frame}
+
+
+\section{Prediction - Where it really doesn't work}
+\label{sec-3}
+\subsection{Earthquakes}
+\label{sec-3-1}
+
+\begin{frame}[label=sec-3-1-1]{Not such a success story - Earthquakes}
+\begin{itemize}
+\item Officially "cannot be predicted" - Only Forecasted
+\item While we know the long-term rates at which earthquakes hit and the
+probabilities of earthquakes of different intensities, we can't
+really tell anything in the short-term.
+\item No real understanding of the mechanics that are working "under the
+hood"
+\item Data is relatively poor on anything but relatively powerful quakes
+in many places.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-1-2]{Purely Statistical Models Don't Work}
+\begin{itemize}
+\item While aftershocks may be able to be predicted, especially involving
+movement down fault lines, we would like to predict the first shock.
+\item Without theory, you will simply be finding patterns in the noise.
+\item It is impossible to identify the signal in data that is this noisy
+without knowing what it is you are looking for.
+\item This is different from weather prediction, since we understand the
+laws of motion there.
+\item It is too easy to over fit because of the noise and large amount of data.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-1-3]{Why they aren't working (and may never)}
+\begin{itemize}
+\item The Data is extremely noisy.
+\item "With four parameters I can fit an elephant, with five I can make
+him wiggle his trunk" - Von Veuman
+\item Making a model more complex often makes it worse.
+\item Non parametric fits that diverge from theory can be from over fitting
+and missing rare events
+\item Complex Process - Many simple actors combine for a very complicated process
+\end{itemize}
+\end{frame}
+
+\subsection{Economics}
+\label{sec-3-2}
+
+\begin{frame}[label=sec-3-2-1]{Economics - Not so good with the predictions}
+\begin{itemize}
+\item Economists are very bad at predicting, and often don't the
+uncertainty of their forecasts
+\item Often too overconfident - Despite there being readily available
+feedback
+\item Predictions fail to be accurate or precise
+\item "Nobody has a clue" - Jan Hatzius
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-2-2]{Why do the predictions fail so badly}
+\begin{itemize}
+\item The underlying processes are both dynamic and complex
+\item Cause and effect are extremely hard to determine
+\item The Data is horrible
+\item The Lucas Critique
+\item Goodhart's law - Targetting an indicator removes its predictive
+power
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-2-3]{Structural Changes}
+\begin{itemize}
+\item Since the economy is a complex dynamic system, it is changing over
+time.
+\item In particular becoming a global economy has shifted capital levels
+\item Baby boomers retiring, declining middle class and increased debt
+have all altered the way the American Economy works.
+\item Much of the recent growth during The Great Moderation was
+debt-fueled
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-2-4]{Can these problems be handled?}
+\begin{itemize}
+\item Don't throw out data - Silver claims the fed overvalued data from
+the Great Moderation to determine their forecasts
+\item To not throw out data is to assume there is no structural change
+over time, must make an assumption one way or another.
+\item How do we know when the economy has changed structurally?
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-2-5]{Why have many of the Problems been resolved in weather and not economics?}
+\begin{itemize}
+\item There is no hard science to turn back to.
+\item The structural approach which attempts this still has to make many
+unrealistic assumptions
+\item The system is far more complex
+\item Agents are all individually making decisions.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-2-6]{Computers don't help}
+\begin{itemize}
+\item They just give you faster and bigger ways to mistake the signal for
+the noise.
+\item Models need to be about the economics going on behind the scenes,
+not the data that is produced by the economics.
+\item Stories about data are still just made by hedgehogs, and are
+unlikely to be anything but over fitting noise.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-2-7]{Incentives}
+\begin{itemize}
+\item Forecasters who do not have their names attached to forecasts
+usually do better
+\item They aren't trying to make a name for themselves or trying to stay
+conservative to damage established reputation.
+\item Market for predictions or changing how we consume forecasts?
+\end{itemize}
+\end{frame}
+
+\subsection{The Flu}
+\label{sec-3-3}
+\begin{frame}[label=sec-3-3-1]{Predictions can influence behavior}
+\begin{itemize}
+\item Predictions can undermine themselves - GPS diverts all traffic and
+creates a bigger jam
+\item Economic Predictors of recessions make actually cause them
+\item Flu predictions can increase vaccinations and reduce flu damage
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-3-3-2]{A Solution to Complex Systems?}
+\begin{itemize}
+\item When systems are complex because of actors - they can be simulated
+\item However these simulations need all the actions of the actors
+predicted, often by models that are unreliable.
+\item Worse they can come from psychology, or just be made up by the
+creators.
+\item For now have relatively little predictive power and are very hard to
+test
+\end{itemize}
+\end{frame}
+
+\section{Predicting Better}
+\label{sec-4}
+\subsection{Thinking Bayesian}
+\label{sec-4-1}
+\begin{frame}[label=sec-4-1-1]{False Positives}
+\begin{itemize}
+\item Bayes theorem tells us that if the underlying probability of
+something is very low then false positives can dominate the results.
+\item Tests that are 95\% accurate for rare diseases can only be 10-30\%
+sure that you have the disease.
+\item Research is especially affected by this because of the bias for
+results and the "publish or die" mentality.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-4-1-2]{Fisherian vs Bayesians}
+\begin{itemize}
+\item Frequentists take a strong stance on the structure of the problem
+\item This eliminates the prior, but also eliminates sources of error
+besides the sampling error
+\item Requires a sample and many other assumptions that give it
+computational tractability at the cost of rigidity.
+\item Since the prior is eliminated it eliminates context which takes the
+form of a Bayesian Prior.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-4-1-3]{Gambling}
+\begin{itemize}
+\item Bob Voulgaris - Bayesian approach to betting - everything is looked
+at in the context of probabilities.
+\item No notion of statistical significance, so there is no arbitrary
+cutoff levels at 95\%.
+\item When rewards are occurring at the margin, as is the case in almost
+all competitive predictive markets, this is the approach that is
+needed.
+\item Hypothesis are still tested and examined in the context of some
+theory, but not tested in the Null hypothesis framework.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-4-1-4]{Less structure means more work}
+\begin{itemize}
+\item Since there is much less structure placed on the model, our beliefs
+weigh stronger into the prediction.
+\item But no matter what our prior beliefs are, with enough data we should
+still see our beliefs converge.
+\item The literature is also on the path towards Bayesian approaches and
+is "converging" there.
+\end{itemize}
+\end{frame}
+
+\subsection{Computers - Where they are useful and where they are not}
+\label{sec-4-2}
+
+\begin{frame}[label=sec-4-2-1]{Understand the underlying processes}
+\begin{itemize}
+\item Computers have drastically helped weather prediction, where we
+understand the fluid dynamics that explain their machinations.
+\item Relatively useless at predicting things in Economics and Earthquakes
+where we don't understand the underlying process.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-4-2-2]{Computers work better with good data}
+\begin{itemize}
+\item Computers are very likely to mistake the signal for the noise
+\item They lack the sight to see the big picture, and compensate by brute
+force and look-ahead algorithms with pruning.
+\item However they are still victims of the assumptions that their
+programmers have put on them.
+\end{itemize}
+\end{frame}
+
+\subsection{Poker}
+\label{sec-4-3}
+
+\begin{frame}[label=sec-4-3-1]{Poker}
+\begin{itemize}
+\item Pareto Principle - Diminishing returns to skill in poker
+\item Very noisy output - randomness plays a large role in returns
+\item Feeding on overconfidence of the fish.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-4-3-2]{Tilting}
+\begin{itemize}
+\item Tilting results from the fact that skill matters, but the game is
+still extremely noisy, and this can effect how we play.
+\item In all things avoid entitlement tilting - thinking that because you
+acted optimally, that you deserved to win.
+\item Don't be seduced by noisy positive results meaning that you are
+doing better
+\item Cannot evaluate predictions in noisy areas solely by right and
+wrong, have to evaluate the process.
+\end{itemize}
+\end{frame}
+
+\subsection{Group Forecasts}
+\label{sec-4-4}
+
+\begin{frame}[label=sec-4-4-1]{The Wisdom of Crowds}
+\begin{itemize}
+\item Aggregation is incredibly powerful in certain situations
+\item However when people are reacting to other bets made, as is the case
+in a market, the dynamics are not as simple.
+\item The aggregate is only sometimes better than the best individual prediction.
+\end{itemize}
+\end{frame}
+
+
+\section{Vaguely Political Things}
+\label{sec-5}
+
+\subsection{Climate Science}
+\label{sec-5-1}
+
+\begin{frame}[label=sec-5-1-1]{Climate Prediction}
+\begin{itemize}
+\item We understand the fundamental process that is heating the earth - The Greenhouse effect.
+\item However the primary cause for heating the earth isn't C0$_{\text{2}}$, its the
+water vapor stored in the air that becomes possible when the earth
+heats.
+\item While we understand the root cause very well, we are not very good
+at predicting temperatures.
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-5-1-2]{Problems}
+\begin{itemize}
+\item Fancy models in the time from 1995-2012 were outperformed by a
+linear regression on C0$_{\text{2}}$ only.
+\item Complex systems that are influenced by lots of noise and cyclical
+trends like El Niño rarely perform well.
+\item Scott Armstrong bet Al Gore in 2007 that temperatures would not
+increase each month over the next Decade and won.
+\item Large structural uncertainty and initial condition uncertainty.
+\item From 2001 to 2011 temperatures declined (though not by much)
+\end{itemize}
+\end{frame}
+
+\begin{frame}[label=sec-5-1-3]{A Bayessian Explanation}
+\begin{itemize}
+\item Based on some prior belief of temperatures increasing, we can look
+at how our beliefs in global warming can change with a decade of
+temperatures decreasing.
+\item The more certain you are in your prior, the more hurt you are
+going to get by being wrong.
+\item 95\% sure of Global warming updates to 85\%
+\item 99\% sure of Global warming updates to 28\%.
+\item Overconfidence in something can reduce public faith when you are
+incorrect.
+\end{itemize}
+\end{frame}
+
+\subsection{Unknown Unknowns}
+\label{sec-5-2}
+
+\begin{frame}[label=sec-5-2-1]{Uncertainty is back}
+\begin{itemize}
+\item When we are unfamiliar with a possibility, we don't even think about
+it happening.
+\item "there are also unknown unknowns \ldots{} things we do not know we don't
+know" - Donald Rumsfeld
+\item It can be very hard to sort and build theories of what we should be
+looking for when there isn't a solid theory to lean back on
+\item Failures of predicting 9/11 and Pearl Harbor.
+\end{itemize}
+\end{frame}
+
+\section{Conclusions}
+\label{sec-6}
+
+\subsection{Conclusion}
+\label{sec-6-1}
+
+\begin{frame}[label=sec-6-1-1]{In Summary}
+\begin{itemize}
+\item Try to understand the theory underlying a process
+\item Think probabilistically and Bayesian
+\item Stay simple, but don't make so many assumptions that you lose
+predictive power
+\item Keep your incentives on getting predictions right, and do not trust
+those without the same incentives.
+\end{itemize}
+\end{frame}
+% Emacs 25.1.1 (Org mode 8.2.10)
+\end{document}

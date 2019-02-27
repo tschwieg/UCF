@@ -1,0 +1,74 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: paper.aux
+The style file: chicago.bst
+Database file #1: biblio.bib
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--to sort, need author or key in Liquidpedia
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--to sort, need author or key in SteamMarket
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--empty year in Liquidpedia
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--empty year in SteamMarket
+Warning--no journal in Efficiency
+Warning--no number and no volume in Efficiency
+Warning--page numbers missing in Efficiency
+Warning--no number and no volume in NonParIdent
+Warning--page numbers missing in NonParIdent
+Warning--no number and no volume in ForwardDiff
+Warning--page numbers missing in ForwardDiff
+You've used 10 entries,
+            2861 wiz_defined-function locations,
+            671 strings with 6224 characters,
+and the built_in function-call counts, 5698 in all, are:
+= -- 489
+> -- 373
+< -- 0
++ -- 110
+- -- 132
+* -- 475
+:= -- 1017
+add.period$ -- 29
+call.type$ -- 10
+change.case$ -- 66
+chr.to.int$ -- 10
+cite$ -- 45
+duplicate$ -- 156
+empty$ -- 363
+format.name$ -- 152
+if$ -- 1052
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 5
+newline$ -- 52
+num.names$ -- 80
+pop$ -- 56
+preamble$ -- 1
+purify$ -- 126
+quote$ -- 0
+skip$ -- 170
+stack$ -- 0
+substring$ -- 252
+swap$ -- 47
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 200
+warning$ -- 27
+while$ -- 74
+width$ -- 0
+write$ -- 128
+(There were 27 warnings)

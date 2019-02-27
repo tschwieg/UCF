@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k+kn}{library}\PYG{p}{(}ggplot2\PYG{p}{)}
+dataHorse \PYG{o}{\PYGZlt{}\PYGZhy{}} read.table\PYG{p}{(}\PYG{l+s}{\PYGZdq{}PrussianArmy.dat\PYGZdq{}}\PYG{p}{,} header\PYG{o}{=}\PYG{k+kc}{FALSE} \PYG{p}{)}
+
+dataHorse \PYG{o}{\PYGZlt{}\PYGZhy{}} dataHorse\PYG{p}{[}\PYG{k+kp}{order}\PYG{p}{(} dataHorse\PYG{o}{\PYGZdl{}}V2 \PYG{p}{),]}
+
+\PYG{k+kp}{names}\PYG{p}{(}dataHorse\PYG{p}{)} \PYG{o}{\PYGZlt{}\PYGZhy{}} \PYG{k+kt}{c}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Year\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Corps\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}V3\PYGZdq{}} \PYG{p}{)}
+
+simpleGLM \PYG{o}{\PYGZlt{}\PYGZhy{}} glm\PYG{p}{(} formula\PYG{o}{=} V3 \PYG{o}{\PYGZti{}} \PYG{l+m}{1}\PYG{p}{,} family\PYG{o}{=}poisson\PYG{p}{,} data\PYG{o}{=}dataHorse \PYG{p}{)}
+
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{k+kp}{summary}\PYG{p}{(} simpleGLM \PYG{p}{)} \PYG{p}{)}
+
+\PYG{k+kp}{print}\PYG{p}{(} \PYG{k+kp}{exp}\PYG{p}{(}simpleGLM\PYG{o}{\PYGZdl{}}coefficients\PYG{p}{[}\PYG{l+m}{1}\PYG{p}{]} \PYG{p}{)} \PYG{p}{)}
+\end{Verbatim}

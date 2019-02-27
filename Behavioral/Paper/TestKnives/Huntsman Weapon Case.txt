@@ -1,0 +1,22 @@
+Bayonet_Vanilla,0.00037142857142857143
+Gut Knife_Vanilla,0.00037142857142857143
+Flip Knife_Vanilla,0.00037142857142857143
+M9 Bayonet_Vanilla,0.00037142857142857143
+Karambit_Vanilla,0.00037142857142857143
+Huntsman Knife_Vanilla,0.00037142857142857143
+Bowie Knife_Vanilla,0.00037142857142857143
+M4A4 | Desert-Strike,0.0032
+AK-47 | Vulcan,0.0032
+USP-S | Caiman,0.016
+SCAR-20 | Cyrex,0.0799
+M4A1-S | Atomic Alloy,0.3996
+MAC-10 | Tatter,0.3996
+XM1014 | Heaven Guard,0.3996
+PP-Bizon | Antique,0.3996
+AUG | Torque,0.3996
+P2000 | Pulse,0.3996
+P90 | Module,0.3996
+CZ75-Auto | Twist,0.3996
+Galil AR | Kami,0.3996
+SSG 08 | Slashed,0.3996
+Tec-9 | Isaac,0.3996

@@ -1,0 +1,22 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+AK-47 | Fuel Injector,0.0032
+M4A4 | The Battlestar,0.0032
+AWP | Elite Build,0.016
+Desert Eagle | Kumicho Dragon,0.0799
+Nova | Hyper Beast,0.0799
+FAMAS | Valence,0.3996
+Five-SeveN | Triumvirate,0.3996
+Glock-18 | Royal Legion,0.3996
+MAG-7 | Praetorian,0.3996
+MP7 | Impire,0.3996
+PP-Bizon | Photic Zone,0.3996
+Dual Berettas | Cartel,0.3996
+MAC-10 | Lapis Gator,0.3996
+SSG 08 | Necropos,0.3996
+Tec-9 | Jambiya,0.3996
+USP-S | Lead Conduit,0.3996

@@ -1,0 +1,23 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+FAMAS | Roll Cage,0.0032
+AK-47 | Neon Revolution,0.0032
+Tec-9 | Fuel Injector,0.016
+MP9 | Airlock,0.0799
+AUG | Syd Mead,0.0799
+SG 553 | Triarch,0.3996
+SCAR-20 | Powercore,0.3996
+MAG-7 | Petroglyph,0.3996
+Glock-18 | Weasel,0.3996
+Desert Eagle | Directive,0.3996
+XM1014 | Slipstream,0.3996
+UMP-45 | Briefing,0.3996
+P90 | Grim,0.3996
+Negev | Dazzle,0.3996
+G3SG1 | Ventilator,0.3996
+Five-SeveN | Scumbria,0.3996
+CZ75-Auto | Imprint,0.3996

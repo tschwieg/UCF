@@ -1,0 +1,1117 @@
+               _
+   _       _ _(_)_     |  A fresh approach to technical computing
+  (_)     | (_) (_)    |  Documentation: https://docs.julialang.org
+   _ _   _| |_  __ _   |  Type "?help" for help.
+  | | | | | | |/ _' |  |
+  | | |_| | | | |_| |  |  Version 0.6.3-pre.0 (2017-12-18 07:11 UTC)
+ _/ |\__'_|_|_|\__'_|  |  Commit 93168a6826 (108 days old release-0.6)
+|__/                   |  x86_64-linux-gnu
+
+WARNING: Terminal not fully functional
+julia> using DataFrames
+using ForwardDiff
+
+#First we define the CPT functions
+
+function valuation( x::Real, λ::Real, α::Real )
++    if( x < 0)
++        return -λ*(-x)^α
++    else
++        return x^α
++    end
+end
+
+function NegativeValuation( x::Real, λ::Real, α::Real)
++     @fastmath return -λ*(-x)^α
+end
+
+function PositiveValuation( x::Real, α::Real)
++     @fastmath return x^α
+end
+
+
+#Note that this is applied to the cumulative probability, not the prob
+function weights( p::Real, δ::Real)
++     @fastmath return p^δ / ( p^δ + ( 1. - p^δ)^δ)^(1./δ)
+end
+
+
+function smallLik( quant::Real, price::Real, censor::Real, s::Real, λ::Real, α::Real, δ::Real, lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real})
++    relVal = (price - Lottery(lotProb, posContents, negContents, λ, α, δ)) / s
++    #println( relVal)
++    @fastmath a = censor*log( sech( relVal /2.*s)*sech(relVal / 2.*s) / (4.0*s))
++    #println(a)
++    @fastmath b = (1-censor)*log( 1.0/ ( exp( -1.*relVal) + 1.))
++    #println(b)
++    return quant*( a + b )
+end
+
+function Lottery( lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real}, λ::Real, α::Real, δ::Real )
++    l = length(lotProb)
++    transformedProb = Vector{Real}(l)
++    transformedProb[end] = weights( lotProb[end], δ)
++    for i in 1:(l-1)
++         transformedProb[l-i] = weights( lotProb[l-i], δ)
++         transformedProb[l-i+1] -= weights( lotProb[l-i], δ)
++    end
++    count = 1
++    trueVal = 0
++     for i in 1:length(negContents)
++         trueVal += NegativeValuation( negContents[i], λ, α)*transformedProb[count]
++         count += 1
++    end
++     for i in 1:length(posContents)
++         trueVal += PositiveValuation( posContents[i], α)*transformedProb[count]
++         count += 1
++    end
++    return trueVal
+end
+
+function ReadFile( filename )
++     #filename = "Huntsman Weapon Case.csv"
++    frame = readtable( filename)
++    
++    #size(frame)
+
++    numContents = convert(Int64, (size(frame)[2] - 3) / 2)
++    nDataPoints = size(frame)[1]
+
++    lotProbs = Matrix{Real}(nDataPoints,numContents)
++    negContents = Vector{Vector{Real}}(nDataPoints)
++    posContents = Vector{Vector{Real}}(nDataPoints)
++    quantityLot = Vector{Real}(nDataPoints)
++    priceLot = Vector{Real}(nDataPoints)
++    censorLot = Vector{Real}(nDataPoints)
++    
+
++    for i in 1:nDataPoints
++        priceLot[i] = frame[i,1]
++        quantityLot[i] = frame[i,2]
++        censorLot[i] = frame[i,3]
++        #The order we want:
++        j = 1:numContents
++        order = sortperm( convert( Matrix{Real}, frame[i,2*j+2])[1,:])
+
++        lotProbs[i,:] = convert( Matrix{Real}, frame[i,2*order+3])[1,:]
++        for j in 2:numContents
++            lotProbs[i,j] += lotProbs[i,j-1]
++        end
++        
++        values = convert( Matrix{Real}, frame[i,2*order+2])[1,:] .- priceLot[i] .- priceKey
+
++        negContents[i] = Vector{Real}()
++        posContents[i] = Vector{Real}()
++        for j in 1:numContents
++            if( values[j] < 0)
++                push!( negContents[i], values[j])
++            else
++                push!( posContents[i], values[j])
++            end
++        end        
++    end
+
++    return [nDataPoints,lotProbs,negContents,posContents,quantityLot,priceLot,censorLot] 
++    
+end
+
+function MaximumLiklihoodEstimate()
++    
++    DataPoints, lotProbs, negContents, posContents, quantityLot, priceLot, censorLot  = ReadFile( "../Data/Huntsman Weapon Case.csv")
+
++    # s,λ,α,δ
++    #Exponentiate each of these functions so they are strictly positive
++    f(x) = sum( smallLik( quantityLot[i], priceLo[i], censorLot[i], exp(x[1]), expx([2]), expx([3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:DataPoints )
+
++    g( x) = x -> ForwardDiff.gradient( f, x );
++    
++    h(x) = x-> ForwardDiff.hessian( f, x )
+
+end
+ESS
+
+julia> 
+julia> 
+julia> 
+julia> 
+julia> valuation (generic function with 1 method)
+
+julia> 
+julia> NegativeValuation (generic function with 1 method)
+
+julia> 
+julia> PositiveValuation (generic function with 1 method)
+
+julia> 
+julia> 
+julia> 
+julia> weights (generic function with 1 method)
+
+julia> 
+julia> 
+julia> smallLik (generic function with 1 method)
+
+julia> 
+julia> Lottery (generic function with 1 method)
+
+julia> 
+julia> ReadFile (generic function with 1 method)
+
+julia> 
+julia> MaximumLiklihoodEstimate (generic function with 1 method)
+
+julia> "/root/Classes/Behavioral/Paper/Scripts"
+
+julia> DataPoints, lotProbs, negContents, posContents, quantityLot, priceLot, censorLot  = ReadFile( "../Data/Huntsman Weapon Case.csv")
+ERROR: UndefVarError: priceKey not defined
+Stacktrace:
+ [1] ReadFile(::String) at ./none:31
+
+julia> using DataFrames
+using ForwardDiff
+
+#First we define the CPT functions
+
+function valuation( x::Real, λ::Real, α::Real )
++    if( x < 0)
++        return -λ*(-x)^α
++    else
++        return x^α
++    end
+end
+
+function NegativeValuation( x::Real, λ::Real, α::Real)
++     @fastmath return -λ*(-x)^α
+end
+
+function PositiveValuation( x::Real, α::Real)
++     @fastmath return x^α
+end
+
+
+#Note that this is applied to the cumulative probability, not the prob
+function weights( p::Real, δ::Real)
++     @fastmath return p^δ / ( p^δ + ( 1. - p^δ)^δ)^(1./δ)
+end
+
+
+function smallLik( quant::Real, price::Real, censor::Real, s::Real, λ::Real, α::Real, δ::Real, lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real})
++    relVal = (price - Lottery(lotProb, posContents, negContents, λ, α, δ)) / s
++    #println( relVal)
++    @fastmath a = censor*log( sech( relVal /2.*s)*sech(relVal / 2.*s) / (4.0*s))
++    #println(a)
++    @fastmath b = (1-censor)*log( 1.0/ ( exp( -1.*relVal) + 1.))
++    #println(b)
++    return quant*( a + b )
+end
+
+function Lottery( lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real}, λ::Real, α::Real, δ::Real )
++    l = length(lotProb)
++    transformedProb = Vector{Real}(l)
++    transformedProb[end] = weights( lotProb[end], δ)
++    for i in 1:(l-1)
++         transformedProb[l-i] = weights( lotProb[l-i], δ)
++         transformedProb[l-i+1] -= weights( lotProb[l-i], δ)
++    end
++    count = 1
++    trueVal = 0
++     for i in 1:length(negContents)
++         trueVal += NegativeValuation( negContents[i], λ, α)*transformedProb[count]
++         count += 1
++    end
++     for i in 1:length(posContents)
++         trueVal += PositiveValuation( posContents[i], α)*transformedProb[count]
++         count += 1
++    end
++    return trueVal
+end
+
+function ReadFile( filename )
++     #filename = "Huntsman Weapon Case.csv"
++    frame = readtable( filename)
++    
++    #size(frame)
+
++    numContents = convert(Int64, (size(frame)[2] - 3) / 2)
++    nDataPoints = size(frame)[1]
+
++    lotProbs = Matrix{Real}(nDataPoints,numContents)
++    negContents = Vector{Vector{Real}}(nDataPoints)
++    posContents = Vector{Vector{Real}}(nDataPoints)
++    quantityLot = Vector{Real}(nDataPoints)
++    priceLot = Vector{Real}(nDataPoints)
++    censorLot = Vector{Real}(nDataPoints)
++    
++    priceKey = 2.50
++    
++    for i in 1:nDataPoints
++        priceLot[i] = frame[i,1]
++        quantityLot[i] = frame[i,2]
++        censorLot[i] = frame[i,3]
++        #The order we want:
++        j = 1:numContents
++        order = sortperm( convert( Matrix{Real}, frame[i,2*j+2])[1,:])
+
++        lotProbs[i,:] = convert( Matrix{Real}, frame[i,2*order+3])[1,:]
++        for j in 2:numContents
++            lotProbs[i,j] += lotProbs[i,j-1]
++        end
++        
++        values = convert( Matrix{Real}, frame[i,2*order+2])[1,:] .- priceLot[i] .- priceKey
+
++        negContents[i] = Vector{Real}()
++        posContents[i] = Vector{Real}()
++        for j in 1:numContents
++            if( values[j] < 0)
++                push!( negContents[i], values[j])
++            else
++                push!( posContents[i], values[j])
++            end
++        end        
++    end
+
++    return [nDataPoints,lotProbs,negContents,posContents,quantityLot,priceLot,censorLot] 
++    
+end
+
+function MaximumLiklihoodEstimate()
++    
++    DataPoints, lotProbs, negContents, posContents, quantityLot, priceLot, censorLot  = ReadFile( "../Data/Huntsman Weapon Case.csv")
+
++    # s,λ,α,δ
++    #Exponentiate each of these functions so they are strictly positive
++    f(x) = sum( smallLik( quantityLot[i], priceLo[i], censorLot[i], exp(x[1]), expx([2]), expx([3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:DataPoints )
+
++    g( x) = x -> ForwardDiff.gradient( f, x );
++    
++    h(x) = x-> ForwardDiff.hessian( f, x )
+
+end
+
+julia> 
+julia> 
+julia> 
+julia> 
+julia> valuation (generic function with 1 method)
+
+julia> 
+julia> NegativeValuation (generic function with 1 method)
+
+julia> 
+julia> PositiveValuation (generic function with 1 method)
+
+julia> 
+julia> 
+julia> 
+julia> weights (generic function with 1 method)
+
+julia> 
+julia> 
+julia> smallLik (generic function with 1 method)
+
+julia> 
+julia> Lottery (generic function with 1 method)
+
+julia> 
+julia> ReadFile (generic function with 1 method)
+
+julia> 
+julia> MaximumLiklihoodEstimate (generic function with 1 method)
+
+julia> DataPoints, lotProbs, negContents, posContents, quantityLot, priceLot, censorLot  = ReadFile( "../Data/Huntsman Weapon Case.csv")
+7-element Array{Any,1}:
+ 718                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+    Real[0.0329419 0.0635779 … 0.997102 0.9974; 0.0329419 0.0635779 … 0.997102 0.9974; … ; 0.030636 0.0635779 … 0.997102 0.9974; 0.030636 0.0635779 … 0.997102 0.9974]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    Array{Real,1}[Real[-3.198, -3.169, -3.156, -3.142, -3.103, -3.102, -3.087, -3.071, -3.067, -3.067  …  -2.066, -1.886, -1.778, -1.691, -1.469, -1.458, -0.701, -0.658, -0.281, -0.249], Real[-3.174, -3.173, -3.131, -3.102, -3.081, -3.077, -3.075, -3.062, -3.04, -3.036  …  -1.849, -1.753, -1.706, -1.666, -1.516, -0.796, -0.676, -0.547, -0.224, -0.086], Real[-3.182, -3.167, -3.143, -3.109, -3.091, -3.087, -3.084, -3.069, -3.06, -3.053  …  -2.062, -2.053, -1.765, -1.703, -1.528, -1.392, -0.688, -0.518, -0.27, -0.098], Real[-3.168, -3.164, -3.156, -3.128, -3.124, -3.103, -3.099, -3.094, -3.087, -3.041  …  -2.114, -2.07, -2.061, -1.773, -1.669, -1.536, -1.339, -0.75, -0.696, -0.219], Real[-3.222, -3.204, -3.16, -3.132, -3.123, -3.089, -3.082, -3.076, -3.074, -3.066  …  -2.118, -2.065, -1.98, -1.777, -1.673, -1.358, -1.355, -0.854, -0.7, -0.233], Real[-3.191, -3.187, -3.171, -3.144, -3.116, -3.099, -3.08, -3.066, -3.054, -3.041  …  -2.102, -2.049, -1.846, -1.761, -1.657, -1.534, -1.342, -0.724, -0.684, -0.217], Real[-3.209, -3.205, -3.177, -3.162, -3.159, -3.098, -3.085, -3.078, -3.075, -3.074  …  -1.864, -1.779, -1.659, -1.552, -1.309, -0.726, -0.702, -0.622, -0.235, -0.078], Real[-3.217, -3.213, -3.198, -3.167, -3.115, -3.106, -3.093, -3.091, -3.078, -3.07  …  -2.075, -1.9, -1.872, -1.787, -1.37, -1.317, -0.864, -0.71, -0.63, -0.243], Real[-3.24, -3.234, -3.219, -3.188, -3.161, -3.146, -3.141, -3.112, -3.109, -3.099  …  -1.921, -1.893, -1.808, -1.391, -1.338, -0.949, -0.731, -0.651, -0.166, -0.019], Real[-3.248, -3.233, -3.223, -3.187, -3.16, -3.145, -3.14, -3.14, -3.111, -3.102  …  -2.095, -2.075, -1.92, -1.823, -1.807, -1.337, -0.876, -0.73, -0.165, -0.018]  …  Real[-3.106, -3.091, -3.038, -3.037, -3.035, -3.014, -3.011, -3.006, -3.001, -2.989  …  -1.795, -1.717, -1.073, -0.973, -0.635, -0.509, -0.171, -0.124, -0.105, -0.082], Real[-3.091, -3.081, -3.075, -3.012, -3.008, -2.999, -2.996, -2.991, -2.986, -2.968  …  -1.918, -1.784, -1.702, -1.035, -0.958, -0.62, -0.568, -0.366, -0.273, -0.18], Real[-3.105, -3.095, -3.08, -3.04, -3.02, -3.003, -2.993, -2.99, -2.977, -2.97  …  -1.96, -1.922, -1.706, -1.506, -1.02, -0.948, -0.624, -0.572, -0.37, -0.281], Real[-3.089, -3.085, -3.079, -3.054, -3.02, -3.014, -2.997, -2.995, -2.984, -2.982  …  -1.7, -1.5, -0.977, -0.942, -0.618, -0.566, -0.565, -0.277, -0.274, -0.194], Real[-3.098, -3.097, -3.091, -3.022, -3.022, -3.018, -3.005, -2.992, -2.988, -2.98  …  -1.924, -1.749, -1.708, -1.064, -0.95, -0.626, -0.536, -0.376, -0.372, -0.214], Real[-3.103, -3.101, -3.09, -3.042, -3.028, -3.024, -3.018, -3.011, -3.009, -2.998  …  -1.929, -1.755, -1.714, -1.084, -0.956, -0.632, -0.542, -0.437, -0.378, -0.236], Real[-3.109, -3.102, -3.101, -3.034, -3.034, -3.033, -3.024, -3.017, -3.007, -3.004  …  -1.906, -1.761, -1.72, -0.962, -0.954, -0.638, -0.608, -0.439, -0.384, -0.277], Real[-3.13, -3.119, -3.115, -3.055, -3.055, -3.054, -3.038, -3.038, -3.03, -3.025  …  -1.741, -1.551, -1.099, -0.983, -0.715, -0.659, -0.612, -0.478, -0.275, -0.066], Real[-3.128, -3.126, -3.119, -3.065, -3.064, -3.052, -3.048, -3.048, -3.047, -3.035  …  -1.782, -1.751, -1.561, -1.168, -0.993, -0.669, -0.622, -0.602, -0.452, -0.249], Real[-3.157, -3.155, -3.148, -3.094, -3.093, -3.081, -3.077, -3.077, -3.076, -3.064  …  -1.811, -1.78, -1.59, -1.197, -1.022, -0.698, -0.651, -0.631, -0.481, -0.278]]
+    Array{Real,1}[Real[0.011, 0.229, 0.361, 0.37, 0.398, 1.208, 1.601, 1.815, 2.179, 2.737, 3.658, 5.544, 7.301, 13.096, 27.364, 45.667], Real[0.036, 0.254, 0.395, 0.435, 0.527, 1.31, 1.862, 1.912, 2.494, 2.842, 6.882, 7.326, 13.416, 27.361, 43.381], Real[0.024, 0.242, 0.257, 0.383, 0.692, 0.953, 1.588, 1.9, 2.565, 2.822, 3.65, 5.619, 7.314, 13.492, 25.834, 39.631], Real[0.016, 0.077, 0.234, 0.302, 0.414, 0.945, 1.324, 1.568, 1.892, 2.66, 2.814, 3.654, 5.441, 7.306, 13.484, 25.924, 48.614], Real[0.012, 0.073, 0.215, 0.23, 0.377, 0.41, 0.61, 1.55, 1.888, 2.663, 2.81, 3.244, 5.084, 7.302, 13.48, 26.2, 48.61], Real[0.028, 0.089, 0.246, 0.27, 0.555, 0.648, 0.976, 1.524, 1.606, 1.904, 2.826, 3.26, 5.611, 7.318, 13.496, 27.488, 40.966], Real[0.01, 0.228, 0.483, 0.537, 0.701, 1.588, 1.886, 2.739, 2.808, 3.242, 5.593, 7.3, 12.317, 27.16, 40.948], Real[0.002, 0.024, 0.051, 0.22, 0.529, 0.93, 0.965, 1.878, 2.646, 2.771, 2.8, 5.585, 7.292, 13.459, 26.949, 44.09], Real[0.187, 0.199, 0.398, 0.508, 0.849, 1.557, 1.857, 2.394, 2.625, 2.779, 5.685, 7.271, 13.438, 27.145, 40.899], Real[0.024, 0.2, 0.347, 0.35, 0.45, 0.509, 1.558, 2.369, 2.626, 2.89, 3.002, 5.64, 7.272, 13.439, 27.146, 40.9]  …  Real[0.344, 0.426, 0.763, 1.286, 1.588, 1.859, 2.221, 3.589, 5.687, 10.249, 19.559, 34.479], Real[0.068, 0.168, 0.441, 0.774, 1.082, 1.603, 1.84, 2.236, 3.848, 5.702, 10.264, 18.765, 34.629], Real[0.064, 0.114, 0.368, 0.437, 0.58, 1.599, 1.946, 1.97, 2.014, 3.844, 5.698, 9.77, 18.741, 36.608], Real[0.244, 0.443, 0.726, 1.072, 1.605, 1.807, 2.02, 3.509, 5.704, 9.836, 17.806, 33.424], Real[0.16, 0.183, 0.435, 0.69, 1.056, 1.597, 1.786, 2.012, 3.501, 5.696, 10.297, 18.746, 38.305], Real[0.22, 0.429, 0.484, 0.545, 1.049, 1.591, 1.877, 2.006, 3.564, 5.69, 10.5, 18.101, 38.669], Real[0.214, 0.216, 0.423, 0.486, 0.984, 1.585, 1.897, 2.0, 4.224, 5.684, 10.973, 17.026, 33.46], Real[0.193, 0.402, 0.46, 0.943, 1.564, 1.597, 3.434, 3.434, 5.663, 10.687, 18.551, 30.335], Real[0.055, 0.183, 0.392, 0.45, 0.937, 1.554, 1.659, 3.424, 4.043, 5.653, 10.851, 17.787, 30.01], Real[0.026, 0.154, 0.363, 0.421, 0.908, 1.525, 1.63, 3.395, 3.506, 5.624, 10.822, 17.758, 29.981]]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    Real[67.0, 40.0, 68.0, 37.0, 48.0, 63.0, 38.0, 65.0, 82.0, 70.0  …  9.0, 22.0, 25.0, 27.0, 55.0, 40.0, 53.0, 40.0, 56.0, 56.0]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    Real[0.811, 0.786, 0.798, 0.806, 0.81, 0.794, 0.812, 0.82, 0.841, 0.84  …  0.711, 0.696, 0.7, 0.694, 0.702, 0.708, 0.714, 0.735, 0.745, 0.774]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    Real[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+julia> lotProbs
+718×62 Array{Real,2}:
+ 0.0329419  0.0635779  0.136838  0.167474  0.240734  0.313994  …  0.990657  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.0635779  0.136838  0.167474  0.17813   0.25139      0.990657  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.0635779  0.136838  0.167474  0.240734  0.250058     0.990657  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.0635779  0.136838  0.210098  0.219422  0.250058     0.990657  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.0635779  0.136838  0.210098  0.240734  0.250058     0.990657  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.106202   0.136838  0.210098  0.283358  0.294014  …  0.990657  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.106202   0.136838  0.210098  0.283358  0.313994     0.990657  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.106202   0.136838  0.210098  0.283358  0.313994     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.106202   0.136838  0.210098  0.240734  0.313994     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.030636   0.103896   0.136838  0.210098  0.240734  0.313994     0.992093  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ ⋮                                                   ⋮         ⋱  ⋮                                               ⋮               
+ 0.07326    0.103896   0.136838  0.167474  0.17813   0.25139      0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.106202   0.136838  0.210098  0.240734  0.313994  …  0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.07326    0.103896   0.136838  0.210098  0.240734  0.319508     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.106202   0.136838  0.215612  0.288872  0.319508     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.07326    0.103896   0.136838  0.167474  0.246248  0.256904     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.07326    0.106202   0.136838  0.215612  0.224936  0.255572     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.0329419  0.0635779  0.136838  0.215612  0.288872  0.319508  …  0.991347  0.991571  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.030636   0.0635779  0.136838  0.215612  0.246248  0.319508     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+ 0.030636   0.0635779  0.136838  0.215612  0.246248  0.319508     0.991347  0.992317  0.992541  0.9942  0.996247  0.997102  0.9974
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLo[i], censorLot[i], exp(x[1]), expx([2]), expx([3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:DataPoints )
+f (generic function with 1 method)
+
+julia> g( x) = x -> ForwardDiff.gradient( f, x );
+
+julia> h(x) = x-> ForwardDiff.hessian( f, x )
+h (generic function with 1 method)
+
+julia> f( [0,0,0,0] )
+ERROR: UndefVarError: priceLo not defined
+Stacktrace:
+ [1] (::##31#32{Array{Int64,1}})(::Int64) at ./<missing>:0
+ [2] mapfoldl(::Base.#identity, ::Function, ::Base.Generator{UnitRange{Int64},##31#32{Array{Int64,1}}}) at ./reduce.jl:71
+ [3] f(::Array{Int64,1}) at ./none:1
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), expx([2]), expx([3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:DataPoints )
+f (generic function with 1 method)
+
+julia> f( [0,0,0,0] )
+ERROR: UndefVarError: expx not defined
+Stacktrace:
+ [1] (::##37#38{Array{Int64,1}})(::Int64) at ./<missing>:0
+ [2] mapfoldl(::Base.#identity, ::Function, ::Base.Generator{UnitRange{Int64},##37#38{Array{Int64,1}}}) at ./reduce.jl:71
+ [3] f(::Array{Int64,1}) at ./none:1
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), expx([2]), exp([3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:DataPoints )
+f (generic function with 1 method)
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:DataPoints )
+f (generic function with 1 method)
+
+julia> f( [0,0,0,0] )
+-91333.46218513556
+
+julia> g( [0,0,0,0] )
+(::#33) (generic function with 1 method)
+
+julia> h( [0,0,0,0] )
+(::#35) (generic function with 1 method)
+
+julia> g
+g (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ NaN
+ NaN
+ NaN
+ NaN
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:100 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ NaN
+ NaN
+ NaN
+ NaN
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:1 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+  -67.0   
+ -175.188 
+ -172.68  
+  -33.3983
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:2 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ -107.0   
+ -278.661 
+ -273.636 
+  -52.2114
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:10 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+  -578.0  
+ -1518.15 
+ -1506.27 
+  -281.268
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:50 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ -2555.0 
+ -6778.21
+ -6759.42
+ -1237.29
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:100 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ NaN
+ NaN
+ NaN
+ NaN
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:75 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ NaN
+ NaN
+ NaN
+ NaN
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:60 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ NaN
+ NaN
+ NaN
+ NaN
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:55 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ -2852.0 
+ -7574.51
+ -7559.45
+ -1378.18
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:56 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ -2903.0 
+ -7712.37
+ -7698.79
+ -1401.91
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:57 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ NaN
+ NaN
+ NaN
+ NaN
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:56 )
+f (generic function with 1 method)
+
+julia> ForwardDiff.gradient( f, [0,0,0,0] )
+4-element Array{Float64,1}:
+ -2903.0 
+ -7712.37
+ -7698.79
+ -1401.91
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:56 )
+f (generic function with 1 method)
+
+julia> cfg10 = GradientConfig(f, x, Chunk{10}());
+
+julia> g( x) = x -> ForwardDiff.gradient( f, x,cfg10 );
+
+julia> g( [0,0,0,0] )
+(::#69) (generic function with 1 method)
+
+julia> z = [0,0,0,0]
+4-element Array{Int64,1}:
+ 0
+ 0
+ 0
+ 0
+
+julia> g(z)
+(::#69) (generic function with 1 method)
+
+julia> g( x) =  ForwardDiff.gradient( f, x,cfg10 );
+
+julia> g( z )
+ERROR: UndefVarError: cfg10 not defined
+Stacktrace:
+ [1] g(::Array{Int64,1}) at ./none:1
+
+julia> cfg10 = GradientConfig(f, x, Chunk{10}())
+ERROR: UndefVarError: GradientConfig not defined
+
+julia> cfg10 = ForwardDiff.GradientConfig(f, x, Chunk{10}())
+ERROR: UndefVarError: x not defined
+
+julia> z = [0,0,0,0]
+4-element Array{Int64,1}:
+ 0
+ 0
+ 0
+ 0
+
+julia> cfg10 = ForwardDiff.GradientConfig(f, z, Chunk{10}())
+ERROR: UndefVarError: Chunk not defined
+
+julia> cfg10 = ForwardDiff.GradientConfig(f, z, ForwardDiff.Chunk{10}())
+ForwardDiff.GradientConfig{ForwardDiff.Tag{#f,Int64},Int64,10,Array{ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,10},1}}((Partials(1, 0, 0, 0, 0, 0, 0, 0, 0, 0), Partials(0, 1, 0, 0, 0, 0, 0, 0, 0, 0), Partials(0, 0, 1, 0, 0, 0, 0, 0, 0, 0), Partials(0, 0, 0, 1, 0, 0, 0, 0, 0, 0), Partials(0, 0, 0, 0, 1, 0, 0, 0, 0, 0), Partials(0, 0, 0, 0, 0, 1, 0, 0, 0, 0), Partials(0, 0, 0, 0, 0, 0, 1, 0, 0, 0), Partials(0, 0, 0, 0, 0, 0, 0, 1, 0, 0), Partials(0, 0, 0, 0, 0, 0, 0, 0, 1, 0), Partials(0, 0, 0, 0, 0, 0, 0, 0, 0, 1)), ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,10}[Dual{ForwardDiff.Tag{#f,Int64}}(140083379617808,140082915846928,140082779947696,140082915846960,140082915847024,140082915847088,140082915847152,140082915847216,140082915847280,140082915847344,140082915847408), Dual{ForwardDiff.Tag{#f,Int64}}(140082779947712,140082915847472,140082779947760,140082915847568,140082915847600,140082779947808,140082779947824,140082915847696,140082779947840,140082915847728,140082779947856), Dual{ForwardDiff.Tag{#f,Int64}}(140082915847792,140082779947904,140082779947920,140082915847888,140082779947952,140082915847920,140082915847952,140082779947984,140082779948000,140082915848048,140082779948016), Dual{ForwardDiff.Tag{#f,Int64}}(140082915848080,140082779948032,140082915848112,140082779948064,140082915848176,140082779948096,140082915848304,140082779948128,140082915848336,140082779948160,140082779948176)])
+
+julia> g( x) =  ForwardDiff.gradient( f, x,cfg10 );
+
+julia> g(z)
+ERROR: AssertionError: chunk size cannot be greater than length(x) (10 > 4)
+Stacktrace:
+ [1] chunk_mode_gradient(::#f, ::Array{Int64,1}, ::ForwardDiff.GradientConfig{ForwardDiff.Tag{#f,Int64},Int64,10,Array{ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,10},1}}) at /root/.julia/v0.6/ForwardDiff/src/gradient.jl:123
+ [2] gradient(::Function, ::Array{Int64,1}, ::ForwardDiff.GradientConfig{ForwardDiff.Tag{#f,Int64},Int64,10,Array{ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,10},1}}, ::Val{true}) at /root/.julia/v0.6/ForwardDiff/src/gradient.jl:19
+ [3] gradient(::Function, ::Array{Int64,1}, ::ForwardDiff.GradientConfig{ForwardDiff.Tag{#f,Int64},Int64,10,Array{ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,10},1}}) at /root/.julia/v0.6/ForwardDiff/src/gradient.jl:15
+ [4] g(::Array{Int64,1}) at ./none:1
+
+julia> cfg10 = ForwardDiff.GradientConfig(f, z, ForwardDiff.Chunk{4}())
+ForwardDiff.GradientConfig{ForwardDiff.Tag{#f,Int64},Int64,4,Array{ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,4},1}}((Partials(1, 0, 0, 0), Partials(0, 1, 0, 0), Partials(0, 0, 1, 0), Partials(0, 0, 0, 1)), ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,4}[Dual{ForwardDiff.Tag{#f,Int64}}(140083379601904,0,140083379617816,140083379601904,0), Dual{ForwardDiff.Tag{#f,Int64}}(140083379617816,140083379601904,0,140083379617816,140083379601904), Dual{ForwardDiff.Tag{#f,Int64}}(0,140083379617816,140083379601904,0,140083379617816), Dual{ForwardDiff.Tag{#f,Int64}}(140083379601904,0,140083379617816,140083379601904,0)])
+
+julia> g(z)
+4-element Array{Float64,1}:
+ -2903.0 
+ -7712.37
+ -7698.79
+ -1401.91
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:100 )
+f (generic function with 1 method)
+
+julia> g(z0
+
+)
+ERROR: UndefVarError: z0 not defined
+
+julia> g(z)
+4-element Array{Float64,1}:
+ NaN
+ NaN
+ NaN
+ NaN
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:56 )
+f (generic function with 1 method)
+
+julia> g(z)
+4-element Array{Float64,1}:
+ -2903.0 
+ -7712.37
+ -7698.79
+ -1401.91
+
+julia> priceLot[57]
+0.85
+
+julia> quantityLot[57]
+52.0
+
+julia> censorLot[57]
+1.0
+
+julia> lotProbs[57,:]
+62-element Array{Real,1}:
+ 0.07326 
+ 0.103896
+ 0.136838
+ 0.210098
+ 0.219422
+ 0.292682
+ 0.323318
+ 0.333974
+ 0.36461 
+ 0.373934
+ ⋮       
+ 0.989432
+ 0.990401
+ 0.992061
+ 0.992317
+ 0.993976
+ 0.9942  
+ 0.996247
+ 0.997102
+ 0.9974  
+
+julia> posContents[57]
+15-element Array{Real,1}:
+  0.0  
+  0.066
+  0.238
+  0.575
+  1.09 
+  1.435
+  1.929
+  2.037
+  2.06 
+  2.272
+  6.259
+  6.501
+ 14.711
+ 27.065
+ 47.729
+
+julia> using DataFrames
+using ForwardDiff
+
+#First we define the CPT functions
+
+function valuation( x::Real, λ::Real, α::Real )
++    if( x < 0)
++        return -λ*(-x)^α
++    else
++        return x^α
++    end
+end
+
+function NegativeValuation( x::Real, λ::Real, α::Real)
++     @fastmath return -λ*(-x)^α
+end
+
+function PositiveValuation( x::Real, α::Real)
++     @fastmath return x^α
+end
+
+
+#Note that this is applied to the cumulative probability, not the prob
+function weights( p::Real, δ::Real)
++     @fastmath return p^δ / ( p^δ + ( 1. - p^δ)^δ)^(1./δ)
+end
+
+
+function smallLik( quant::Real, price::Real, censor::Real, s::Real, λ::Real, α::Real, δ::Real, lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real})
++    relVal = (price - Lottery(lotProb, posContents, negContents, λ, α, δ)) / s
++    #println( relVal)
++    @fastmath a = censor*log( sech( relVal /2.*s)*sech(relVal / 2.*s) / (4.0*s))
++    #println(a)
++    @fastmath b = (1-censor)*log( 1.0/ ( exp( -1.*relVal) + 1.))
++    #println(b)
++    return quant*( a + b )
+end
+
+function Lottery( lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real}, λ::Real, α::Real, δ::Real )
++    l = length(lotProb)
++    transformedProb = Vector{Real}(l)
++    transformedProb[end] = weights( lotProb[end], δ)
++    for i in 1:(l-1)
++         transformedProb[l-i] = weights( lotProb[l-i], δ)
++         transformedProb[l-i+1] -= weights( lotProb[l-i], δ)
++    end
++    count = 1
++    trueVal = 0
++     for i in 1:length(negContents)
++         trueVal += NegativeValuation( negContents[i], λ, α)*transformedProb[count]
++         count += 1
++    end
++     for i in 1:length(posContents)
++         trueVal += PositiveValuation( posContents[i], α)*transformedProb[count]
++         count += 1
++    end
++    return trueVal
+end
+
+function ReadFile( filename )
++     #filename = "Huntsman Weapon Case.csv"
++    frame = readtable( filename)
++    
++    #size(frame)
+
++    numContents = convert(Int64, (size(frame)[2] - 3) / 2)
++    nDataPoints = size(frame)[1]
+
++    lotProbs = Matrix{Real}(nDataPoints,numContents)
++    negContents = Vector{Vector{Real}}(nDataPoints)
++    posContents = Vector{Vector{Real}}(nDataPoints)
++    quantityLot = Vector{Real}(nDataPoints)
++    priceLot = Vector{Real}(nDataPoints)
++    censorLot = Vector{Real}(nDataPoints)
++    
++    priceKey = 2.50
++    
++    for i in 1:nDataPoints
++        priceLot[i] = frame[i,1]
++        quantityLot[i] = frame[i,2]
++        censorLot[i] = frame[i,3]
++        #The order we want:
++        j = 1:numContents
++        order = sortperm( convert( Matrix{Real}, frame[i,2*j+2])[1,:])
+
++        lotProbs[i,:] = convert( Matrix{Real}, frame[i,2*order+3])[1,:]
++        for j in 2:numContents
++            lotProbs[i,j] += lotProbs[i,j-1]
++        end
++        
++        values = convert( Matrix{Real}, frame[i,2*order+2])[1,:] .- priceLot[i] .- priceKey
+
++        negContents[i] = Vector{Real}()
++        posContents[i] = Vector{Real}()
++        for j in 1:numContents
++            if( values[j] < 0)
++                push!( negContents[i], values[j])
++            else if( values[j] == 0 )
++                push!( posContents[i], 0.01)
++            else
++                push!( posContents[i], values[j])
++            end
++        end        
++    end
+
++    return [nDataPoints,lotProbs,negContents,posContents,quantityLot,priceLot,censorLot] 
++    
+end
+
+function MaximumLiklihoodEstimate()
++    
++    DataPoints, lotProbs, negContents, posContents, quantityLot, priceLot, censorLot  = ReadFile( "../Data/Huntsman Weapon Case.csv")
+
++    # s,λ,α,δ
++    #Exponentiate each of these functions so they are strictly positive
++    f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:56 )
+
++    z = [0,0,0,0]
++    
++    cfg10 = ForwardDiff.GradientConfig(f, z, ForwardDiff.Chunk{4}())
++    
++    g( x) =  ForwardDiff.gradient( f, x,cfg10 );
++    
++    h(x) = x-> ForwardDiff.hessian( f, x )
+
+end
+
+julia> 
+julia> 
+julia> 
+julia> 
+julia> valuation (generic function with 1 method)
+
+julia> 
+julia> NegativeValuation (generic function with 1 method)
+
+julia> 
+julia> PositiveValuation (generic function with 1 method)
+
+julia> 
+julia> 
+julia> 
+julia> weights (generic function with 1 method)
+
+julia> 
+julia> 
+julia> smallLik (generic function with 1 method)
+
+julia> 
+julia> Lottery (generic function with 1 method)
+
+julia> 
+julia> ERROR: syntax: use "elseif" instead of "else if"
+
+julia> ERROR: UndefVarError: i not defined
+
+julia> ERROR: syntax: unexpected "else"
+
+julia> ERROR: UndefVarError: i not defined
+
+julia> ERROR: syntax: unexpected "end"
+
+julia> ERROR: syntax: unexpected "end"
+
+julia> ERROR: syntax: unexpected "end"
+
+julia> 
+julia> ERROR: unsupported or misplaced expression return
+
+julia> 
+julia> ERROR: syntax: unexpected "end"
+
+julia> 
+julia> MaximumLiklihoodEstimate (generic function with 1 method)
+
+julia> using DataFrames
+using ForwardDiff
+
+#First we define the CPT functions
+
+function valuation( x::Real, λ::Real, α::Real )
++    if( x < 0)
++        return -λ*(-x)^α
++    else
++        return x^α
++    end
+end
+
+function NegativeValuation( x::Real, λ::Real, α::Real)
++     @fastmath return -λ*(-x)^α
+end
+
+function PositiveValuation( x::Real, α::Real)
++     @fastmath return x^α
+end
+
+
+#Note that this is applied to the cumulative probability, not the prob
+function weights( p::Real, δ::Real)
++     @fastmath return p^δ / ( p^δ + ( 1. - p^δ)^δ)^(1./δ)
+end
+
+
+function smallLik( quant::Real, price::Real, censor::Real, s::Real, λ::Real, α::Real, δ::Real, lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real})
++    relVal = (price - Lottery(lotProb, posContents, negContents, λ, α, δ)) / s
++    #println( relVal)
++    @fastmath a = censor*log( sech( relVal /2.*s)*sech(relVal / 2.*s) / (4.0*s))
++    #println(a)
++    @fastmath b = (1-censor)*log( 1.0/ ( exp( -1.*relVal) + 1.))
++    #println(b)
++    return quant*( a + b )
+end
+
+function Lottery( lotProb::Vector{Real}, posContents::Vector{Real}, negContents::Vector{Real}, λ::Real, α::Real, δ::Real )
++    l = length(lotProb)
++    transformedProb = Vector{Real}(l)
++    transformedProb[end] = weights( lotProb[end], δ)
++    for i in 1:(l-1)
++         transformedProb[l-i] = weights( lotProb[l-i], δ)
++         transformedProb[l-i+1] -= weights( lotProb[l-i], δ)
++    end
++    count = 1
++    trueVal = 0
++     for i in 1:length(negContents)
++         trueVal += NegativeValuation( negContents[i], λ, α)*transformedProb[count]
++         count += 1
++    end
++     for i in 1:length(posContents)
++         trueVal += PositiveValuation( posContents[i], α)*transformedProb[count]
++         count += 1
++    end
++    return trueVal
+end
+
+function ReadFile( filename )
++     #filename = "Huntsman Weapon Case.csv"
++    frame = readtable( filename)
++    
++    #size(frame)
+
++    numContents = convert(Int64, (size(frame)[2] - 3) / 2)
++    nDataPoints = size(frame)[1]
+
++    lotProbs = Matrix{Real}(nDataPoints,numContents)
++    negContents = Vector{Vector{Real}}(nDataPoints)
++    posContents = Vector{Vector{Real}}(nDataPoints)
++    quantityLot = Vector{Real}(nDataPoints)
++    priceLot = Vector{Real}(nDataPoints)
++    censorLot = Vector{Real}(nDataPoints)
++    
++    priceKey = 2.50
++    
++    for i in 1:nDataPoints
++        priceLot[i] = frame[i,1]
++        quantityLot[i] = frame[i,2]
++        censorLot[i] = frame[i,3]
++        #The order we want:
++        j = 1:numContents
++        order = sortperm( convert( Matrix{Real}, frame[i,2*j+2])[1,:])
+
++        lotProbs[i,:] = convert( Matrix{Real}, frame[i,2*order+3])[1,:]
++        for j in 2:numContents
++            lotProbs[i,j] += lotProbs[i,j-1]
++        end
++        
++        values = convert( Matrix{Real}, frame[i,2*order+2])[1,:] .- priceLot[i] .- priceKey
+
++        negContents[i] = Vector{Real}()
++        posContents[i] = Vector{Real}()
++        for j in 1:numContents
++            if( values[j] < 0)
++                push!( negContents[i], values[j])
++            elseif( values[j] == 0 )
++                push!( posContents[i], 0.01)
++            else
++                push!( posContents[i], values[j])
++            end
++        end        
++    end
+
++    return [nDataPoints,lotProbs,negContents,posContents,quantityLot,priceLot,censorLot] 
++    
+end
+
+function MaximumLiklihoodEstimate()
++    
++    DataPoints, lotProbs, negContents, posContents, quantityLot, priceLot, censorLot  = ReadFile( "../Data/Huntsman Weapon Case.csv")
+
++    # s,λ,α,δ
++    #Exponentiate each of these functions so they are strictly positive
++    f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:56 )
+
++    z = [0,0,0,0]
++    
++    cfg10 = ForwardDiff.GradientConfig(f, z, ForwardDiff.Chunk{4}())
++    
++    g( x) =  ForwardDiff.gradient( f, x,cfg10 );
++    
++    h(x) = x-> ForwardDiff.hessian( f, x )
+
+end
+
+julia> 
+julia> 
+julia> 
+julia> 
+julia> valuation (generic function with 1 method)
+
+julia> 
+julia> NegativeValuation (generic function with 1 method)
+
+julia> 
+julia> PositiveValuation (generic function with 1 method)
+
+julia> 
+julia> 
+julia> 
+julia> weights (generic function with 1 method)
+
+julia> 
+julia> 
+julia> smallLik (generic function with 1 method)
+
+julia> 
+julia> Lottery (generic function with 1 method)
+
+julia> 
+julia> ReadFile (generic function with 1 method)
+
+julia> 
+julia> MaximumLiklihoodEstimate (generic function with 1 method)
+
+julia> DataPoints, lotProbs, negContents, posContents, quantityLot, priceLot, censorLot  = ReadFile( "../Data/Huntsman Weapon Case.csv")
+7-element Array{Any,1}:
+ 718                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
+    Real[0.0329419 0.0635779 … 0.997102 0.9974; 0.0329419 0.0635779 … 0.997102 0.9974; … ; 0.030636 0.0635779 … 0.997102 0.9974; 0.030636 0.0635779 … 0.997102 0.9974]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
+    Array{Real,1}[Real[-3.198, -3.169, -3.156, -3.142, -3.103, -3.102, -3.087, -3.071, -3.067, -3.067  …  -2.066, -1.886, -1.778, -1.691, -1.469, -1.458, -0.701, -0.658, -0.281, -0.249], Real[-3.174, -3.173, -3.131, -3.102, -3.081, -3.077, -3.075, -3.062, -3.04, -3.036  …  -1.849, -1.753, -1.706, -1.666, -1.516, -0.796, -0.676, -0.547, -0.224, -0.086], Real[-3.182, -3.167, -3.143, -3.109, -3.091, -3.087, -3.084, -3.069, -3.06, -3.053  …  -2.062, -2.053, -1.765, -1.703, -1.528, -1.392, -0.688, -0.518, -0.27, -0.098], Real[-3.168, -3.164, -3.156, -3.128, -3.124, -3.103, -3.099, -3.094, -3.087, -3.041  …  -2.114, -2.07, -2.061, -1.773, -1.669, -1.536, -1.339, -0.75, -0.696, -0.219], Real[-3.222, -3.204, -3.16, -3.132, -3.123, -3.089, -3.082, -3.076, -3.074, -3.066  …  -2.118, -2.065, -1.98, -1.777, -1.673, -1.358, -1.355, -0.854, -0.7, -0.233], Real[-3.191, -3.187, -3.171, -3.144, -3.116, -3.099, -3.08, -3.066, -3.054, -3.041  …  -2.102, -2.049, -1.846, -1.761, -1.657, -1.534, -1.342, -0.724, -0.684, -0.217], Real[-3.209, -3.205, -3.177, -3.162, -3.159, -3.098, -3.085, -3.078, -3.075, -3.074  …  -1.864, -1.779, -1.659, -1.552, -1.309, -0.726, -0.702, -0.622, -0.235, -0.078], Real[-3.217, -3.213, -3.198, -3.167, -3.115, -3.106, -3.093, -3.091, -3.078, -3.07  …  -2.075, -1.9, -1.872, -1.787, -1.37, -1.317, -0.864, -0.71, -0.63, -0.243], Real[-3.24, -3.234, -3.219, -3.188, -3.161, -3.146, -3.141, -3.112, -3.109, -3.099  …  -1.921, -1.893, -1.808, -1.391, -1.338, -0.949, -0.731, -0.651, -0.166, -0.019], Real[-3.248, -3.233, -3.223, -3.187, -3.16, -3.145, -3.14, -3.14, -3.111, -3.102  …  -2.095, -2.075, -1.92, -1.823, -1.807, -1.337, -0.876, -0.73, -0.165, -0.018]  …  Real[-3.106, -3.091, -3.038, -3.037, -3.035, -3.014, -3.011, -3.006, -3.001, -2.989  …  -1.795, -1.717, -1.073, -0.973, -0.635, -0.509, -0.171, -0.124, -0.105, -0.082], Real[-3.091, -3.081, -3.075, -3.012, -3.008, -2.999, -2.996, -2.991, -2.986, -2.968  …  -1.918, -1.784, -1.702, -1.035, -0.958, -0.62, -0.568, -0.366, -0.273, -0.18], Real[-3.105, -3.095, -3.08, -3.04, -3.02, -3.003, -2.993, -2.99, -2.977, -2.97  …  -1.96, -1.922, -1.706, -1.506, -1.02, -0.948, -0.624, -0.572, -0.37, -0.281], Real[-3.089, -3.085, -3.079, -3.054, -3.02, -3.014, -2.997, -2.995, -2.984, -2.982  …  -1.7, -1.5, -0.977, -0.942, -0.618, -0.566, -0.565, -0.277, -0.274, -0.194], Real[-3.098, -3.097, -3.091, -3.022, -3.022, -3.018, -3.005, -2.992, -2.988, -2.98  …  -1.924, -1.749, -1.708, -1.064, -0.95, -0.626, -0.536, -0.376, -0.372, -0.214], Real[-3.103, -3.101, -3.09, -3.042, -3.028, -3.024, -3.018, -3.011, -3.009, -2.998  …  -1.929, -1.755, -1.714, -1.084, -0.956, -0.632, -0.542, -0.437, -0.378, -0.236], Real[-3.109, -3.102, -3.101, -3.034, -3.034, -3.033, -3.024, -3.017, -3.007, -3.004  …  -1.906, -1.761, -1.72, -0.962, -0.954, -0.638, -0.608, -0.439, -0.384, -0.277], Real[-3.13, -3.119, -3.115, -3.055, -3.055, -3.054, -3.038, -3.038, -3.03, -3.025  …  -1.741, -1.551, -1.099, -0.983, -0.715, -0.659, -0.612, -0.478, -0.275, -0.066], Real[-3.128, -3.126, -3.119, -3.065, -3.064, -3.052, -3.048, -3.048, -3.047, -3.035  …  -1.782, -1.751, -1.561, -1.168, -0.993, -0.669, -0.622, -0.602, -0.452, -0.249], Real[-3.157, -3.155, -3.148, -3.094, -3.093, -3.081, -3.077, -3.077, -3.076, -3.064  …  -1.811, -1.78, -1.59, -1.197, -1.022, -0.698, -0.651, -0.631, -0.481, -0.278]]
+    Array{Real,1}[Real[0.011, 0.229, 0.361, 0.37, 0.398, 1.208, 1.601, 1.815, 2.179, 2.737, 3.658, 5.544, 7.301, 13.096, 27.364, 45.667], Real[0.036, 0.254, 0.395, 0.435, 0.527, 1.31, 1.862, 1.912, 2.494, 2.842, 6.882, 7.326, 13.416, 27.361, 43.381], Real[0.024, 0.242, 0.257, 0.383, 0.692, 0.953, 1.588, 1.9, 2.565, 2.822, 3.65, 5.619, 7.314, 13.492, 25.834, 39.631], Real[0.016, 0.077, 0.234, 0.302, 0.414, 0.945, 1.324, 1.568, 1.892, 2.66, 2.814, 3.654, 5.441, 7.306, 13.484, 25.924, 48.614], Real[0.012, 0.073, 0.215, 0.23, 0.377, 0.41, 0.61, 1.55, 1.888, 2.663, 2.81, 3.244, 5.084, 7.302, 13.48, 26.2, 48.61], Real[0.028, 0.089, 0.246, 0.27, 0.555, 0.648, 0.976, 1.524, 1.606, 1.904, 2.826, 3.26, 5.611, 7.318, 13.496, 27.488, 40.966], Real[0.01, 0.228, 0.483, 0.537, 0.701, 1.588, 1.886, 2.739, 2.808, 3.242, 5.593, 7.3, 12.317, 27.16, 40.948], Real[0.002, 0.024, 0.051, 0.22, 0.529, 0.93, 0.965, 1.878, 2.646, 2.771, 2.8, 5.585, 7.292, 13.459, 26.949, 44.09], Real[0.187, 0.199, 0.398, 0.508, 0.849, 1.557, 1.857, 2.394, 2.625, 2.779, 5.685, 7.271, 13.438, 27.145, 40.899], Real[0.024, 0.2, 0.347, 0.35, 0.45, 0.509, 1.558, 2.369, 2.626, 2.89, 3.002, 5.64, 7.272, 13.439, 27.146, 40.9]  …  Real[0.344, 0.426, 0.763, 1.286, 1.588, 1.859, 2.221, 3.589, 5.687, 10.249, 19.559, 34.479], Real[0.068, 0.168, 0.441, 0.774, 1.082, 1.603, 1.84, 2.236, 3.848, 5.702, 10.264, 18.765, 34.629], Real[0.064, 0.114, 0.368, 0.437, 0.58, 1.599, 1.946, 1.97, 2.014, 3.844, 5.698, 9.77, 18.741, 36.608], Real[0.244, 0.443, 0.726, 1.072, 1.605, 1.807, 2.02, 3.509, 5.704, 9.836, 17.806, 33.424], Real[0.16, 0.183, 0.435, 0.69, 1.056, 1.597, 1.786, 2.012, 3.501, 5.696, 10.297, 18.746, 38.305], Real[0.22, 0.429, 0.484, 0.545, 1.049, 1.591, 1.877, 2.006, 3.564, 5.69, 10.5, 18.101, 38.669], Real[0.214, 0.216, 0.423, 0.486, 0.984, 1.585, 1.897, 2.0, 4.224, 5.684, 10.973, 17.026, 33.46], Real[0.193, 0.402, 0.46, 0.943, 1.564, 1.597, 3.434, 3.434, 5.663, 10.687, 18.551, 30.335], Real[0.055, 0.183, 0.392, 0.45, 0.937, 1.554, 1.659, 3.424, 4.043, 5.653, 10.851, 17.787, 30.01], Real[0.026, 0.154, 0.363, 0.421, 0.908, 1.525, 1.63, 3.395, 3.506, 5.624, 10.822, 17.758, 29.981]]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    Real[67.0, 40.0, 68.0, 37.0, 48.0, 63.0, 38.0, 65.0, 82.0, 70.0  …  9.0, 22.0, 25.0, 27.0, 55.0, 40.0, 53.0, 40.0, 56.0, 56.0]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    Real[0.811, 0.786, 0.798, 0.806, 0.81, 0.794, 0.812, 0.82, 0.841, 0.84  …  0.711, 0.696, 0.7, 0.694, 0.702, 0.708, 0.714, 0.735, 0.745, 0.774]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    Real[1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0  …  1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+
+julia> f(x) = sum( smallLik( quantityLot[i], priceLot[i], censorLot[i], exp(x[1]), exp(x[2]), exp(x[3]), exp(x[4]), lotProbs[i,:], posContents[i], negContents[i] ) for i in 1:DataPoints )
+f (generic function with 1 method)
+
+julia> z = [0,0,0,0]
+4-element Array{Int64,1}:
+ 0
+ 0
+ 0
+ 0
+
+julia> cfg10 = ForwardDiff.GradientConfig(f, z, ForwardDiff.Chunk{4}())
+ForwardDiff.GradientConfig{ForwardDiff.Tag{#f,Int64},Int64,4,Array{ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,4},1}}((Partials(1, 0, 0, 0), Partials(0, 1, 0, 0), Partials(0, 0, 1, 0), Partials(0, 0, 0, 1)), ForwardDiff.Dual{ForwardDiff.Tag{#f,Int64},Int64,4}[Dual{ForwardDiff.Tag{#f,Int64}}(140082910742992,140082910743184,140082910743280,140082910743376,140082910743472), Dual{ForwardDiff.Tag{#f,Int64}}(140082910743568,140082910743856,140082910744048,140082910744144,140082910744240), Dual{ForwardDiff.Tag{#f,Int64}}(140082917556688,140082910744336,140082910744432,140082917556800,140082910744528), Dual{ForwardDiff.Tag{#f,Int64}}(140082910744624,140082917556912,140082910745008,140082910745104,0)])
+
+julia> g( x) =  ForwardDiff.gradient( f, x,cfg10 );
+
+julia> g(z)
+4-element Array{Float64,1}:
+ -25947.0
+ -67250.6
+ -66094.0
+ -12221.1
+
+julia> h(x) = x-> ForwardDiff.hessian( f, x )
+h (generic function with 1 method)
+
+julia> h(z)
+(::#101) (generic function with 1 method)
+
+julia> h(x) = ForwardDiff.hessian( f, x )
+h (generic function with 1 method)
+
+julia> h(z)
+4×4 Array{Float64,2}:
+ -2.47691e-13      -2.92211e-13       1.24345e-14      -7.43849e-14
+ -3.01981e-13  -78968.2          -82911.5           -6987.62       
+ -2.99538e-13  -82911.5              -1.3886e5     -24952.2        
+ -4.85723e-14   -6987.62         -24952.2           68540.2        
+
+julia> while( g(z) != zeros(4))
++        z -= g(z) \ h(z)
++    end
++    print( z)
+ERROR: DimensionMismatch("dimensions must match")
+Stacktrace:
+ [1] promote_shape(::Tuple{Base.OneTo{Int64},Base.OneTo{Int64}}, ::Tuple{Base.OneTo{Int64}}) at ./indices.jl:79
+ [2] promote_shape(::Tuple{Base.OneTo{Int64}}, ::Tuple{Base.OneTo{Int64},Base.OneTo{Int64}}) at ./indices.jl:75
+ [3] -(::Array{Int64,1}, ::Array{Float64,2}) at ./arraymath.jl:38
+ [4] anonymous at ./<missing>:2
+
+julia> [0, 0, 0, 0]
+julia> zeros(4)
+4-element Array{Float64,1}:
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+
+julia> z
+4-element Array{Int64,1}:
+ 0
+ 0
+ 0
+ 0
+
+julia> z = [0.,0.,0.,0.]
+4-element Array{Float64,1}:
+ 0.0
+ 0.0
+ 0.0
+ 0.0
+
+julia> while( g(z) != zeros(4))
++        z -= g(z) \ h(z)
++    end
++    print( z
+ERROR: Invalid Tag object:
+  Expected ForwardDiff.Tag{#f,Float64},
+  Observed ForwardDiff.Tag{#f,Int64}.
+Stacktrace:
+ [1] checktag(::Type{ForwardDiff.Tag{#f,Int64}}, ::#f, ::Array{Float64,1}) at /root/.julia/v0.6/ForwardDiff/src/config.jl:34
+ [2] gradient at /root/.julia/v0.6/ForwardDiff/src/gradient.jl:15 [inlined] (repeats 2 times)
+ [3] anonymous at ./<missing>:?
+
+julia> g( x) =  ForwardDiff.gradient( f, x )
+g (generic function with 1 method)
+
+julia> h(x) = ForwardDiff.hessian( f, x )
+h (generic function with 1 method)
+
+julia> while( g(z) != zeros(4))
++        z -= g(z) \ h(z)
++    end
++    print( z)
+ERROR: DimensionMismatch("dimensions must match")
+Stacktrace:
+ [1] promote_shape(::Tuple{Base.OneTo{Int64},Base.OneTo{Int64}}, ::Tuple{Base.OneTo{Int64}}) at ./indices.jl:79
+ [2] promote_shape(::Tuple{Base.OneTo{Int64}}, ::Tuple{Base.OneTo{Int64},Base.OneTo{Int64}}) at ./indices.jl:75
+ [3] -(::Array{Float64,1}, ::Array{Float64,2}) at ./arraymath.jl:38
+ [4] anonymous at ./<missing>:2
+
+julia> [0.0, 0.0, 0.0, 0.0]
+julia> g(z)
+4-element Array{Float64,1}:
+ -25947.0
+ -67250.6
+ -66094.0
+ -12221.1
+
+julia> while( g(z) != zeros(4))
++        z -=  h(z) \ g(z)
++    end
++    print( z)

@@ -1,0 +1,23 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+AK-47 | Jaguar,0.0032
+M4A4 | Bullet Rain,0.0032
+P2000 | Corticera,0.016
+AWP | Corticera,0.016
+Nova | Bloomstick,0.0799
+AUG | Bengal Tiger,0.3996
+Desert Eagle | Crimson Web,0.3996
+Glock-18 | Steel Disruption,0.3996
+MP7 | Ocean Foam,0.3996
+P90 | Virus,0.3996
+PP-Bizon | Blue Streak,0.3996
+XM1014 | Red Python,0.3996
+Negev | Bratatat,0.3996
+CZ75-Auto | Hexane,0.3996
+USP-S | Blood Tiger,0.3996
+MAC-10 | Ultraviolet,0.3996
+SSG 08 | Dark Water,0.3996

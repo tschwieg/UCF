@@ -1,0 +1,26 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+For 2 bidders the expected log is: μ + σ\PYGZhy{}0.5651821940441875
+For 3 bidders the expected log is: μ + σ8.34165182108203e\PYGZhy{}5
+For 4 bidders the expected log is: μ + σ0.29713725210369146
+For 5 bidders the expected log is: μ + σ0.49434549130791483
+For 6 bidders the expected log is: μ + σ0.6423896247956107
+For 7 bidders the expected log is: μ + σ0.7571789259906816
+For 8 bidders the expected log is: μ + σ0.850749270284867
+For 9 bidders the expected log is: μ + σ0.9321237343300537
+For 10 bidders the expected log is: μ + σ1.00080431587449
+For 11 bidders the expected log is: μ + σ1.0620915839425584
+For 12 bidders the expected log is: μ + σ1.1160021473459085
+For 13 bidders the expected log is: μ + σ1.1641088515771316
+For 14 bidders the expected log is: μ + σ1.2077112668536505
+For 15 bidders the expected log is: μ + σ1.247631121893016
+For 16 bidders the expected log is: μ + σ1.2842801475987942
+For 17 bidders the expected log is: μ + σ1.3190314948874098
+For 18 bidders the expected log is: μ + σ1.3504468323994503
+For 19 bidders the expected log is: μ + σ1.3800927527114186
+For 20 bidders the expected log is: μ + σ1.4073685163200282
+For 21 bidders the expected log is: μ + σ1.433134969861895
+For 22 bidders the expected log is: μ + σ1.457495961975927
+For 23 bidders the expected log is: μ + σ1.481240288723813
+For 24 bidders the expected log is: μ + σ1.5033920081019774
+For 25 bidders the expected log is: μ + σ1.5246623605781733
+\end{Verbatim}

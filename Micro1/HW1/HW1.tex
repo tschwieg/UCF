@@ -1,0 +1,166 @@
+\documentclass[10pt, letterpaper]{paper}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{cancel}
+
+\title{ Micro Theory 1 Problem Set 1}
+\author{ Timothy Schwieg }
+\date{ September 28 2017 }
+
+\begin{document}
+
+\maketitle
+
+\section*{ Question 1. }
+Note: $Y \sim Z$. This implies: $Y \succeq Z$and $Y \preceq Z$. We can see plainly that: $X \succ Y \succeq Z$.
+Since $X \succ Y, X \succeq Y$, and Y is $\cancel{\succeq} X$. We can clearly see from this that: $X \succeq Y \succeq Z$ and $X \succeq Z$. By definition of a preference relation being transitive.
+As Y is $\cancel{\succeq} X$ and $Y \succeq Z$, transitivity implies: Z is $\cancel{ \succeq} X$. Thus: $X \succ Z$.
+
+\section*{Question 2.}
+\subsection*{a.}
+This problem can be expressed as: Max u( B,L) subject to: tB + L + W = 24 and pB + rL = wW
+\newline
+Noting: $W = \frac{ pB + rL }{w}$ The constraint becomes: $tB + L + \frac{ pB + rL }{w} - 24 = 0$
+\newline
+This simplifies to: $(t + \frac{p}{w} )B + ( 1 + \frac{r}{w} )L - 24 = 0$
+\newline
+Thus we can take the Lagrangian of the problem.
+\newline
+$\mathscr{L}_B = \alpha B^{\alpha - 1} L^{1-\alpha} + \lambda( t + \frac{p}{w} ) = 0 $
+\newline
+$\mathscr{L}_L = (1-\alpha) B^{\alpha } L^{-\alpha} + \lambda( 1 + \frac{r}{w} ) = 0 $
+\newline
+$\mathscr{L}_\lambda = (t + \frac{p}{w} )B + ( 1 + \frac{r}{w} )L - 24 = 0$
+\newline
+Thus: $\alpha B^{\alpha - 1} L^{1-\alpha} = -\lambda( t + \frac{p}{w} )$ and $(1-\alpha) B^{\alpha } L^{-\alpha} = -\lambda( 1 + \frac{r}{w} )$
+\newline
+Dividing these two equations yeilds:$ \frac{ \alpha L }{ ( 1 - \alpha ) B } = \frac{ t + \frac{p}{w} }{ 1 + \frac{r}{w}}$
+\newline
+Solving for L: $L = \frac{ 1 - \alpha }{\alpha} B \frac{ t + \frac{ p }{w} }{ 1 + \frac{ r}{w}}$
+\newline
+Plugging into the constraint: $(t+\frac{p}{w})B + \frac{ 1-\alpha}{\alpha} B ( t + \frac{p}{w} ) - 24 = 0$
+\newline
+Solving for B: $B^*( \alpha, t, p, w ) = \frac{ 24 \alpha w }{ wt + p }$
+\newline
+We can quickly see from the constraint that: $L^*( \alpha, r, w ) = \frac{ 24 ( 1 - \alpha ) w }{w + r}$
+\newline\quad
+\newline
+Using an Original Constraint to solve for W:
+\newline
+$W^*(\alpha, t, p, r, w ) = 24 - tB^*( \alpha, t, p, w ) - L^*( \alpha, r, w )$
+\newline
+$W^*(\alpha, t, p, r, w ) = 24 - \frac{ 24 \alpha t w }{  wt + p} - \frac{ 24 (1 - \alpha ) w }{ w + r }$
+\newline\quad
+\newline
+$V^*(\alpha, t, p, r, w ) = U( B^*( \alpha, t, p, w ), L^*( \alpha, r, w ) ) = 24w \frac{ \alpha^\alpha (1-\alpha)^{1-\alpha}  }{ (wt + p)^\alpha ( w + r )^{1-\alpha} }$
+
+\subsection*{b.}
+If Lucas decides he will simply throw away the can, this problem can be phrased as Lucas facing a new price of p' = p + d
+\newline
+If he elects to return the can, he simply faces a longer time spent drinking the can. t' = t + g
+\newline
+His optimal utility returning the can is given by:
+\newline
+$V^*(\alpha, t+g, p, r, w ) = 24w \frac{ \alpha^\alpha (1-\alpha)^{1-\alpha}  }{ (wt+ wg + p)^\alpha ( w + r )^{1-\alpha} }$
+\newline
+The optimal utility for throwing away the can is:
+$V^*(\alpha, t+g, p, r, w ) = 24w \frac{ \alpha^\alpha (1-\alpha)^{1-\alpha}  }{ (wt + p+ d)^\alpha ( w + r )^{1-\alpha} }$
+\newline
+For these two quantities to be equal, we can see that $wt + wg + p = wt + p + d$ This implies that g = $\frac{d}{w}$
+
+\subsection*{c.}
+
+If we see that $d < wg$, then Lucas will elect to eat the higher price of drinking beer, and the effect of $\frac{\partial W^* }{\partial d }$ completely surmizes the effect of the deposit on Lucas.
+\newline
+$W^* = 24 - tB^* - L^*$ so: $\frac{ \partial W^* }{\partial d } = -t \frac{ \partial B^* }{ \partial d } - \frac{ \partial L^* }{ \partial d }$
+\newline
+$\frac{ \partial W^* }{\partial d } = \frac{24 t \alpha w } { ( wt + p + d)^2 } > 0$
+\newline \newline
+If $d > wg$ the Lucas will return the cans, and the price for the can will return to p, and the time spent drinking the can will increase to t+g. If we can show that $\frac{ \partial W^* }{ \partial g } < 0 \quad \forall g > 0$ then we can conclude that $W^*(\alpha, t, p, r, w ) > W^*(\alpha, t + g, p, r, w )$.
+\newline
+$W^* = 24 - L^* - \frac{ 24 (t+g) \alpha w }{ w(t+g) + p}$
+\newline
+$ \frac{ \partial W^* }{ \partial g } = -\frac{ ( w (t+g) + p ) - (t+g)24 \alpha w^2 }{ ( w (t+g) + p )^2 } = \frac{ ( 24 \alpha w )( wt + wg + p - wt -wg )}{ ( w (t+g) + p )^2 } $ 
+\newline
+$ \frac{ \partial W^* }{ \partial g } = -\frac{ 24 \alpha w p }{ ( w (t+g) + p )^2 } < 0$
+\newline
+Thus depending on the magnitude of deposit charge Lucas will act differently. If he decides to eat the cost, he will work more to make up the increased financial cost, but if he returns the cans, he will work less to make more time for returning cans.
+
+\section*{Question 3.}
+We are seeking the value of b such that: $V(p,y) = V(p',y-b)$
+\newline
+From the expenditure function we may note: $e( p, V( p,y)) = y$ and $e( p', V(p',y-b))= y-b$
+\newline
+This implies that $b = e( p, V(p,y)) - e( p', V(p', y-b ) )$.
+\newline
+We let $u = V(p,y) = V(p', y-b).$ Our queston of solving for b is now solving two expenditure functions.
+
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{min }&16E + 25F& \quad \quad \quad & \text{min  }& 9E + 25F\\
+&\text{s.t. } &E^{\frac{1}{2}}F^{\frac{1}{2}} &= u & \text{s.t. }& E^{\frac{1}{2}}F^{\frac{1}{2}} = u\\
+\end{alignedat}
+\end{equation*}
+
+\begin{equation*}
+\begin{alignedat}{3}
+16 + \frac{1}{2} \lambda E^{\frac{-1}{2}}F^{\frac{1}{2}} &= 0 \quad & 9 + \frac{1}{2} \lambda E^{\frac{-1}{2}}F^{\frac{1}{2}} &= 0\\
+25 + \frac{1}{2} \lambda E^{\frac{1}{2}}F^{\frac{-1}{2}} &= 0 \quad\quad & 25 + \frac{1}{2} \lambda E^{\frac{1}{2}}F^{\frac{-1}{2}} &= 0 \\
+E^{\frac{1}{2}}F^{\frac{1}{2}} &=u & E^{\frac{1}{2}}F^{\frac{1}{2}} &=u\\
+\\
+16E = 25F& & 9E = 25F &\\
+E^{\frac{1}{2}} = \frac{5}{4} F^{\frac{1}{2}} & & E^{\frac{1}{2}} = \frac{5}{3} F^{\frac{1}{2}} &\\
+F = \frac{4}{5} u, E = \frac{5}{5} u & & F = \frac{3}{5} u, E = \frac{5}{3} u &\\
+e(p, V(p,y)) = 40u & & e( p', V( p', y-b )) = 30u &\\
+\end{alignedat}
+\end{equation*}
+Noting: $e(p, V(p,y)) = y = 40u = 1000$. We can see that: $u = 25$ and $b =e(p, V(p,y)) - e( p', V( p', y-b )) = 10u = 250$.
+Thus the highest bribe he would be willing to pay is 250\$
+
+\section*{Question 4.}
+\subsection*{1.}
+Since there has been no structure laid on U, I am going to assume that U is a function mapping to $\mathbb{R}_+$
+\newline
+The minimum value of $\mathbb{R}_+$ is 0, so $e(p_1,p_2,0) = 0$ and  
+\subsection*{2.}
+Our approach will be to prove that the expenditure function is composed of the product of continous functions, and is therefore continous.
+\newline
+Consider the functions $f(p_1,p_2,u) = p_1, g(p_1,p_2,u) = \frac{p_1 + p_2}{3}, h(p_1,p_2,u) = p_2$. It is clear that these functions are all continous.
+Now consider the min( f, g ). It is clear that this function is continous at all points where $f \neq g$. Consider $(p_1,p_2,u)$ where $f = g$. If no such point exists, then $min(f,g)$ is continous everywhere.
+At some point $(p_1', p_2', u'), min( f,g) = f( p_1', p_2', u')$  or  $g( p_1', p_2', u' )$. so: $| min( f(p_1,p_2,u),g(p_1,p_2,u)) - min( f(p_1', p_2', u'), g(p_1', p_2', u') ) | = |f(p_1,p_2,u) - f(p_1', p_2', u')| or |g(p_1,p_2,u) - g(p_1', p_2', u')|$
+So if we choose $\forall \epsilon \quad \delta(\epsilon) = min( \delta_f(\epsilon), \delta_g(\epsilon) )$ then it is clear that whenever $|(p_1,p_2,u)^T - (p_1',p_2',u')^T)| < \delta$
+\newline
+$| min( f(p_1,p_2,u),g(p_1,p_2,u)) - min( f(p_1', p_2', u'), g(p_1', p_2', u') ) | < \epsilon$
+\newline
+Since $min(f,g,h) = min( min(f,g),h)$ it is clear that $min( f,g,h)$ is continous, and since $e(p_1,p_2,u) = u min(f(p_1,p_2,u),g(p_1,p_2,u),h(p_1,p_2,u)).$
+\newline
+e must be continous as the product of continous functions is continous.
+\subsection*{3.}
+For some fixed p $>>$ 0, $e( p_1, p_2, u ) = u c.$ where c is a constant $>$ 0. This is an increasing line and thus is strictly increasing, and unbounded above. 
+\subsection*{4.}
+Consider a positive change to $p_1$, let $p_1' = p_1 + \epsilon$. Approach via Cases:
+\newline
+Case: $min( p_1, \frac{p_1+p_2}{3}, p_2 ) = p_1, min( p_1 + \epsilon, \frac{p_1 + \epsilon+p_2}{3}, p_2 ) = p_1 + \epsilon$: Since $\epsilon > 0$ It is obvious that the function is increasing.
+\newline
+Case: $min( p_1, \frac{p_1+p_2}{3}, p_2 ) = p_1, min( p_1 + \epsilon, \frac{p_1 + \epsilon+p_2}{3}, p_2 ) = \frac{p_1 + \epsilon+p_2}{3}$. Note that $p_1 \leq \frac{p_1 + p_2}{3}$ so $p_1 \leq \frac{p_1 + \epsilon+p_2}{3}$.
+\newline
+Case: $min( p_1, \frac{p_1+p_2}{3}, p_2 ) = p_2$. It is obvious that: $min( p_1 + \epsilon, \frac{p_1 + \epsilon+p_2}{3}, p_2 ) = p_2$ and the function is increasing.
+\newline
+Case: $min( p_1, \frac{p_1+p_2}{3}, p_2 ) = \frac{p_1+p_2}{3}, min( p_1 + \epsilon, \frac{p_1 + \epsilon+p_2}{3}, p_2 ) = \frac{p_1 + \epsilon+p_2}{3}$. The function is increasing.
+\newline
+Case: $min( p_1, \frac{p_1+p_2}{3}, p_2 ) = \frac{p_1+p_2}{3}, min( p_1 + \epsilon, \frac{p_1 + \epsilon+p_2}{3}, p_2 ) = p_1 + \epsilon$. This case is impossible, as $\frac{\epsilon}{3} < \epsilon$. 
+\newline
+In all cases, $e( p_1 + \epsilon, p_2, u ) \geq e( p_1, p_2, u )$ and is thus increasing. Since e is symmetric between $p_1,p_2$ it is increasing in $p_2$ by the same logic. So e is increasing in p.
+\subsection*{5.}
+$e( \theta p_1, \theta p_2, u ) = u min( \theta p_1, \frac{ \theta p_1 + \theta p_2 }{3}, \theta p_2 ) = u \theta min( p_1, \frac{ p_1 + p_2 }{3}, p_2 ) = \theta e( p_1, p2, u )$.
+\subsection*{6.}
+Let $\hat{p}(t) = tp^1 + (1-t)p^2$ where $p^1, p^2$ are vectors in $\mathbb{R}^2$.
+\newline
+Since $min(a+b,c+d) \geq min(a,c) + min(b,d)$. We can see clearly that:
+\newline
+$min( t p_1^1 + (1-t)p_1^2, \frac{ t( p_1^1 + p_2^1 ) + (1-t)( p_1^2 + p_2^2) }{3}, t p_2^1 + (1-t)p_2^2 ) \geq min( t p_1^1, \frac{ t( p_1^1 + p_2^1 ) }{3}, tp_2^1 ) + min( (1-t)p_1^2, \frac{ (1-t)( p_2^1 + p_2^2 ) }{3}, (1-t)p_2^2 )$
+\newline
+$e( \hat p_1, \hat p_2, u ) \geq te( p_1^1, p_2^1, u) + (1-t)e( p_1^2, p_2^2, u )$ and thus the expenditure function is concave. 
+
+\end{document}

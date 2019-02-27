@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{c}{\PYGZsh{}MSE of jackknife}
+
+
+\PYG{c}{\PYGZsh{}Plot them together}
+\PYG{n}{histogram}\PYG{p}{(} \PYG{p}{[}\PYG{n}{jackKnifeDev}\PYG{p}{,} \PYG{n}{deltaDev}\PYG{p}{],}
+\PYG{n}{line}\PYG{o}{=}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{,}\PYG{l+m+mi}{0}\PYG{p}{,}\PYG{o}{:}\PYG{n}{green}\PYG{p}{),} \PYG{n}{fillcolor}\PYG{o}{=}\PYG{p}{[}\PYG{o}{:}\PYG{n}{red} \PYG{o}{:}\PYG{n}{black}\PYG{p}{],} \PYG{n}{fillalpha}\PYG{o}{=}\PYG{l+m+mf}{0.5}\PYG{p}{,} \PYG{n}{show}\PYG{o}{=}\PYG{k+kc}{true}\PYG{p}{,}
+\PYG{n}{legend}\PYG{o}{=:}\PYG{n}{none}\PYG{p}{)}
+\end{Verbatim}

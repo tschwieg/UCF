@@ -1,0 +1,23 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+R8 Revolver | Fade,0.0032
+M4A4 | Royal Paladin,0.0032
+AK-47 | Point Disarray,0.016
+P90 | Shapewood,0.0799
+G3SG1 | The Executioner,0.0799
+PP-Bizon | Fuel Rod,0.0799
+Negev | Power Loader,0.3996
+Five-SeveN | Retrobution,0.3996
+SG 553 | Tiger Moth,0.3996
+Tec-9 | Avalanche,0.3996
+XM1014 | Teclu Burner,0.3996
+R8 Revolver | Crimson Web,0.3996
+AUG | Ricochet,0.3996
+Desert Eagle | Corinthian,0.3996
+P2000 | Imperial,0.3996
+Sawed-Off | Yorick,0.3996
+SCAR-20 | Outbreak,0.3996

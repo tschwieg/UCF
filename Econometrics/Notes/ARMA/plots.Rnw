@@ -1,0 +1,128 @@
+\documentclass[10pt]{paper}
+
+
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Lots of ARMA Plots}
+\author{Timothy Schwieg}
+
+\begin{document}
+<<setup, include=FALSE, cache=FALSE>>=
+library(knitr)
+options(formatR.arrow=TRUE,width=50)
+opts_chunk$set(fig.path='figure/graphics-', cache.path='cache/graphics-', fig.align='center', dev='tikz')
+
+@
+
+<<plotter,echo=FALSE,cache=TRUE,fig.height=3.5,fig.width=4>>=
+
+
+PlotACFs <- function( possibleARS, possibleMA ) {
+    combos <- unique( permutations(  n = 5, r=5, v=c(c(-1,1),c(-1,1),c(-1,1),c(-1,1),c(-1,1)), set=FALSE, repeats.allowed=TRUE ) )
+
+    for( i in 0:length(possibleARS) ){
+        for( j in 0:length(possibleMA) ){
+            combosdone <- list()
+            comboCounter <- 1
+            for( k in 1:nrow(combos) ) {
+                combo <- combos[k,1:5]
+                ##I think I will vomit if I ever have to write R code like this again
+                if( i == 0 ){
+                    AR<- 0
+                }else{
+                    AR <- possibleARS[1:i]
+                }
+                if( j == 0 ){
+                    MA <- 0
+                }else{
+                    MA <- possibleMA[1:j]
+                }
+                if( i == 0 && j == 0 ){
+                    next
+                }
+                trueCombo <- combo
+                ##This is truly atrocious
+                if( i == 0 ){
+                    trueCombo[1] <- 0
+                    trueCombo[2] <- 0
+                    trueCombo[3] <- 0
+                }else if( i == 1 ){
+                    trueCombo[1] <- 0
+                    trueCombo[2] <- 0
+                }else if( i == 2 ){
+                    trueCombo[1] <-  0
+                }
+                if( j == 0 ){
+                    trueCombo[4] <- 0
+                    trueCombo[5] <- 0
+                }else if( j == 1 ){
+                    trueCombo[5] <- 0
+                }
+                ##And it just doesn't stop
+                contained <- FALSE
+
+                for( vec in combosdone ){
+
+                    if( all( trueCombo == vec )) {
+                        contained <- TRUE
+                        break
+                    }
+                }
+                if( contained ){
+                    next
+                }
+
+                ##Break all the rules of coding in R, why not?
+                if( i >= 1 ){
+                    AR[1] <- AR[1]*trueCombo[1]
+                    if( i >= 2 ){
+                        AR[2] <- AR[2]*trueCombo[2]
+                        if( i >= 3 ){
+                            AR[3] <- AR[3]*trueCombo[3]
+                        }   
+                    }    
+                }
+                
+                
+                if( j >= 1 ){
+                    MA[1] <- MA[1]*trueCombo[4]
+                    if( j >= 2 ){
+                        MA[2] <- MA[2]*trueCombo[5]
+                    }
+                }
+                
+                
+                combosdone[[comboCounter]] <- trueCombo
+                comboCounter <- comboCounter + 1
+
+
+                ## print( "\n" )
+                ACF <- ARMAacf( ar=AR, ma=MA, lag.max = 10 )
+                pACF <- ARMAacf( ar=AR, ma=MA, lag.max = 10, pacf=TRUE)
+                title <- ""
+                for( c in 1:length(AR) ){
+                    title <- paste( title, "$\\rho_", as.character( c ), " = ", as.character( AR[c] ), "$, ", sep="")
+                }
+                for( c in 1:length(MA) ){
+                    title <- paste( title, "$\\phi_", as.character( c ), " = ", as.character( MA[c] ), "$, ", sep="")
+                }
+                plot( ACF, main=paste(title, " ACF") )
+                plot( pACF, main=paste(title," PACF" ) )
+            }
+        }
+    }
+}
+
+
+possibleARS <- c( .5, .2, .1 )
+possibleMA <- c( .5, .25 )
+
+PlotACFs( possibleARS, possibleMA )
+
+@
+
+
+\end{document}

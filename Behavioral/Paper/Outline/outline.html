@@ -1,0 +1,96 @@
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Reading list</a></li>
+<li><a href="#sec-2">2. Model</a></li>
+<li><a href="#sec-3">3. Data</a>
+<ul>
+<li><a href="#sec-3-1">3.1. Sources of the Data</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Reading list</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+This obviously needs to be formatted in a way that is amenable to Paarsch
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Model</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+While this project is focusing on Cumaltive Prospect Theory, in my
+reading I found that it is extremely difficult to put very much
+structure on a value function that is as complicated as the one
+suggested by cumalative prospect theory. All the papers on
+nonparametric identification in double auctions enforced that the
+valuation of the good be additively seperable from the cost they pay
+for the good, something that simply is not allowed by Cumulative
+Prospect theory.  This led me to some results, particularily that
+since double auctions converge so quickly to the competitive
+equilibrium, that I could abandon the auction paradigm and work simply
+in a model where potential buyers are faced with several options of an
+(almost) homogenous good, and elect to purchase it along the lines of
+Discrete Choice Theory, which allows me to get at valuations, at least
+from buy orders quite easily. From purchases made at market, the
+valuations are not represented, as we only know that their valuations
+are above the price they paid. They will be treated as censored data.
+</p>
+
+<p>
+However, if we take a less structured look at valuations of lotteries,
+we can apply much more structure to the problem and still be able to
+identify, at the cost of not having such a robust and useful valuation
+function. I wish to test to see if cumulative prospect theory actually
+allows for better predictions of price, using the metric of mean
+squared test error against non-parametric identification in a
+double-auction. 
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Data</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> Sources of the Data</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+The data has been mined from the steam community market api, which
+provides a purchase history for every item on the market, down to the
+hour for the last thirty days and daily for the rest of the lifetime
+of the item. It does not provide a record of every purchase, just the
+quantity sold in that time period as well as the median price they
+were sold at. Obviously this is less than ideal, but I believe it will
+cause less problems than the inaccuries introduced by the market only
+working in one cent intervals.
+</p>
+
+<p>
+The market functions as a continuous double auction where the pricing
+rule is always the sellers bid. However, modeling the market as a
+continous double auction is not well suited to the data however, as
+information is only given during certain batches of time. 
+</p>
+
+<p>
+Also available is current buy and sell orders for each item, which
+gives the valuations of people who have not yet obtained the item
+directly.  However, it does not appear that there is a history
+available for these items, leading there to be some missing data on
+the valuations at different prices. 
+</p>
+
+<p>
+For the cumaltive prospect theory, I intend to treat the market data
+as censored data, where all that is known about the data is that the
+valuations of the purchaser are above the market price. T
+</p>
+</div>
+</div>
+</div>

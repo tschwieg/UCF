@@ -1,0 +1,163 @@
+\documentclass[10pt]{paper}
+
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+\usepackage{graphicx}
+\usepackage{animate}
+
+\title{Behavioral HW4}
+\author{Timothy Schwieg}
+
+\begin{document}
+
+\maketitle
+
+\section*{1}
+\subsection*{a}
+
+Since the amount that each bidder has to pay is unrelated to his bid,
+each bidder will attempt to maximize the chance that he wins provided
+that he does not have to pay above his valuation.
+
+If he bids above his valuation and lost, he gains nothing and loses
+nothing, if he bids above his valuation and wins, there is a chance
+that he pays more than his valuation and is strictly worse off than if
+he had lost. So bidding zero weakly dominates bidding above his
+valuation.
+
+If he bids below his valuation and wins, he is no better off than if
+he bid anything above his bid, as he does not pay his bid. If he bids
+below his valuation and loses, but he could have won by bidding his
+valuation, he is strictly worse off than bidding his valuation. If he
+bids below his valuation and loses, but could not have won by bidding
+his valuation, he is no better off than if he bid at his valuation.
+
+Clearly bidding at the valuation weakly dominates the other
+strategies, and is the dominant-strategy equilibrium-bid function
+for the English Auction. $\beta(v) = v$
+
+\subsection*{b}
+
+Each student seeks to maximize:
+\begin{align*}
+  \max_s\quad U( v - s ) P( s = \max\{ s_1, ... s_N \} )\\
+  \max_s \quad \eta (v - s )^{\frac{1}{\eta}} F_V( \sigma^{-1}(s_i))^{N-1}\\
+  - ( v - s)^{ \frac{1-\eta}{\eta}} F_V(\sigma^{-1}(s_i))^{N-1} + \eta(v-s)^{\frac{1}{\eta}}(N-1)F_v( \sigma^{-1}(s_i))^{N-2}f_v(\sigma^{-1}(s_i))\frac{1}{\sigma'(s_i)} = 0\\
+  -(v-s)^{\frac{1-\eta}{\eta}}\sigma^{-1}(s)^{N-1} + \eta (v-s)^{\frac{1}{\eta}}(N-1)\sigma^{-1}(s)^{N-2} \frac{1}{\sigma'(v)} = 0\\
+  (v-s)^{\frac{1-\eta}{\eta}} \sigma^{-1}(s) = \eta (v-s)^{\frac{1}{\eta}}(N-1)\frac{1}{\sigma'(v)}\\
+  v\sigma'(v) = \eta(v-s\sigma(v))(N-1)\\
+  \sigma'(v) + \frac{\eta(N-1)}{v}\sigma(v) = \eta (N-1)\\
+  (\sigma(v) v^{\eta(N-1)})' = \eta (N-1) v^{\eta(N-1)}\\
+  \sigma(v) v^{\eta(N-1)} = \frac{(N-1)v^{\eta (N-1) + 1}}{\eta(N-1) + 1} + C\\
+  \sigma(v) = \frac{\eta (N-1)v}{\eta(N-1)+1} + Cv^{\eta (1-N) }\\
+  \sigma(v) = \frac{\eta (N-1)v}{\eta(N-1)+1}\\
+\end{align*}
+
+\subsection*{c}
+
+
+
+Since $\sigma(v)$ is a monotone function, we may apply the method of
+transformations to find the PDF of W.
+
+
+\begin{align*}
+  \frac{s \left(N \eta - \eta + 1\right)}{\eta \left(N - 1\right)} = \sigma^{-1}(s)\\
+  \frac{\partial}{\partial s} \sigma^{-1}(s) = \frac{ \left(N \eta - \eta + 1\right)}{\eta \left(N - 1\right)}\\
+\end{align*}
+
+\begin{align*}
+  f_w(w) = f_{V_{(1:N)}}( \sigma^{-1}(w)) \left | \frac{\partial \sigma^{-1}(w)}{\partial s} \right |\\
+  f_w(w) = \frac{N}{n \left(N - 1\right)} \left(\frac{w \left(N \eta - \eta + 1\right)}{\eta \left(N - 1\right)}\right)^{N - 1} \left(\eta(N-1) + 1\right)\\
+  f_w(w) = \frac{N}{w} \left(\frac{w \left(\eta(N-1) + 1\right)}{\eta \left(N - 1\right)}\right)^{N}\\
+\end{align*}
+
+
+\subsection*{d}
+
+
+\begin{align*}
+  \mathbb{E}[ W ] = \int_0^1 w f_w = \int_0^1 w \frac{N}{w} \left(\frac{w \left(\eta(N-1) + 1\right)}{\eta \left(N - 1\right)}\right)^{N}dw\\
+  \mathbb{E}[ W ] = N \left ( \frac{\eta(N-1)+1}{\eta(N-1)} \right )^N \int_0^{\frac{\eta(N-1)}{\eta(N-1)+1}} w^Ndw\\
+  \mathbb{E}[ W ] = \frac{N \eta(N-1)}{(N+1)(\eta(N-1)+1)}\\
+\end{align*}
+
+
+\subsection*{e}
+
+
+\begin{align*}
+   \mathbb{E}[ W^2 ] = \int_0^1 w^2 f_w = \int_0^1 w^2 \frac{N}{w} \left(\frac{w \left(\eta(N-1) + 1\right)}{\eta \left(N - 1\right)}\right)^{N}dw\\
+  \mathbb{E}[ W^2 ] = N \left ( \frac{\eta(N-1)+1}{\eta(N-1)} \right )^N \int_0^{\frac{\eta(N-1)}{\eta(N-1)+1}} w^{N+1}dw\\
+  \mathbb{E}[ W^2 ] = \frac{N (\eta(N-1))^2}{(N+1)(\eta(N-1)+1)^2}\\
+  \\
+  \mathbb{V}(W) = \mathbb{E}[W^2] - \mathbb{E}[W]^2\\
+  \mathbb{V}(W) = - \frac{N^{2} \eta^{2} \left(N - 1\right)^{2}}{\left(N + 1\right)^{2} \left(n \left(N - 1\right) + 1\right)^{2}} + \frac{N \eta^{2} \left(N - 1\right)^{2}}{\left(N + 2\right) \left(n \left(N - 1\right) + 1\right)^{2}}\\
+  \mathbb{V}(W) = \frac{N \eta^{2} \left(N - 1\right)^{2} \left(- N \left(N + 2\right) + \left(N + 1\right)^{2}\right)}{\left(N + 1\right)^{2} \left(N + 2\right) \left(\eta \left(N - 1\right) + 1\right)^{2}}\\
+  \mathbb{V}(W) = \frac{N \eta^2 ( N-1 )^2}{(N+1)^2 (N+2) ( \eta(N-1) +1 )^2}
+\end{align*}
+
+\subsection*{f}
+If $\eta = 1$ There is revenue equivalence. However, if we increase $\eta$
+we can see how the expected revenue changes as people become more risk averse.
+
+%fig_cap="Expected Revenue for changes in Risk Aversion."; fig_pos="H";echo=false;out_width=360pt;out_height=200pt
+
+
+\animategraphics[loop,autoplay,width=\linewidth]{12}{anim/0000}{01}{60} 
+
+This leads us to believe that a risk-neutral seller would prefer a
+sealed pay-your-bid auction if he believes that the people attending
+are risk averse, as they will bid higher. 
+
+\section*{2}
+
+\subsection*{a}
+
+Since every entrant has to pay what he bids, the pay-off function
+will always have the bid subtracted from it, and he will receive his
+valuation of the object if he wins the auction. This means that with
+some probability, depending on the bid he will receive his valuation,
+and he will always lose his bid.
+
+$$\mathbb{E}[\text{Payoff}] = v P( \text{win}|s ) - s$$
+
+\subsection*{b}
+
+\begin{align*}
+  \max_s\quad v P( win | s ) - s\\
+  \max_s \quad v F_V( \sigma^{-1}(s) )^{N-1} - s\\
+  v (N-1) F_V( \sigma^{-1}(s) )^{N-2} f_v (\sigma^{-1}(s) ) \frac{1}{\sigma'(v)} - 1 = 0
+\end{align*}
+
+\subsection*{c}
+
+
+\begin{align*}
+  \sigma'(v) = v(N-1)f_v( \sigma^{-1}(s)) F_V(\sigma^{-1}(s))^{N-2}\\
+  \sigma'(v) = v(N-1)f_v(v) F_V(v)^{N-2}\\
+  \sigma'(v) = v(N-1) v^{N-2} = (N-1)v^{N-1}\\
+  \sigma(v) = \frac{N-1}{N}v^N
+\end{align*}
+
+\subsection*{d}
+
+
+The seller collects $s = \sigma(v)$ from every entrant. This means his
+expected revenue is: $N \mathbb{E}[\sigma(v)]$.
+\begin{align*}
+  \sigma^{-1}(s) = \left ( \frac{N}{N-1} s \right )^{\frac{1}{N}}\\
+  \frac{\partial}{\partial s} \sigma^{-1}(s) = \frac{\left(\frac{N s}{N - 1}\right)^{\frac{1}{N}}}{N s}\\
+  f_{\sigma(v)} = f_v( \sigma^{-1}(s) ) \left | \frac{\partial}{\partial s} \sigma^{-1}(s) \right |\\
+  f_{\sigma(v)} = \frac{\left(\frac{N s}{N - 1}\right)^{\frac{1}{N}}}{N s}\\
+  \mathbb{E}[\sigma(v)] = \int_0^{\frac{N-1}{N}} s \frac{\left(\frac{N s}{N - 1}\right)^{\frac{1}{N}}}{N s} ds\\
+  \frac{N-1}{N(N+1)}
+\end{align*}
+So his revenue to collect is:
+$$\frac{N-1}{N+1}$$
+This is the same revenue as if the seller were to have a first-price
+sealed bid auction, so he is, on average, just as happy as if he
+hosted an all-pay auction or the first price sealed bid auction.
+\end{document}

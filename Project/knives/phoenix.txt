@@ -1,0 +1,14 @@
+Operation Phoenix Weapon Case
+UMP-45 | Corporal
+Negev | Terrain
+Tec-9 | Sandstorm
+MAG-7 | Heaven Guard
+MAC-10 | Heat
+SG 553 | Pulse
+FAMAS | Sergeant
+USP-S | Guardian
+AK-47 | Redline
+P90 | Trigon
+Nova | Antique
+AWP | Asiimov
+AUG | Chameleon

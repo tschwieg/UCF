@@ -1,0 +1,44 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{Barberis}{Barberis}{2013}]{LitReview}
+Barberis, N.~C. (2013).
+\newblock Thirty years of prospect theory in economics: A review and
+  assessment.
+\newblock {\em Journal of Economic Prespectives\/}~{\em 27}, 173--196.
+
+\bibitem[\protect\citeauthoryear{Cripps and Swinkels}{Cripps and
+  Swinkels}{2004}]{Efficiency}
+Cripps, M.~W. and J.~M. Swinkels (2004).
+\newblock Efficiency of large double auctions.
+
+\bibitem[\protect\citeauthoryear{Li}{Li}{2015}]{PriceDataOnly}
+Li, H. (2015).
+\newblock Nonparametric identification of k-double auctions using price data.
+\newblock Job Market Paper.
+
+\bibitem[\protect\citeauthoryear{Li and Liu}{Li and Liu}{2015}]{NonParIdent}
+Li, H. and N.~Liu (2015).
+\newblock Nonparametric identification and estimation of double auctions with
+  bargaining.
+\newblock {\em Shanghai University of Finance and Economics\/}.
+
+\bibitem[\protect\citeauthoryear{Paarsch}{Paarsch}{2018}]{LimeBoy}
+Paarsch, H.~J. (2018).
+\newblock The foundations of empirical intuition.
+\newblock Version: Sunday 7th January, 2018.
+
+\bibitem[\protect\citeauthoryear{Parsons, Macinkiewicz, Niu, and
+  Phelps}{Parsons et~al.}{2006}]{DoubleAuc}
+Parsons, S., M.~Macinkiewicz, J.~Niu, and S.~Phelps (2006).
+\newblock Everything you wanted to know about double auctions, but were afraid
+  to (bid or) ask.
+\newblock Unpublished Paper.
+
+\bibitem[\protect\citeauthoryear{Tversky and Kahneman}{Tversky and
+  Kahneman}{1992}]{Kahn}
+Tversky, A. and D.~Kahneman (1992).
+\newblock Advances in prospect theory: Cumulative reperesentation of
+  uncertainty.
+\newblock {\em Journal of Risk and Uncertainty\/}~{\em 5}, 297--323.
+
+\end{thebibliography}

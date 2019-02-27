@@ -1,0 +1,39 @@
+** Different reference dependence
+
+In this section I consider the model if individuals consider gains and
+losses as relative to the expected value of the crates and the price
+they paid to open the crates. Effectively, the refrence point simply
+has the expected value of the crate subtracted from the value, that
+is: instead of viewing gains and losses as relative to the initial
+income of the opener, if we consider them as gains and losses relative
+to what is expected to gain, a much different picture emerges.
+
+| Likelihood: | -2.389256828231863 x 10^6 |
+| \lambda           |          1.48236 x 10^-11 |
+| \alpha           |                      0.0 |
+| \delta           |                 0.108213 |
+
+While the same results for \lambda and \alpha are present, that is there is no
+loss aversion, and the valuation shape is approaching an indicator
+function on whether or not it is a gain, the probability weighting
+function has a much different value. This has distorted its shape
+massively, lowering the function except for the very high valued
+items.
+
+[[../Scripts/ProbWeightExpVal.pdf]]
+
+This begins to explain buying patterns in these crates, as it seems to
+imply that the low value items do not matter at all, and that the very
+rare items that have extremely low probabilities are massively
+overweighted. This is consistent with the notion that only the very
+rare high value items are driving the prices for the crates. It would
+imply that losses opened from the crates are simply consolation
+prizes, and their value is irrelevant. However I am reluctant to say
+that this model fully explains the patterns of valuations because of
+the lack of convexity of the valuation function, whose shape has not
+changed. I believe that an extreme distortion of the probabilities is
+occurring, as shown much more by this intrepretation of the structure
+of the reference point. There are still aspects of the valuation not
+explained by this particular form, nor by any form that I was able to
+fit while maintaining the computational properties needed for
+calculation.

@@ -1,0 +1,220 @@
+\documentclass[10pt]{paper}
+
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Behavioral HW5}
+\author{Timothy Schwieg}
+
+\begin{document}
+
+\maketitle
+\section*{1}
+
+\subsection*{a}
+
+Since we know that $\log{V} \sim N( \mu, \sigma^2 )$ and that since log is a
+monotonic trasnformation, $\log{ V_{(2:N)} } = ( \log{ V} )_{(2:N)}$
+
+$$W_t = V_{(2:N)} = \exp( \log{ (V_{(2:N)} ) } ) = \exp( ( \log{ V
+  } )_{(2:N)})$$
+
+$$F_{W_t} = P( W_t \leq w ) = P( \exp{ ( \log{ V } )_{(2:N)}} \leq w ) = P(
+(\log{V})_{(2:N)} \leq \log{w} )$$ Since it is known that $\log{V}$ is
+distributed normally, we may derive the 2nd order statistic for it.
+The density of this distribution is given by: 
+$$f_{W_t} = N(N-1) \Phi( \frac{\log{w} - \mu}{\sigma} )^{N-2} ( 1 - \Phi(
+\frac{\log{w} - \mu}{\sigma} ) ) \phi( \frac{\log{w} - \mu}{\sigma} ) \frac{1}{w \sigma} $$
+
+Its distribution is given by the integral from 0 to w
+$$F_{W_t} = \int_0^w f_{W_t} = N(N-1)\int\Phi \left( \frac{\log(w) - \mu}{\sigma}
+\right)^{N-2} \left [ 1 - \Phi\left( \frac{\log(w) - \mu}{\sigma} \right)
+\right] \phi \left( \frac{\log(w) - \mu}{\sigma} \right) \frac{1}{w \sigma}dw$$
+Applying the substitution of: $u = \Phi\left( \frac{\log(w) - \mu}{\sigma}
+\right)$
+\begin{align*}
+  F_{W_t} = N(N-1) \int u^{N-2}[1-u]du = Nu^{N-1} - (N-1)u^N\\
+  F_{W_t} = N \left( \Phi \left( \frac{\log(w) - \mu}{\sigma} \right) \right )^{N-1} - (N-1) \left ( \Phi\left( \frac{\log(w) - \mu}{\sigma} \right) \right )^N
+\end{align*}
+
+
+\subsection*{b}
+
+\begin{align*}
+  \mathbb{E}[\log{W_t}] = \mathbb{E}[ (\log{V})_{(2:N)} ] = \mu + \sigma \mathbb{E}[Z_{(2:N)}]\\
+  \mu + \sigma \int_{-\infty}^\infty N(N-1) \Phi(z)^{N-2}[ 1 - \Phi(z) ] \phi(z) dz\\
+\end{align*}
+Using Monte-Carlo Integration, we may numerically estimate this
+expectation for different values of N.
+<<>>=
+using Distributions
+N = 2:25
+d = Normal()
+simSize = 1000000
+for i in N
+    Guesses = zeros(simSize)
+    for j in 1:simSize
+        normals = rand(d,i)
+        sort!( normals )
+        Guesses[j] = normals[i-1]
+    end
+    average = mean( Guesses )
+    println( "For $(i) bidders the expected log is: mu + sigma$(average)")
+end
+@ 
+
+\subsection*{c}
+
+
+\begin{align*}
+  f( \mu, \sigma^2 ) = \sum_{t=0}^T \log( N_t(N_t-1)) + (N_t-2) \log( \Phi\left( \frac{\log(w_t) - \mu}{\sigma} \right) )\\
+  + \log( 1 - \Phi\left( \frac{\log(w_t) - \mu}{\sigma} \right) ) + \log( \phi\left( \frac{\log(w_t) - \mu}{\sigma} \right)) - \log( w_t \sigma )
+\end{align*}
+
+
+\subsection*{d}
+
+Since it is known that $\log(W_t) = \mu + \sigma Z_{(N_t-1):N_t)}$ we may
+write this as $\log( W_t) = ( \mu \sigma ) ( 1 Z_{(N_t-1):N_t)} )^T$. We can
+approximate $\mu, \sigma$ via least squares. We would then fill the y vector
+with the logarithm of the winning bid, and the X matrix with ones in
+the first column and the expected values of the order statistics would
+fill the second column the matrix. From there we could then estimate
+our values by $( \mu \sigma )^T = (X^T X)^{-1} ( X^T Y )$ and we would have
+rough estimates of both $\mu$ and $\sigma$.
+\section*{2}
+
+\subsection*{a}
+
+Since we are in a procurement auction, we obtain our bid in payment,
+and we pay c in actual costs for doing the task if we win the auction.
+\begin{align*}
+  \left [ s - c \right ] P( \sigma^{-1}(s) \leq c_j ) \forall j \neq i\\
+  \left [ s - c \right ] \Pi_{n=1}^{N-1} P( \sigma^{-1}(s) \leq c_j )\\
+  \left [ s - c \right ] \Pi_{n=1}^{N-1} \left [ 1 -  P( c_j \leq \sigma^{-1}(s) ) \right ]\\
+  \text{ Applying independence }\\
+  \left [ s - c \right ] \left ( 1 - F_c(\sigma^{-1}(s)) \right )^{N-1}\\
+  -[s-c](N-1)[ 1- F_c(\sigma^{-1}(c_j))^{N-2}f_c(\sigma^{-1}(c_j))\frac{1}{\sigma'(c)} + [1-F_c(\sigma^{-1}(s))] = 0\\
+  \text{ Applying the Bayes-Nash Equilibrium condition of: } s = \sigma(c)\\
+  \sigma'(c)[ 1- F_c(c)]^{N-1} = [\sigma(c) - c ] (N-1) [ 1 - F-c(c)]^{N-2} f_c(c)\\
+  \sigma'(c)[1-F_c(c)] + -(N-1)f_c(c)\sigma(c) = -c(N-1)f_c(c)\\
+  \sigma'(c) + \frac{-(N-1)f_c(c)}{1-F_c(c)} = \frac{-c(N-1)f_c(c)}{1-F_c(c)}\\
+\end{align*}
+Using an integrating factor: $\mu = \exp \left( -\int
+\frac{(N-1)f_c(c)}{1-F_c(C)} \right) = \exp ( - \int h_c )^{N-1} = S_c(c)^{N-1} = (1 - F_C(c))^{N-1}$
+\begin{align*}
+  \left ( \sigma(c) (1-F_c(c)^{N-1}) \right )' = -c(N-1)f_c(c)(1-F_c(c))^{N-1}\\
+  \sigma(c) = \frac{\int_0^c -\xi (N-1)f_c(\xi)(1-F_c(\xi))^{N-2}d\xi}{(1-F_c(c))^{N-1}}\\
+\end{align*}
+Integrating by parts and applying the boundry condition
+\begin{align*}
+  \sigma(c) = c - \frac{ \int_{0}^c( 1- F_c(\xi) )^{N-1}d\xi }{(1-F_c(c))^{N-1}}\\
+  \sigma(c) = c + \frac{ \int_c^\infty ( 1- F_c(\xi) )^{N-1} d\xi }{(1-F_c(c))^{N-1}}\\
+\end{align*}
+
+\subsection*{b}
+The convergence of this integral relies upon the premise that
+$\theta_1(N-1) > 1$
+
+\begin{eqnarray*}
+  \sigma(c) = c + \frac{\int_c^\infty \frac{\theta_0}{\xi}^{\theta_1(N-1)}}{\left ( \frac{\theta_0}{c} \right )^{\theta_1(N-1)}}\\
+  \sigma(c) = c - \frac{\theta_0^{\theta_1(N-1)} c^{-\theta_1(N-1)+1}}{[-\theta_1(N-1) + 1] \theta_0^{\theta_1(N-1)}c^{-\theta_1(N-1)}}\\
+  \sigma(c) = c - \frac{c}{-\theta_1(N-1)+1} = c \left ( \frac{\theta_1(N-1)}{\theta_1(N-1)-1} \right )\\
+\end{eqnarray*}
+
+\subsection*{c}
+To evaluate the winning bid, we must first find the density of the bid
+function, and we will do so via the method of transformations:
+
+\begin{eqnarray*}
+  \sigma^{-1}(s) = &-s \left ( \frac{1 - \theta_1(N-1)}{\theta_1(N-1)} \right )\\
+  \frac{\partial \sigma^{-1}(s)}{\partial s} = &- \left ( \frac{1 - \theta_1(N-1)}{\theta_1(N-1)} \right )\\
+  f_{\sigma(c)} = &\frac{\theta_1 \theta_0^{\theta_1} ( \theta_1 (N-1) )^{\theta_1}}{c^{\theta_1+1}( \theta_1(N-1) - 1)^{\theta_1}}\\
+  F_{\sigma(c)}(z) = &P( \sigma(c) \leq z ) = P( c \frac{\theta_1(N-1)}{\theta_1(N-1) - 1} \leq z ) = 
+  P( c \leq z \frac{\theta_1(N-1)-1}{\theta_1(N-1)} ) = F_c( z \frac{\theta_1(N-1)-1}{\theta_1(N-1)} )\\
+\end{eqnarray*}
+
+The winning bid is therefore just the last order statistic of this
+distribution whose density is given by:
+\begin{eqnarray*}
+  f_w(w) &= N [ 1 - F_{\sigma(c)}(w)]^{N-1}f_{\sigma(c)}(w)\\
+  f_w(w) &= N [ 1 - F_c( w \frac{\theta_1(N-1)-1}{\theta_1(N-1)} ) ]^{N-1} \frac{\theta_1 \theta_0^{\theta_1} ( \theta_1 (N-1) )^{\theta_1}}{w^{\theta_1+1}( \theta_1(N-1) - 1)^{\theta_1}}\\
+  f_w(w) &= N \left ( \frac{\theta_1 \theta_0 (N-1)}{w ( \theta_1(N-1) - 1)} \right )^{\theta_1(N-1)} \frac{\theta_1 \theta_0^{\theta_1} ( \theta_1 (N-1) )^{\theta_1}}{w^{\theta_1+1}( \theta_1(N-1) - 1)^{\theta_1}}\\
+  f_w(w) &= N \frac{\theta_1 \theta_0^{\theta_1 N} ( \theta_1 (N-1))^{\theta_1 N}}{w^{\theta_1 N + 1 }( \theta_1(N-1) -1 )^{\theta_1 N}}\\
+\end{eqnarray*}
+Since we know that the support of the Pareto is $c > \theta_0$, since $\sigma$
+is a linear trasnformation of c, the support
+for $\sigma(c)$ is $\sigma(c) > \sigma(\theta_0) = \frac{\theta_0 \theta_1 (N-1)}{\theta_1 (N-1) - 1}$
+The minimum of these shares the same support.
+
+\subsection*{d}
+
+\begin{eqnarray*}
+  f( \theta_0, \theta_1 ) &= \log(N) + \log( \theta_1 ) + \theta_1N \log( \theta_0 ) + \theta_1 N \log( \theta_1(N-1)) - (\theta_1 N + 1 ) \log( w ) - \theta_1 N \log( \theta_1 (N-1) - 1 )\\
+\end{eqnarray*}
+Since the support of our distribution depends upon a parameter, we
+will not be able to apply conventional maximum liklihood.
+
+\subsection*{e}
+
+We seek to optimize the liklihood, with a constraint that all of the
+datapoints being within the support as determined by our choice of the
+parameters. This becomes equivalent to
+
+\begin{align*}
+  \max_{\theta_0,\theta_1} f( \theta_0, \theta_1 )& \\
+  \text{ s.t. } \frac{\theta_0 \theta_1 (N-1)}{\theta_1(N-1) - 1} - w_i &\leq 0\\
+  \theta_0 &> 0\\
+  \theta_1 &> 0
+\end{align*}
+
+From the start the problem of strict inequalities arises, but we shall
+ignore that with the traditional hand wave of the economist. They
+shall become non-strict inequalities. Ignoring this problem, we next
+we must verify that this is in fact a convex optimization
+problem. We shall first investigate the constraint function:
+
+\begin{align*}
+  \frac{\theta_0 \theta_1 (N-1) + \theta_0 - \theta_0}{\theta_1(N-1) - 1} - w_i \leq 0\\
+  \theta_0  + \frac{\theta_0}{\theta_1(N-1) - 1} - w_i \leq 0
+\end{align*}
+
+Taking the hessian yields: $H( \theta_0, \theta_1, N ) = \begin{bmatrix}
+  0 & \frac{-(N-1)}{(\theta_1(N-1) - 1)^2}\\
+  \frac{-(N-1)}{(\theta_1(N-1) - 1)^2} & \frac{2\theta_0 (N-1)^2}{(\theta_1 (N-1) - 1)^3}\\
+\end{bmatrix}$
+\newline
+
+Clearly the determinant of this matrix is less than zero, since the
+product of the diagonals is zero, and since it is symmetric the
+product of the off-diagonals is positive. This implies the matrix is
+not positive definite, and the problem is not one of convex
+optimization.
+
+At this point, we lack a convex optimization problem, and while we
+could try to throw this into a solver, we have no reason to believe
+that we would reach the global maximum, if we even converged to a
+local maximum. 
+
+Instead of despairing that we are not being able to solve this problem, we will
+approach it ala Paarsch and Donald (1993). We may estimate this
+lower bound of the support by $\underline{\hat{w}} = \min_t \{ w_t |
+m_t = m \}$ and by using $\theta_0( \theta_1,\underline{\hat{w}},N) = \sigma^{-1}(\underline{\hat{w}})$ we
+may apply this to our liklihood function. Our liklihood function then
+becomes:
+$$ f( \theta_1 ) = \log \theta_1 + \log (N_t) + \theta_1(N_t) \log
+(\underline{\hat{w}} ( N_t - 1)) - (\theta_1N + 1) \log w_t$$
+Taking the derivative of this will yeild us our estimate of $\theta_1$.
+From this we can use Paarsch's estimate of $\hat{\theta_0}$ given by:
+$$\theta_0^{\min} = \min \{ \hat{\theta_0^1},\hat{\theta_0^2}, ..., \hat{\theta_0^{N-1}}
+\}$$
+Where $\theta_0^i = \underline{\hat{w}} \left ( \frac{\hat{\theta_1}i -
+    1}{\hat{\theta_1 i}} \right )$
+
+
+
+  
+\end{document}

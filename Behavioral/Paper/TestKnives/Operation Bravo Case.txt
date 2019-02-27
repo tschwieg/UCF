@@ -1,0 +1,21 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+Desert Eagle | Golden Koi,0.0032
+AK-47 | Fire Serpent,0.0032
+AWP | Graphite,0.016
+P2000 | Ocean Foam,0.0799
+P90 | Emerald Dragon,0.3996
+M4A1-S | Bright Water,0.3996
+MAC-10 | Graven,0.3996
+M4A4 | Zirka,0.3996
+USP-S | Overgrowth,0.3996
+G3SG1 | Demeter,0.3996
+UMP-45 | Bone Pile,0.3996
+Galil AR | Shattered,0.3996
+Nova | Tempest,0.3996
+Dual Berettas | Black Limba,0.3996
+SG 553 | Wave Spray,0.3996

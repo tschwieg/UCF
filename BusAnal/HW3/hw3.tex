@@ -1,0 +1,85 @@
+\documentclass{paper}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+
+\begin{document}
+\section*{Question 1}
+$$g(x) = x^\theta  \quad  \theta \in (0,1)$$
+\subsection*{a.}
+Note that since $g \in C^2\quad $ It is sufficient to check the sign of the second derivative. $g''(x) = \theta ( \theta - 1 ) x^{\theta - 2} < 0 \quad \forall \theta > 0$. From this we can clearly see that $g(x)$ is a concave function.
+
+\subsection*{b.}
+For any concave function, Jensen's inequality states that $\mathbb{E}[g(X)] \leq g( \mathbb{E}[X] )$. Applying this to our function we can see that $\mathbb{E}[ X^\theta ] \leq \mathbb{E}[X]^\theta$. Since $\mathbb{E}[X] = 1.5$ We can see that $\mathbb{E}[ X^\theta ] \leq 1.5^\theta$.
+
+\subsection*{c.}
+Applying a forth order Taylor series centered about the first moment to $g(x)$ and disregarding the remainder:
+\newline
+$g(x) \approx 1.5^\theta + \theta 1.5^{\theta - 1} ( x - 1.5 ) + \frac{1}{2} \theta ( \theta - 1 ) 1.5^{\theta - 2} ( x- 1.5)^2 + \frac{1}{6} \theta ( \theta - 1 ) ( \theta - 2) 1.5^{\theta - 3} (x - 1.5)^3 + \frac{1}{24} \theta ( \theta - 1 ) ( \theta - 2) (\theta - 3) 1.5^{\theta -4}(x-1.5)^4$.
+\newline
+Taking the expected value: $\mathbb{E}[g(x)] \approx 1.5^\theta  + 0 + \frac{1}{2} \theta ( \theta - 1 ) 1.5^{\theta -2} \mathbb{V}(X) + 0 + \frac{1}{24} \theta ( \theta - 1 ) ( \theta - 2 ) (\theta - 3) 1.5^{\theta - 4} \mathbb{E}[ (X - \mathbb{E}[X])^4 ]$.
+\newline
+Since the distribution is symmetric, its skew is 0. 
+\newline
+$\mathbb{E}[ (X - \mathbb{E}[X])^4 ] = \mathbb{E}[X^4] - 4\mathbb{E}[X^3]\mathbb{E}[X] + 6\mathbb{E}[X^2]\mathbb{E}[X]^2 - 4 \mathbb{E}[X]^4 + \mathbb{E}[X]^4$
+
+Calculating the moments of the distribution we notice: $\mathbb{E}[X]= \frac{3}{2}, \mathbb{E}[X^2] = \frac{29}{10}, \mathbb{E}[X^3] = \frac{63}{10},\mathbb{E}[X^4] = \frac{149}{10}$. We can see from this that:
+$\mathbb{V}(X) = \frac{13}{20}$ and $\mathbb{E}[( X-\mathbb{E}[X])^4] = \frac{17}{16}$
+\newline
+Thus: $\mathbb{E}[g(X)] \approx 1.5^\theta + \frac{1}{2} \theta ( \theta - 1 ) 1.5^{\theta -2} \frac{ 13 }{20} + \frac{1}{24} \theta ( \theta - 1 ) ( \theta - 2 ) (\theta - 3) 1.5^{\theta - 4} \frac{17}{16}$
+Applying $\theta = .5$ We can see that: $\mathbb{E}[g(X)] \approx 1.17048$
+
+
+The True Expected Value is: $.4 + .4 \sqrt{2} + .1 \sqrt{3} = 1.13889$
+ 
+The relative approximation error is: $log( \frac{\text{approximate} }{\text{actual}}) = log( 1.17048 ) - log( 1.13889) =  .0273598$
+
+\section*{Question 2}
+
+$$f_Y (y | \theta ) = \frac{ \theta } { y^{ \theta + 1 } } \theta > 1, 1 \leq y$$
+\subsection*{a.}
+
+$$F_y ( y | \theta ) = \int_{1}^{y} \frac{ \theta } { x^{ \theta + 1 } } dx = 1 - y^{-\theta}$$
+
+$$\mathbb{E}[Y] = \int_{1}^{\infty} \frac{ \theta } { y^\theta } dy = \frac{ \theta y^{1 - \theta }}{1 -\theta } \big |_{1}^{\infty} = \frac{ \theta } { \theta - 1 }$$
+
+$$\mathbb{E}[Y^2] \int_{1}^{\infty} \theta y^{1-\theta} = \frac{ \theta y^{ 2 - \theta }}{2 - \theta} \big |_1^\infty = \frac{ \theta }{ \theta - 2 } $$
+Note that the variance of Y can only exist for $\theta > 2$. 
+$$\mathbb{V}(Y) = \mathbb{E}[Y^2] - \mathbb{E}[Y]^2 = \frac{\theta}{\theta - 2}- \frac{\theta^2}{(\theta-1)^2} = \frac{ \theta ( 2\theta + 1 )}{ (\theta - 2)( \theta - 1 )^2 }$$
+
+\subsection*{b.}
+Since $logY$ is a monotone function, to determine the range we need only to look at the log of the endpoints. From this it is clear that the support for X is $(0,\infty)$
+$$f_X (x | \theta ) = f_Y ( g^{-1} ( X ) | \theta ) \big | \frac{ dy }{dx} \big | = \frac{ \theta }{e^{x( \theta  + 1 )} } e^x = \theta e^{-x \theta } \text{          This is the exponential Distribution.}$$
+
+$$\mathbb{E}[X] = \theta \int_0^\infty x e^{-x \theta } \text{ Integrating by parts: } -x e^{-x \theta } \big |_0^\infty + \int_0^\infty e^{-x \theta } = \frac{1}{\theta}$$
+
+$$\mathbb{V}(X) = \mathbb{E}[X^2] - \mathbb{E}[X]^2 = \frac{2}{\theta^2} - \frac{ 1}{\theta^2} = \frac{ 1 }{\theta^2}$$
+
+\subsection*{c.}
+Note that the distribution of a probability distribution function applied to a random variable is always uniform on the interval [0,1]. This implies that U $\sim$ Uniform( 0,1 ).
+$f_U ( u | \theta ) = 1$ for $u \in [0,1],\quad  0 $ otherwise$, F_U (u| \theta ) = u$ for $u \in [0,1] \quad 0 $ otherwise. $\mathbb{E}[U] = \frac{1}{2}, \mathbb{V}(U) = \frac{1}{12}$
+
+\section*{Question 3}
+\subsection*{a.}
+Consider the Bernouli Random Varible C. C is equal to 0 with probability $\pi^0$ and 1 with probability $1 - \pi^0$. It is equivalent to think of a draw from the population as a draw from C determining if you draw from a type one population or a type two population.
+By the law of total probabillity: $P( Z \leq z ) = P( Z \leq z | C = 0 ) P( C = 0 ) + P( Z \leq z | C = 1 ) P ( C = 1 )$. Note that: $P( Z \leq z | C = 0) = F_1 (z)$ and $P( Z \leq z | C = 1 )= F_2 (z)$. Thus: 
+$P( Z \leq z ) = F_1 (z) \pi^0 + F_2 (z) ( 1 - \pi^0 ) = F_Z ( z )$
+
+\subsection*{b.}
+The density function is given by: $\frac{d}{dz} F_Z (z) = f_1 (z) \pi^0 + f_2 (z) ( 1 - \pi^0 )$
+
+\subsection*{c.}
+$$\mathbb{E}[Z] = \int_{-\infty}^\infty z ( f_1 (z) \pi^0 + f_2 (z) ( 1- \pi^0 ) ) = \pi^0 \mathbb{E}[Z_1] + (1- \pi^0) \mathbb{E}[Z_2] = \pi^0 \mu_1 + ( 1 - \pi^0) \mu_2$$
+$$\mathbb{E}[Z^2] = \int_{-\infty}^\infty z^2 ( f_1 (z) \pi^0 + f_2 (z) ( 1- \pi^0 ) ) = \pi^0 \mathbb{E}[Z_1^2] + ( 1 - \pi^0) \mathbb{E}[Z_2^2]$$
+$$\mathbb{V}(Z) = \mathbb{E}[Z^2] - \mathbb{E}[Z]^2 = \pi^0 \mathbb{E}[Z_1^2] + ( 1 - \pi^0) \mathbb{E}[Z_2^2] - (\pi^0 \mu_1 + ( 1 - \pi^0) \mu_2)^2 =$$
+$$\pi^0 ( \mathbb{E}[Z_1^2] - \pi^0 \mu_1^2 ) + ( 1 - \pi^0 ) ( \mathbb{E}[Z_2^2] - ( 1 - \pi^0 ) \mu_2^2 ) - 2 \pi^0 ( 1 - \pi^0 ) \mu_1 \mu_2$$
+
+\subsection*{d.}
+It is clear that the moments are not equal, as the variance of $Z$ will not take the form of $a^2 \mathbb{V}(Z_1) + b^2 \mathbb{V}( Z_2 ) + 2ab Cov( Z_1,Z_2 )$. Since the moments are not the same, there is no way for the distributions to be the same. This is caused by $Z$ being a distribution formed by summing the density functions, and the given distribution formed by summing the realizations of the random variables. These are not equal and can lead to vastly different random variables. 
+
+\end{document}

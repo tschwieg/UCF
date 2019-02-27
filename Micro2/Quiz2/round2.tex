@@ -1,0 +1,56 @@
+\documentclass[10pt]{paper}
+
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Quiz 2}
+\author{Timothy Schwieg}
+
+\begin{document}
+
+\maketitle
+
+\section*{7.5}
+
+\subsection*{a}
+
+Approach by Contradiction. Claim that there is a pure strategy that
+strictly dominates another pure strategy, that is the payoff of this
+strategy is strictly better than the payoff of that strategy for all
+strategy profiles played by other players. Let $N \geq 3$. Let X be the
+pure strategy that dominates all others.
+
+For some pure strategy y, if all other players play 100, the average
+will be given by:
+$\frac{100(N-1) + y}{3N} = \frac{100}{3} + \frac{y - 100}{3N}$ Let Y
+be equal to the highest number that can still win if all other players
+are playing 100. So
+$Y = argmax_y \{ y | \left | \frac{100}{3} + \frac{y - 100}{3N} - y
+\right | < \left | \frac{100}{3} + \frac{y-100}{3N} - 100 \right | \}$
+
+Let $1 \leq X \leq Y$ If all other players play 100, the average will be:
+$\frac{100(N-1) + X}{3N} = \frac{100}{3} + \frac{X - 100}{3N}$. For
+all strategies in this range, there is the same payout to the player,
+therefore none of these strategies can strictly dominate the others.
+
+If $X > Y$, and all other players play 1, the average will be given
+by: $\frac{N-1 + X}{3N} = \frac{1}{3} + \frac{X-1}{3N}$. This is
+closer to one than $X \quad\forall X > Y$, this means that for all pure
+strategies $> Y$ the player earns the same payout when all other
+players play 1, so none of these strategies can be strictly dominate
+the other strategies in this case.
+
+Consider two pure strategies, X,W where $X \leq Y, W > Y$, If $X \geq 2$ and
+all other players play the pure strategy of 1,  X
+returns the same payoff as W, so X cannot strictly dominate W, and W
+cannot strictly dominate X. If $X = 1$ and all other players play 100,
+except one other who plays the number that will win, which for N $\geq 3$
+is guaranteed to not be equal to 1, then one does just as well as any
+number greater than Y, so neither can strictly dominate each other. 
+
+This exhausts all cases, so therefore it is impossible for any pure strategy to
+strictly dominate any pure strategy.
+
+\end{document}

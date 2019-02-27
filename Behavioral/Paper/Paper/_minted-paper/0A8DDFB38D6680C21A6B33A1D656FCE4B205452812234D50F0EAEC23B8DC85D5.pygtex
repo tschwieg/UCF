@@ -1,0 +1,190 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{using} \PYG{n}{DataFrames}
+\PYG{k}{using} \PYG{n}{ForwardDiff}
+\PYG{k}{using} \PYG{n}{Optim}
+
+\PYG{c}{\PYGZsh{}First we define the CPT functions}
+
+\PYG{k}{function} \PYG{n}{valuation}\PYG{p}{(} \PYG{n}{x}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{λ}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{α}\PYG{o}{::}\PYG{k+kt}{Real} \PYG{p}{)}
+    \PYG{k}{if}\PYG{p}{(} \PYG{n}{x} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0}\PYG{p}{)}
+        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{n}{λ}\PYG{o}{*}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{x}\PYG{p}{)}\PYG{o}{\PYGZca{}}\PYG{n}{α}
+    \PYG{k}{else}
+        \PYG{k}{return} \PYG{n}{x}\PYG{o}{\PYGZca{}}\PYG{n}{α}
+    \PYG{k}{end}
+\PYG{k}{end}
+
+\PYG{k}{function} \PYG{n}{NegativeValuation}\PYG{p}{(} \PYG{n}{x}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{λ}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{α}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{)}
+     \PYG{n+nd}{@fastmath} \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{n}{λ}\PYG{o}{*}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{x}\PYG{p}{)}\PYG{o}{\PYGZca{}}\PYG{n}{α}
+\PYG{k}{end}
+
+\PYG{k}{function} \PYG{n}{PositiveValuation}\PYG{p}{(} \PYG{n}{x}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{α}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{)}
+     \PYG{n+nd}{@fastmath} \PYG{k}{return} \PYG{n}{x}\PYG{o}{\PYGZca{}}\PYG{n}{α}
+\PYG{k}{end}
+
+
+\PYG{c}{\PYGZsh{}Note that this is applied to the cumulative probability, not the prob}
+\PYG{k}{function} \PYG{n}{weights}\PYG{p}{(} \PYG{n}{p}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{δ}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{)}
+     \PYG{n+nd}{@fastmath} \PYG{k}{return} \PYG{n}{p}\PYG{o}{\PYGZca{}}\PYG{n}{δ} \PYG{o}{/} \PYG{p}{(} \PYG{n}{p}\PYG{o}{\PYGZca{}}\PYG{n}{δ} \PYG{o}{+} \PYG{p}{(} \PYG{l+m+mf}{1.} \PYG{o}{\PYGZhy{}} \PYG{n}{p}\PYG{o}{\PYGZca{}}\PYG{n}{δ}\PYG{p}{)}\PYG{o}{\PYGZca{}}\PYG{n}{δ}\PYG{p}{)}\PYG{o}{\PYGZca{}}\PYG{p}{(}\PYG{l+m+mf}{1.}\PYG{o}{/}\PYG{n}{δ}\PYG{p}{)}
+\PYG{k}{end}
+
+
+\PYG{k}{function} \PYG{n}{smallLik}\PYG{p}{(} \PYG{n}{quant}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{price}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{censor}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{s}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{λ}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{α}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{δ}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{lotProb}\PYG{o}{::}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{posContents}\PYG{o}{::}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{negContents}\PYG{o}{::}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{})}
+    \PYG{n}{relVal} \PYG{o}{=} \PYG{p}{(}\PYG{n}{price} \PYG{o}{\PYGZhy{}} \PYG{n}{Lottery}\PYG{p}{(}\PYG{n}{lotProb}\PYG{p}{,} \PYG{n}{posContents}\PYG{p}{,} \PYG{n}{negContents}\PYG{p}{,} \PYG{n}{λ}\PYG{p}{,} \PYG{n}{α}\PYG{p}{,} \PYG{n}{δ}\PYG{p}{))} \PYG{o}{/} \PYG{n}{s}
+
+    \PYG{n+nd}{@fastmath} \PYG{n}{a} \PYG{o}{=} \PYG{n}{censor}\PYG{o}{*}\PYG{n}{log}\PYG{p}{(} \PYG{n}{sech}\PYG{p}{(} \PYG{n}{relVal} \PYG{o}{/}\PYG{l+m+mf}{2.}\PYG{o}{*}\PYG{n}{s}\PYG{p}{)}\PYG{o}{*}\PYG{n}{sech}\PYG{p}{(}\PYG{n}{relVal} \PYG{o}{/} \PYG{l+m+mf}{2.}\PYG{o}{*}\PYG{n}{s}\PYG{p}{)} \PYG{o}{/} \PYG{p}{(}\PYG{l+m+mf}{4.0}\PYG{o}{*}\PYG{n}{s}\PYG{p}{))}
+    \PYG{n+nd}{@fastmath} \PYG{n}{b} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{\PYGZhy{}}\PYG{n}{censor}\PYG{p}{)}\PYG{o}{*}\PYG{n}{log}\PYG{p}{(} \PYG{l+m+mf}{1.0}\PYG{o}{/} \PYG{p}{(} \PYG{n}{exp}\PYG{p}{(} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.}\PYG{o}{*}\PYG{n}{relVal}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mf}{1.}\PYG{p}{))}
+    
+    \PYG{k}{return} \PYG{n}{quant}\PYG{o}{*}\PYG{p}{(} \PYG{n}{a} \PYG{o}{+} \PYG{n}{b} \PYG{p}{)}
+\PYG{k}{end}
+
+\PYG{k}{function} \PYG{n}{Lottery}\PYG{p}{(} \PYG{n}{lotProb}\PYG{o}{::}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{posContents}\PYG{o}{::}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{negContents}\PYG{o}{::}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{λ}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{α}\PYG{o}{::}\PYG{k+kt}{Real}\PYG{p}{,} \PYG{n}{δ}\PYG{o}{::}\PYG{k+kt}{Real} \PYG{p}{)}
+    \PYG{n}{l} \PYG{o}{=} \PYG{n}{length}\PYG{p}{(}\PYG{n}{lotProb}\PYG{p}{)}
+    \PYG{n}{transformedProb} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}(}\PYG{n}{l}\PYG{p}{)}
+    \PYG{n}{transformedProb}\PYG{p}{[}\PYG{k}{end}\PYG{p}{]} \PYG{o}{=} \PYG{n}{weights}\PYG{p}{(} \PYG{n}{lotProb}\PYG{p}{[}\PYG{k}{end}\PYG{p}{],} \PYG{n}{δ}\PYG{p}{)}
+    \PYG{k}{for} \PYG{n}{i} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{p}{(}\PYG{n}{l}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{)}
+         \PYG{n}{transformedProb}\PYG{p}{[}\PYG{n}{l}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{weights}\PYG{p}{(} \PYG{n}{lotProb}\PYG{p}{[}\PYG{n}{l}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{],} \PYG{n}{δ}\PYG{p}{)}
+         \PYG{n}{transformedProb}\PYG{p}{[}\PYG{n}{l}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{o}{+}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{\PYGZhy{}=} \PYG{n}{weights}\PYG{p}{(} \PYG{n}{lotProb}\PYG{p}{[}\PYG{n}{l}\PYG{o}{\PYGZhy{}}\PYG{n}{i}\PYG{p}{],} \PYG{n}{δ}\PYG{p}{)}
+    \PYG{k}{end}
+    \PYG{n}{count} \PYG{o}{=} \PYG{l+m+mi}{1}
+    \PYG{n}{trueVal} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{for} \PYG{n}{i} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{length}\PYG{p}{(}\PYG{n}{negContents}\PYG{p}{)}
+        \PYG{n}{trueVal} \PYG{o}{+=} \PYG{n}{NegativeValuation}\PYG{p}{(} \PYG{n}{negContents}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{λ}\PYG{p}{,} \PYG{n}{α}\PYG{p}{)}\PYG{o}{*}\PYG{n}{transformedProb}\PYG{p}{[}\PYG{n}{count}\PYG{p}{]}
+        \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+    \PYG{k}{end}
+    \PYG{k}{for} \PYG{n}{i} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{length}\PYG{p}{(}\PYG{n}{posContents}\PYG{p}{)}
+        \PYG{n}{trueVal} \PYG{o}{+=} \PYG{n}{PositiveValuation}\PYG{p}{(} \PYG{n}{posContents}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{α}\PYG{p}{)}\PYG{o}{*}\PYG{n}{transformedProb}\PYG{p}{[}\PYG{n}{count}\PYG{p}{]}
+        \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+    \PYG{k}{end}
+    \PYG{k}{return} \PYG{n}{trueVal}
+\PYG{k}{end}
+
+
+\PYG{k}{function} \PYG{n}{MaximumLiklihoodEstimate}\PYG{p}{(} \PYG{n}{quantityLot}\PYG{p}{,} \PYG{n}{priceLot}\PYG{p}{,} \PYG{n}{priceKey}\PYG{p}{,} \PYG{n}{censorLot}\PYG{p}{,} \PYG{n}{lotProbs}\PYG{p}{,} \PYG{n}{posContents}\PYG{p}{,} \PYG{n}{negContents}\PYG{p}{,} \PYG{n}{nDataPoints}\PYG{p}{,} \PYG{n}{boxSize}\PYG{p}{)}
+
+    \PYG{k}{function} \PYG{n}{allTogether}\PYG{p}{(} \PYG{n}{x}\PYG{p}{)}
+        \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0}\PYG{o}{*}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{smallLik}\PYG{p}{(} \PYG{n}{quantityLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{priceLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],}  \PYG{n}{censorLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]),} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]),} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]),} \PYG{n}{lotProbs}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{,}\PYG{o}{:}\PYG{p}{],} \PYG{n}{posContents}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{negContents}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{])} \PYG{k}{for} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{nDataPoints}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])} \PYG{k}{for} \PYG{n}{j} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{boxSize}\PYG{p}{)}
+    \PYG{k}{end}
+
+    \PYG{k}{function} \PYG{n}{gradTogether}\PYG{p}{(} \PYG{n}{storage}\PYG{p}{,} \PYG{n}{x} \PYG{p}{)}
+        \PYG{n}{grad} \PYG{o}{=} \PYG{n}{ForwardDiff}\PYG{o}{.}\PYG{n}{gradient}\PYG{p}{(}\PYG{n}{allTogether}\PYG{p}{,}\PYG{n}{x}\PYG{p}{)}
+        
+        \PYG{n}{storage}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{storage}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}
+        \PYG{n}{storage}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]}
+    \PYG{k}{end}
+
+    \PYG{k}{function} \PYG{n}{ChromaSeperate}\PYG{p}{(} \PYG{n}{x}\PYG{p}{)}
+        \PYG{n}{ChromaLik} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0}\PYG{o}{*}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{smallLik}\PYG{p}{(} \PYG{n}{quantityLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{priceLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],}  \PYG{n}{censorLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]),} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]),} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]),} \PYG{n}{lotProbs}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{,}\PYG{o}{:}\PYG{p}{],} \PYG{n}{posContents}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{negContents}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{])} \PYG{k}{for} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{nDataPoints}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])} \PYG{k}{for} \PYG{n}{j} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{l+m+mi}{2}\PYG{p}{)}
+        \PYG{n}{RestLik} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mf}{1.0}\PYG{o}{*}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{sum}\PYG{p}{(}\PYG{n}{smallLik}\PYG{p}{(} \PYG{n}{quantityLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{priceLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],}  \PYG{n}{censorLot}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{l+m+mf}{1.0}\PYG{p}{,} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{4}\PYG{p}{]),} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{5}\PYG{p}{]),} \PYG{n}{exp}\PYG{p}{(}\PYG{n}{x}\PYG{p}{[}\PYG{l+m+mi}{6}\PYG{p}{]),} \PYG{n}{lotProbs}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{,}\PYG{o}{:}\PYG{p}{],} \PYG{n}{posContents}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{],} \PYG{n}{negContents}\PYG{p}{[}\PYG{n}{j}\PYG{p}{][}\PYG{n}{i}\PYG{p}{])} \PYG{k}{for} \PYG{n}{i}\PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{nDataPoints}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])} \PYG{k}{for} \PYG{n}{j} \PYG{k+kp}{in} \PYG{l+m+mi}{3}\PYG{o}{:}\PYG{n}{boxSize}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{ChromaLik} \PYG{o}{+} \PYG{n}{RestLik}
+    \PYG{k}{end}
+
+    \PYG{k}{function} \PYG{n}{gradSeperate}\PYG{p}{(} \PYG{n}{storage}\PYG{p}{,} \PYG{n}{x}\PYG{p}{)}
+        \PYG{n}{grad} \PYG{o}{=} \PYG{n}{ForwardDiff}\PYG{o}{.}\PYG{n}{gradient}\PYG{p}{(}\PYG{n}{ChromaSeperate}\PYG{p}{,}\PYG{n}{x}\PYG{p}{)}
+
+        \PYG{k}{for} \PYG{n}{i} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{l+m+mi}{6}
+            \PYG{n}{storage}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{grad}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}
+        \PYG{k}{end}
+        
+    \PYG{k}{end}        
+
+    \PYG{n}{O} \PYG{o}{=} \PYG{n}{optimize}\PYG{p}{(}\PYG{n}{allTogether}\PYG{p}{,} \PYG{n}{gradTogether}\PYG{p}{,} \PYG{n}{zeros}\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{p}{),} \PYG{n}{ConjugateGradient}\PYG{p}{())}
+    \PYG{n}{println}\PYG{p}{(} \PYG{l+s}{\PYGZdq{}Values for the Combined Estimate: \PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{println}\PYG{p}{(} \PYG{n}{O}\PYG{o}{.}\PYG{n}{minimum} \PYG{p}{)}
+    \PYG{n}{println}\PYG{p}{(} \PYG{n}{O}\PYG{o}{.}\PYG{n}{minimizer}\PYG{p}{)}
+
+    \PYG{n}{sepOptim} \PYG{o}{=} \PYG{n}{optimize}\PYG{p}{(}\PYG{n}{ChromaSeperate}\PYG{p}{,} \PYG{n}{gradSeperate}\PYG{p}{,} \PYG{n}{zeros}\PYG{p}{(}\PYG{l+m+mi}{6}\PYG{p}{),} \PYG{n}{ConjugateGradient}\PYG{p}{())}
+    \PYG{n}{println}\PYG{p}{(}\PYG{l+s}{\PYGZdq{}Values for the seperate Estimates: \PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{println}\PYG{p}{(} \PYG{n}{sepOptim}\PYG{o}{.}\PYG{n}{minimum} \PYG{p}{)}
+    \PYG{n}{println}\PYG{p}{(} \PYG{n}{exp}\PYG{o}{.}\PYG{p}{(}\PYG{n}{sepOptim}\PYG{o}{.}\PYG{n}{minimizer}\PYG{p}{))}
+
+\PYG{k}{end}
+
+
+\PYG{k}{function} \PYG{n}{searchdir}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,}\PYG{n}{key}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{filter}\PYG{p}{(}\PYG{n}{x}\PYG{o}{\PYGZhy{}\PYGZgt{}}\PYG{n}{contains}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,}\PYG{n}{key}\PYG{p}{),} \PYG{n}{readdir}\PYG{p}{(}\PYG{n}{path}\PYG{p}{))}
+\PYG{k}{end}
+
+\PYG{k}{function} \PYG{n}{ReadData}\PYG{p}{()}
+    
+    \PYG{n}{files} \PYG{o}{=} \PYG{p}{[}\PYG{l+s}{\PYGZdq{}Chroma Case.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Chroma 2 Case.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Shadow Case.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Falchion Case.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Huntsman Weapon Case.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s}{\PYGZdq{}Glove Case.csv\PYGZdq{}}\PYG{p}{,]}
+    
+
+    \PYG{n}{DataPoints} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}()}
+    \PYG{n}{Probs} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Matrix}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}()}
+    \PYG{n}{negContentFolder} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}\PYGZcb{}()}
+    \PYG{n}{posContentFolder} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}\PYGZcb{}()}
+    \PYG{n}{quantityFolder} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}()}
+    \PYG{n}{priceFolder} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}()}
+    \PYG{n}{censorFolder} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}()}
+    \PYG{n}{priceKey} \PYG{o}{=} \PYG{l+m+mf}{2.5}
+
+    \PYG{k}{for} \PYG{n}{filename} \PYG{k+kp}{in} \PYG{n}{files}
+        \PYG{n}{filename} \PYG{o}{=} \PYG{l+s}{\PYGZdq{}../Data/\PYGZdq{}} \PYG{o}{*} \PYG{n}{filename}
+        \PYG{n}{ReadFile}\PYG{p}{(} \PYG{n}{filename}\PYG{p}{,} \PYG{n}{DataPoints}\PYG{p}{,} \PYG{n}{Probs}\PYG{p}{,} \PYG{n}{negContentFolder}\PYG{p}{,} \PYG{n}{posContentFolder}\PYG{p}{,} \PYG{n}{quantityFolder}\PYG{p}{,} \PYG{n}{priceFolder}\PYG{p}{,} \PYG{n}{censorFolder}\PYG{p}{,} \PYG{n}{priceKey}\PYG{p}{)}       
+    \PYG{k}{end}
+    
+    
+
+     \PYG{n}{m} \PYG{o}{=} \PYG{n}{MaximumLiklihoodEstimate}\PYG{p}{(} \PYG{n}{quantityFolder}\PYG{p}{,} \PYG{n}{priceFolder}\PYG{p}{,} \PYG{n}{priceKey}\PYG{p}{,} \PYG{n}{censorFolder}\PYG{p}{,} \PYG{n}{Probs}\PYG{p}{,} \PYG{n}{posContentFolder}\PYG{p}{,} \PYG{n}{negContentFolder}\PYG{p}{,} \PYG{n}{DataPoints}\PYG{p}{,} \PYG{n}{length}\PYG{p}{(} \PYG{n}{files}\PYG{p}{))}
+    
+    
+\PYG{k}{end}
+
+\PYG{k}{function} \PYG{n}{ReadFile}\PYG{p}{(} \PYG{n}{filename}\PYG{p}{,} \PYG{n}{DataPoints}\PYG{p}{,} \PYG{n}{Probs}\PYG{p}{,} \PYG{n}{negContentFolder}\PYG{p}{,} \PYG{n}{posContentFolder}\PYG{p}{,} \PYG{n}{quantityFolder}\PYG{p}{,} \PYG{n}{priceFolder}\PYG{p}{,} \PYG{n}{censorFolder}\PYG{p}{,} \PYG{n}{priceKey} \PYG{p}{)}
+     
+    \PYG{n}{frame} \PYG{o}{=} \PYG{n}{readtable}\PYG{p}{(} \PYG{n}{filename}\PYG{p}{)}
+    
+
+    \PYG{n}{numContents} \PYG{o}{=} \PYG{n}{convert}\PYG{p}{(}\PYG{k+kt}{Int64}\PYG{p}{,} \PYG{p}{(}\PYG{n}{size}\PYG{p}{(}\PYG{n}{frame}\PYG{p}{)[}\PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{3}\PYG{p}{)} \PYG{o}{/} \PYG{l+m+mi}{2}\PYG{p}{)}
+    \PYG{n}{nDataPoints} \PYG{o}{=} \PYG{n}{size}\PYG{p}{(}\PYG{n}{frame}\PYG{p}{)[}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+    \PYG{n}{lotProbs} \PYG{o}{=} \PYG{k+kt}{Matrix}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}(}\PYG{n}{nDataPoints}\PYG{p}{,}\PYG{n}{numContents}\PYG{p}{)}
+    \PYG{n}{negContents} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}(}\PYG{n}{nDataPoints}\PYG{p}{)}
+    \PYG{n}{posContents} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}\PYGZcb{}(}\PYG{n}{nDataPoints}\PYG{p}{)}
+    \PYG{n}{quantityLot} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}(}\PYG{n}{nDataPoints}\PYG{p}{)}
+    \PYG{n}{priceLot} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}(}\PYG{n}{nDataPoints}\PYG{p}{)}
+    \PYG{n}{censorLot} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}(}\PYG{n}{nDataPoints}\PYG{p}{)}
+    
+
+    \PYG{k}{for} \PYG{n}{i} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{nDataPoints}
+        \PYG{n}{priceLot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{quantityLot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{p}{]}
+        \PYG{n}{censorLot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{3}\PYG{p}{]}
+        \PYG{c}{\PYGZsh{}The order we want:}
+        \PYG{n}{j} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{numContents}
+        \PYG{n}{order} \PYG{o}{=} \PYG{n}{sortperm}\PYG{p}{(} \PYG{n}{convert}\PYG{p}{(} \PYG{k+kt}{Matrix}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{j}\PYG{o}{+}\PYG{l+m+mi}{2}\PYG{p}{])[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{:}\PYG{p}{])}
+
+        \PYG{n}{lotProbs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{o}{:}\PYG{p}{]} \PYG{o}{=} \PYG{n}{convert}\PYG{p}{(} \PYG{k+kt}{Matrix}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{order}\PYG{o}{+}\PYG{l+m+mi}{3}\PYG{p}{])[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{:}\PYG{p}{]}
+
+        \PYG{n}{expectedValue} \PYG{o}{=} \PYG{n}{dot}\PYG{p}{(} \PYG{n}{lotProbs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{o}{:}\PYG{p}{],} \PYG{n}{convert}\PYG{p}{(} \PYG{k+kt}{Matrix}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{order}\PYG{o}{+}\PYG{l+m+mi}{2}\PYG{p}{])[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{:}\PYG{p}{]} \PYG{p}{)}
+        
+        \PYG{k}{for} \PYG{n}{j} \PYG{k+kp}{in} \PYG{l+m+mi}{2}\PYG{o}{:}\PYG{n}{numContents}
+            \PYG{n}{lotProbs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{p}{]} \PYG{o}{+=} \PYG{n}{lotProbs}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{n}{j}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{k}{end}
+        
+        \PYG{n}{values} \PYG{o}{=} \PYG{n}{convert}\PYG{p}{(} \PYG{k+kt}{Matrix}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{},} \PYG{n}{frame}\PYG{p}{[}\PYG{n}{i}\PYG{p}{,}\PYG{l+m+mi}{2}\PYG{o}{*}\PYG{n}{order}\PYG{o}{+}\PYG{l+m+mi}{2}\PYG{p}{])[}\PYG{l+m+mi}{1}\PYG{p}{,}\PYG{o}{:}\PYG{p}{]} \PYG{o}{.\PYGZhy{}} \PYG{n}{priceLot}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{.\PYGZhy{}} \PYG{n}{priceKey} \PYG{o}{.\PYGZhy{}} \PYG{n}{expectedValue}
+
+        \PYG{n}{negContents}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}()}
+        \PYG{n}{posContents}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{k+kt}{Vector}\PYG{p}{\PYGZob{}}\PYG{k+kt}{Real}\PYG{p}{\PYGZcb{}()}
+        \PYG{k}{for} \PYG{n}{j} \PYG{k+kp}{in} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{numContents}
+            \PYG{k}{if}\PYG{p}{(} \PYG{n}{values}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{\PYGZlt{}} \PYG{l+m+mi}{0}\PYG{p}{)}
+                \PYG{n}{push!}\PYG{p}{(} \PYG{n}{negContents}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{values}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])}
+            \PYG{c}{\PYGZsh{}This guy was breaking automatic differentiation}
+            \PYG{k}{elseif}\PYG{p}{(} \PYG{n}{values}\PYG{p}{[}\PYG{n}{j}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{p}{)}
+                \PYG{n}{push!}\PYG{p}{(} \PYG{n}{posContents}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{l+m+mf}{0.01}\PYG{p}{)}
+            \PYG{k}{else}
+                \PYG{n}{push!}\PYG{p}{(} \PYG{n}{posContents}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{values}\PYG{p}{[}\PYG{n}{j}\PYG{p}{])}
+            \PYG{k}{end}
+        \PYG{k}{end}        
+    \PYG{k}{end}
+
+    \PYG{n}{push!}\PYG{p}{(} \PYG{n}{DataPoints}\PYG{p}{,} \PYG{n}{nDataPoints} \PYG{p}{)}
+    \PYG{n}{push!}\PYG{p}{(} \PYG{n}{Probs}\PYG{p}{,} \PYG{n}{lotProbs}\PYG{p}{)}
+    \PYG{n}{push!}\PYG{p}{(} \PYG{n}{negContentFolder}\PYG{p}{,} \PYG{n}{negContents} \PYG{p}{)}
+    \PYG{n}{push!}\PYG{p}{(} \PYG{n}{posContentFolder}\PYG{p}{,} \PYG{n}{posContents} \PYG{p}{)}
+    \PYG{n}{push!}\PYG{p}{(} \PYG{n}{quantityFolder}\PYG{p}{,} \PYG{n}{quantityLot}\PYG{p}{)}
+    \PYG{n}{push!}\PYG{p}{(} \PYG{n}{priceFolder}\PYG{p}{,} \PYG{n}{priceLot} \PYG{p}{)}
+    \PYG{n}{push!}\PYG{p}{(} \PYG{n}{censorFolder}\PYG{p}{,} \PYG{n}{censorLot}\PYG{p}{)}        
+\PYG{k}{end}
+\end{Verbatim}

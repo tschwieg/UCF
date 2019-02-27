@@ -1,0 +1,11 @@
+*.rds
+*.csv
+*.exe
+*.db
+*#
+*~
+*.log
+_region_.tex
+.*history
+.*rdb
+.*rdx

@@ -1,0 +1,89 @@
+\documentclass{paper}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{float}
+
+\DeclareMathOperator*{\plim}{\mathit{p}lim}
+
+\begin{document}
+
+$$f_Y ( y | \mu, \sigma^2 ) = \frac{1}{y} \frac{1}{\sqrt{2 \pi \sigma^2} } exp  \big{[} \frac{ - ( \log{y} - \mu )^2 }{ 2\sigma^2 } \big{]}$$
+
+\section*{a.}
+$$L(\mu,\sigma^2) = \prod\limits_{n=1}^{N} \frac{1}{y_n} \frac{1}{\sqrt{2 \pi \sigma^2} } exp  \big{[} \frac{ - ( \log{y_n} - \mu )^2 }{ 2\sigma^2 } \big{]}$$
+
+$$f( \mu, \sigma^2 ) = \log{ L(\mu,\sigma^2)} = -\sum_{n=1}^N \log{ y_n} - \frac{N}{2} \log{ 2 \pi \sigma^2 } -\sum_{n=1}^N \frac{ ( \log{ y_n } - \mu )^2 }{ 2 \sigma^2 }$$
+
+$\bold{ g}( \mu, \sigma^2 ) = $\[
+	\left[ {\begin{array}{c}
+	\sum_{n=1}^N \log{ y_n } - \hat{\mu} \\
+	-\frac{ N } { 2 \hat{\sigma}^2} + \sum_{n=1}^N \frac{ ( \log{y_n} - \hat{\mu})^2 }{ 2 {\hat{\sigma^2}}^2 } \\
+	\end{array} } \right]
+\]
+By solving the first component of the vector for $\hat{\mu}$ we arrive at: $\hat{\mu} = \frac{1}{N} \sum_{n=1}^N \log{ y_n }$. Plugging this into the second component of the gradient vector, we arrive at:
+$\hat{\sigma}^2 = \frac{1}{N} \sum_{n=1}^N ( \log{ y_n } - \hat{ \mu } )^2$
+
+\section*{b.}
+\begin{equation*}
+\begin{alignedat}{2}
+&\text{Note that: }\mathbb{E}[ \log{y} ] = \int_0^\infty \frac{ \log{y} }{ y \sqrt{ 2 \pi \sigma^2 }} exp[ \frac{ - ( \log{y} - \mu )^2 }{ 2 \sigma^2 } ] \text{ Applying the substitution: }u = \log{y} \\
+&\text{ We arrive at: } \int_{-\infty}^\infty \frac{ 1}{ \sqrt{ 2 \pi \sigma^2 } } u exp[ \frac{ - ( u - \mu )^2 }{ 2 \sigma^2 } ] = \mu \text{ as this is the expected value of a normal distribution.}\\
+&\text{Also Note: }\mathbb{E}[ \log{y}^2 ] = \int_0^\infty \frac{ \log{y}^2 }{ y \sqrt{ 2 \pi \sigma^2 }} exp[ \frac{ - ( \log{y} - \mu )^2 }{ 2 \sigma^2 } ]\text{ Substituting: }u = \log{y}\\
+&\int_{-\infty}^\infty \frac{ 1}{ \sqrt{ 2 \pi \sigma^2 } } u^2 exp[ \frac{ - ( u - \mu )^2 }{ 2 \sigma^2 } ]\text{ This is the second moment of a normal distribution and is: }\mu^2 + \sigma^2\\
+&\mathbb{E}[\hat{\mu}] = \mathbb{E}[ \frac{1}{N} \sum_{n=1}^N \log{ y_n } ] = \frac{1}{N} \sum_{n=1}^N \mathbb{E}[\log{ y_n }] = \mu\\
+&\mathbb{V}[\hat{\mu}] = \frac{1}{N^2} \sum_{n=1}^N \mathbb{V}(\log{ y_n }) =\frac{1}{N^2} \sum_{n=1}^N (\mathbb{E}[\log{y_n}^2] - \mathbb{E}[\log{y_n}]^2) = \frac{ 1}{N^2} N( \mu^2 + \sigma^2 - \mu^2 ) = \frac{ \sigma^2}{N}\\
+&\mathbb{E}[\hat{\sigma}^2] = \mathbb{E}[ \frac{1}{N} \sum_{n=1}^N ( \log{ y_n } - \hat{ \mu } )^2 ] = \frac{1}{N} \sum_{n=1}^N \mathbb{E}[ \log{ y_n }^2 - 2 \hat{ \mu } \log{y_n} + \hat{ \mu }^2 ] = \frac{1}{N} \sum_{n=1}^N \mathbb{E}[ \log{ y_n }^2]  - \mathbb{E}[\hat{ \mu }^2 ]\\
+&= \mu^2 + \sigma^2 - ( \mathbb{V}(\hat{\mu}) + \mathbb{E}[\hat{\mu}]^2 ) = \mu^2 + \sigma^2 - ( \frac{ \sigma^2}{N} + \mu^2 ) = \frac{N-1}{N} \sigma^2\\
+\end{alignedat}
+\end{equation*}
+Thus we can see that $\hat{\mu}$ is unbiased and $\hat{\sigma}^2$ is biased. However we can see that $\frac{N}{N-1} \hat{ \sigma }^2$ is unbiased.
+
+
+
+Let us examine the moment-generating function for $\log{y}$. This takes the form: $\mathbb{E}[ exp[ t \log{y} ] ] =  \mathbb{E}[ y^t ] = exp[ t \mu + \frac{t^2}{2} \sigma^2 ]$. This is exactly the moment generating function of a normal distribution, so $\log{y} \sim N( \mu, \sigma^2 )$. As a linear combination of normals, $\hat{ \mu } \sim N( \mu, \frac{ \sigma^2}{N} )$ 
+
+\section*{c.}
+Applying the Criterion for Method of Moments Estimators: $ \frac{1}{N} \sum_{n=1}^N y_i^k = \mathbb{E}[Y^k]$
+
+\begin{equation*}
+\begin{alignedat}{2}
+&\frac{1}{N} \sum_{n=1}^N y_i = exp[ \mu + \frac{ \sigma^2}{2 }]\\
+&\frac{1}{N} \sum_{n=1}^N y_i^2 = exp[ 2 \mu + 2 \sigma^2 ]\\
+&\text{ Solving for } \mu, \sigma^2 \text{ We arrive at: }\\
+&\widetilde{ \mu } + \widetilde{ \sigma^2 } = \frac{1}{2} \log{ \frac{1}{N} \sum_{n=1}^N y_i^2 }\\
+&\widetilde{ \mu } + \frac{1}{2} \widetilde{ \sigma^2 } = \log{ \frac{1}{N} \sum_{n=1}^N y_i }\\
+&\widetilde{ \mu } = 2 \log{ \frac{1}{N} \sum_{n=1}^N y_i } - \frac{1}{2} \log{ \frac{1}{N} \sum_{n=1}^N y_i^2 }\\
+&\widetilde{ \sigma^2 } = \log{ \frac{1}{N} \sum_{n=1}^N y_i^2 } - 2 \log{ \frac{1}{N} \sum_{n=1}^N y_i }\\
+\end{alignedat}
+\end{equation*}
+It is clear from the obviously nonlinear nature of the functions that characterize $\widetilde{ \mu }$ and $\widetilde{ \sigma^2 }$ that they not unbiased.
+
+\section*{d.}
+We can see that since $\log{x} \in C \quad \forall x > 0$ We may invoke the continous mapping theorem and pass the plim inside the function, and then invoking the strong law of large numbers:
+
+$$\plim \widetilde{ \mu } = 2 \log{( \plim \frac{1}{N} \sum_{n=1}^N y_i )} - \frac{1}{2} \log{( \plim \frac{1}{N} \sum_{n=1}^N y_i )} = 2 \log{ exp[ \mu + \frac{1}{2}\sigma^2 ] } - \frac{1}{2} \log{ exp[ 2 \mu + 2 \sigma^2 ] } = \mu$$
+$$\plim \widetilde{ \sigma^2 } = \log{( \plim \frac{1}{N} \sum_{n=1}^N y_i^2 )} - 2 \log{( \plim \frac{1}{N} \sum_{n=1}^N y_i )} = \log{ exp[ 2 \mu + 2 \sigma^2 ] } - 2\log{ exp[ \mu + \frac{1}{2}\sigma^2 ] } = \sigma^2$$
+
+\section*{e.}
+Note that $\widetilde{ \mu }$ is a function of two statistics. If we would like knowledge of $\sigma^2$ to be reflected in our MoM estimator, we would need to create a new estimator. Let us call this new estimator $\bar{\mu}$.
+Applying the method of moments:
+\begin{equation*}
+\begin{alignedat}{2}
+& \frac{1}{N} \sum_{n=1}^N y_i = E[Y] = exp[ \bar{\mu} + \frac{1}{2} ]\\
+& \bar{\mu} = \log( \frac{1}{N} \sum_{n=1}^N y_i ) - \frac{1}{2}\\
+&\text{ Let }g( \bar{y} ) = \bar{\mu} = \log{ \bar{y} } - \frac{1}{2} \text{ Via the delta method: }\\
+&\sqrt{N}( g( \bar{y} ) - g( \mu ) ) \sim N( 0, g'( \mu )^2 \mathbb{V}(\bar{y} ) )\\
+&\text{ Note that: }g'(\bar{y}) = \frac{1}{\bar{y}}\text{ and } \mathbb{V}(\bar{y}) = \frac{1}{N} \mathbb{V}( Y) = \frac{ exp[2 \mu + 2] - exp[2 \mu + 1]}{N} \\
+&\text{So the Variance of } \bar{ \mu } = \frac{ exp[2 \mu + 2] - exp[2 \mu + 1]}{N exp[ 2\mu +1] } = \frac{ e - 1 }{N} \approx \frac{1.71828}{N}\\
+\end{alignedat}
+\end{equation*}
+
+This Estimator has higher variance than the Maximum Liklihood Estimator and is relatively less efficient.
+
+
+
+%{{2/x, -1/(2*x^2)}}{{e^(2*x + 2*y) -e^(2*x + y), e^(3*x + 4.5*y) - e^(3*x + 2.5*y)},{e^(3*x + 4.5*y) - e^(3*x + 2.5*y), e^(4*x+8*y)-e^(4*x+4*y)}}*{{2/x},{-1/(2*x^2)}}for y = 1
+\end{document}

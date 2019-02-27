@@ -1,0 +1,35 @@
+Bayonet_Vanilla,0.0001368421052631579
+Gut Knife_Vanilla,0.0001368421052631579
+Flip Knife_Vanilla,0.0001368421052631579
+M9 Bayonet_Vanilla,0.0001368421052631579
+Karambit_Vanilla,0.0001368421052631579
+Shadow Daggers_Vanilla,0.0001368421052631579
+Shadow Daggers_Blue Steel,0.0001368421052631579
+Shadow Daggers_Boreal Forest,0.0001368421052631579
+Shadow Daggers_Case Hardened,0.0001368421052631579
+Shadow Daggers_Crimson Web,0.0001368421052631579
+Shadow Daggers_Fade,0.0001368421052631579
+Shadow Daggers_Forest DDPAT,0.0001368421052631579
+Shadow Daggers_Night,0.0001368421052631579
+Shadow Daggers_Safari Mesh,0.0001368421052631579
+Shadow Daggers_Scorched,0.0001368421052631579
+Shadow Daggers_Slaughter,0.0001368421052631579
+Shadow Daggers_Stained,0.0001368421052631579
+Shadow Daggers_Urban Masked,0.0001368421052631579
+Bowie Knife_Vanilla,0.0001368421052631579
+USP-S | Kill Confirmed,0.0032
+M4A1-S | Golden Coil,0.0032
+SSG 08 | Big Iron,0.016
+G3SG1 | Flux,0.0799
+AK-47 | Frontside Misty,0.3996
+P250 | Wingshot,0.3996
+MP7 | Special Delivery,0.3996
+M249 | Nebula Crusader,0.3996
+Galil AR | Stone Cold,0.3996
+XM1014 | Scumbria,0.3996
+SCAR-20 | Green Marine,0.3996
+MAG-7 | Cobalt Core,0.3996
+MAC-10 | Rangeen,0.3996
+Glock-18 | Wraiths,0.3996
+FAMAS | Survivor Z,0.3996
+Dual Berettas | Dualing Dragons,0.3996

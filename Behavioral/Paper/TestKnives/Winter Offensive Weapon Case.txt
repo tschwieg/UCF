@@ -1,0 +1,19 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+Sawed-Off | The Kraken,0.0032
+M4A4 | Asiimov,0.0032
+AWP | Redline,0.016
+P250 | Mehndi,0.0799
+M4A1-S | Guardian,0.3996
+Nova | Rising Skull,0.3996
+MP9 | Rose Iron,0.3996
+Dual Berettas | Marina,0.3996
+FAMAS | Pulse,0.3996
+PP-Bizon | Cobalt Halftone,0.3996
+M249 | Magma,0.3996
+Five-SeveN | Kami,0.3996
+Galil AR | Sandstorm,0.3996

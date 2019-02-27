@@ -1,0 +1,54 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{??}{Liq}{}]{Liquidpedia}
+Counter-strike weapon cases.
+\newblock
+  \url{http://liquipedia.net/counterstrike/Portal:Containers/Weapon_cases}.
+\newblock Accessed: 2018-03-10.
+
+\bibitem[\protect\citeauthoryear{??}{Ste}{}]{SteamMarket}
+Steam community market.
+\newblock \url{https://steamcommunity.com/market/}.
+\newblock Accessed: 2018-03-10.
+
+\bibitem[\protect\citeauthoryear{Chade, Eeckhout, and Smith}{Chade
+  et~al.}{2017}]{LitReview}
+Chade, H., J.~Eeckhout, and L.~Smith (2017, 6).
+\newblock Sorting through search and matching models in economics.
+\newblock {\em Journal of Economic Literature\/}~{\em 55\/}(2), 493--544.
+
+\bibitem[\protect\citeauthoryear{Cripps and Swinkels}{Cripps and
+  Swinkels}{2004}]{Efficiency}
+Cripps, M.~W. and J.~M. Swinkels (2004).
+\newblock Efficiency of large double auctions.
+
+\bibitem[\protect\citeauthoryear{Li}{Li}{2015}]{PriceDataOnly}
+Li, H. (2015).
+\newblock Nonparametric identification of k-double auctions using price data.
+\newblock Job Market Paper.
+
+\bibitem[\protect\citeauthoryear{Low and Meghir}{Low and
+  Meghir}{2017}]{StructuralEconometrics}
+Low, H. and C.~Meghir (2017, May).
+\newblock The use of structural models in econometrics.
+\newblock {\em Journal of Economic Perspectives\/}~{\em 31\/}(2), 33--58.
+
+\bibitem[\protect\citeauthoryear{Ostroy, Zame, and E~Gretsky}{Ostroy
+  et~al.}{1992}]{NonAtomic}
+Ostroy, J., W.~Zame, and N.~E~Gretsky (1992, 02).
+\newblock The nonatomic assignment model.
+\newblock ~{\em 2}, 103--27.
+
+\bibitem[\protect\citeauthoryear{Paarsch}{Paarsch}{2018}]{LimeBoy}
+Paarsch, H.~J. (2018).
+\newblock The foundations of empirical intuition.
+\newblock Version: Sunday 7th January, 2018.
+
+\bibitem[\protect\citeauthoryear{Parsons, Macinkiewicz, Niu, and
+  Phelps}{Parsons et~al.}{2006}]{DoubleAuc}
+Parsons, S., M.~Macinkiewicz, J.~Niu, and S.~Phelps (2006).
+\newblock Everything you wanted to know about double auctions, but were afraid
+  to (bid or) ask.
+\newblock Unpublished Paper.
+
+\end{thebibliography}

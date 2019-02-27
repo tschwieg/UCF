@@ -1,0 +1,153 @@
+\documentclass[10pt, letterpaper]{paper}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+\usepackage{forest}
+\usepackage{float}
+
+\title{ Micro Theory HW3 }
+\author{ Timothy Schwieg }
+\date{ November 5th 2017 }
+
+
+\DeclareMathOperator*{\maxi}{argmax}
+
+\begin{document}
+
+\maketitle
+
+
+\section*{Question 1}
+\subsection*{a}
+The profit for firm j is given by: $\pi^j = pq - (aq + bq^2)$
+\newline
+The firm's supply function is given by:
+ $q^j= \maxi_{q} \quad \pi^j ( q; p,a,b) \quad s.t. \quad q \geq 0$
+\newline
+$q^j= \maxi_{q} \quad (p-a)q - bq^2 \quad s.t \quad q \geq 0$  this does not have a maximum for $b < 0$. This is an upwards facing parabola, so firms can always produce more goods to have a higher profit, regardless of the price in the market.
+\newline
+Let $b > 0$
+$q^j = \max\{ 0, \frac{ p - a }{2b} \}$
+\newline
+The Industry's Supply function is given by: $\sum_{j \in J} \max\{ 0, \frac{ p-a}{2b} \} = \max\{ 0, J \frac{ p-a}{2b}\}$
+\newline
+Setting Supply equal to Demand:
+$max\{ 0, J \frac{ p-a}{2b}\} = 1 - p$
+\newline
+Case: $p > a: \quad Jp - aJ = 2b - 2bp$
+\newline
+$p( J + 2b) = 2b + aJ \implies p = \frac{ 2b + aJ }{J + 2b}$
+\newline
+Note that this is consistent with $p > a$ since: $ a = \frac{ aJ + 2ba }{J + 2b} < \frac{2b + aJ}{J + 2b} = p$
+\newline
+Case $p \leq a: 0 = 1-p \implies p = 1 > a \quad$This is inconsistent with $p \leq a$ so: $p > a$ always.
+\newline
+$q = 1- p = \frac{ J + 2b }{ J + 2b} - \frac{ 2b + aJ }{J + 2b} = \frac{ J(1-a)}{J + 2b}$
+\newline
+
+tiable, and however, from plotting indifference curves, one can see that the maximum will occur at: $2x^1 = y^1$
+\newline
+Since: $p_1 x^1 + p_2 y^1 = p_1 A, p_1 x^1 + 2 p_2 x^1 = p_1 A$
+\newline
+$x^1 = \frac{ p_1 A }{ p_1 + 2p_2 }, y^1 = \frac{ 2p_1 A}{p_1 + 2p_2}$ 
+\newline
+Consumer 2 faces a similiar problem and will see his maximum at: $x^2 = 2 y^2$.
+\newline
+His demand functions are: $ x^2 = \frac{ 2p_2 B }{ 2p_1 + p_2}, y^2 = \frac{ p_2 B }{ 2p_1 + p_2 }$
+\newline \newline
+A Walrasian Equilibrium is characterized by excess demand being zero at the prices, so we construct the excess demand vector and set it equal to 0.
+\newline
+$Z_1 = \frac{ p_1 A }{ p_1 + 2p_2} + \frac{ 2p_2 B}{ 2p_1 + p_2 } - A = 0$
+\newline
+$Z_2 = \frac{ 2 p_1 A }{ p_1 + 2p_2 } + \frac{ p_2 B }{ 2p_1 + p_2 } - B = 0$
+\newline
+Expanding $Z_1: 2p_1^2 A + p_1 p_2 A + 2p_2 p_1 B + 4p_2^2 B = 2Ap_1^2 + 5Ap_1 p_2 + 2Ap_2^2$
+\newline
+Factoring into quadratic form:  
+\[
+	p^T
+	\left[ {\begin{array}{cc}
+	2A & \frac{ A + 2B }{2} \\
+	\frac{ A + 2B}{2} & 4B \\
+	\end{array} } \right]
+	p = p^T
+	\left[ {\begin{array}{cc}
+	2A & \frac{5A}{2} \\
+	\frac{5A}{2} & 2A \\
+	\end{array} } \right] p \quad \implies
+	p^T
+	\left[ {\begin{array}{cc}
+	0 & B - 2A \\
+	B - 2A & 4B - 2A \\
+	\end{array} } \right]
+	p = 0
+\]
+\newline
+This has solutions of the form: $p_1 = \frac{ p_2 (2B - A) }{2A - B}$
+\newline
+We are seeking positive prices: So either $2B - A > 0$ and $2A - B > 0$, or we see: $2B - A < 0$ and $2A - B < 0$
+\newline
+However, If we consider the negative option: $4B < 2A, 2A < B$. This implies: $4B < B$ which is inconsistent with positive endowments. Thus the only criterion is:
+$2B - A > 0$ and $2A - B > 0$.
+\newline
+The equilibrium allocations for each consumer are:
+
+\begin{equation*}
+\begin{alignedat}{8}
+x^1 &= \frac{ p_1 A }{ p_1 + 2p_2 } &= \frac{ p_2 A ( 2B - A) (2A-B)}{(2A -B)(p_2 (2B-A) + 2p_2 (2A - B) )} \quad &= \frac{ A( 2B - A)}{ 2B - A + 4A - 2B} \quad &= \frac{ 2B - A }{3}\\
+y^2 &= \frac{ p_2 B }{ 2p_1 + p_2 } &=\frac{ p_2 B (2A- B)}{ 2p_2 (2B - A) + p_2 (2A - B) } &= \frac{ B( 2A - B)}{4B - 2A + 2A - B} &=\frac{ 2A -B}{3}\\
+y^1 &= \frac{ 4B - 2A }{3} . \quad &x^2 = \frac{ 4A - 2B}{3}  & & \\
+\end{alignedat}
+\end{equation*}
+
+
+\subsection*{b}
+$V^1( x^1, y^1 ) = min\{ 2x^1, y^1 \} = \frac{ 4B - 2A }{3}$ 
+\newline
+Note that this function is now differentiable, so we may take comparative statics:
+\newline
+$\frac{ \partial V^1 }{ \partial A } = \frac{ -2 }{3} < 0$
+Thus consumer 1's utility is a decreasing function of A, and reducing A would lead to an increased level of utility.
+Intuitively, Having less A reduces the price of B by so much that consumer 1 actually obtains more $x^1$ and $y^1$ depsite losing endowment.
+
+\section*{Question 4}
+\subsection*{a}
+The set of Pareto Optima for this economy is the singleton allocation x where cosumer 1 has: $(5,0)$ and Consumer 2 has: $(0,7)$. First we will show that this allocation is Pareto Efficient, then we will demonstrate that it is unique.
+Consider any other feasible allocation, since it is feasible, the allocations must sum to $(5,7)$
+So this allocation must either have less of good 1 for consumer 1 or less of good 2 for consumer 2.
+Without loss of generality, assume consumer 1 has less than five units of good 1. Since consumer 2 is
+not any worse off by giving up his good 1, and consumer 1 is strictly better off, Thus x is Pareto Efficient.
+\newline
+We will establish uniqueness via Contradiction. Suppose there is another Pareto efficient allocation $y \neq x$.
+Since y is feasible, and $y \neq x$, By the previous logic, bundle x has one consumer better off, with no consumer worse off.
+Thus y cannot be a Pareto efficient allocation, and x must be unique.
+\subsection*{b}
+Let $U_1 (x_1,x_2 ) = x_1, U_2 ( y_1, y_2 ) = y_2 \quad e_1 = (1,2)^T \quad e_2 = (4,5)^T$
+\newline
+Consumer 1 faces his decision problem of: $max x_1 s.t. \quad p_1 x_1 + p_2 x_2 = p_1+ 2p_2, x_1 \geq 0, x_2 \geq 0$
+\newline
+Solving the constraint for $x_1: x_1 = \frac{ p_1 + p_2 ( 2- x_2) }{p_1}$ This is maximized when $x_2 = 0.$ Thus: $x_1 = \frac{ p_1 + 2p_2}{p_1}$.
+\newline \newline
+Consumer 2 faces a similiar problem of: $max y_2 s.t. \quad p_1 x_1 + p_2 x_2 = 4_1 + 5p_2$
+\newline
+Solving for $y_2: y_2 = \frac{ 5p_2 + p_1 ( 4 - y_1 ) }{p_2}$. This is maximized when $y_1 = 0$. $y_2 = \frac{ 5p_2 +4p_1 }{p_2}$.
+\newline \newline
+Setting Excess demand equal to 0 for good 1:
+\begin{align*}
+\frac{ p_1 + 2p_2 }{p_1} &= 5\\
+p_1 + 2p_2 &= 5p_1\\
+p_2 &= 2 p_1\\
+x_1 &= \frac{p_1 + 4p_1 }{p_1} = 5\\
+x_2 &= 0\\
+y_1 &= 0\\
+y_2 &= \frac{ 10p_1 + 4p_1 }{2p_1} = 7\\
+\end{align*}
+
+
+
+
+\end{document}

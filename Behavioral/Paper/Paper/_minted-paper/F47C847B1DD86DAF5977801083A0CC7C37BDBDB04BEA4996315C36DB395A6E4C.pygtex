@@ -1,0 +1,121 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+ch}{\PYGZsh{}!/usr/bin/python}
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}*\PYGZhy{} coding: utf\PYGZhy{}8 \PYGZhy{}*\PYGZhy{}}
+
+\PYG{k+kn}{import} \PYG{n+nn}{re}
+\PYG{k+kn}{import} \PYG{n+nn}{os}
+\PYG{k+kn}{import} \PYG{n+nn}{glob}
+\PYG{k+kn}{import} \PYG{n+nn}{csv}
+\PYG{k+kn}{import} \PYG{n+nn}{pandas} \PYG{k+kn}{as} \PYG{n+nn}{pd}
+\PYG{k+kn}{import} \PYG{n+nn}{numpy} \PYG{k+kn}{as} \PYG{n+nn}{np}
+\PYG{k+kn}{from} \PYG{n+nn}{datetime} \PYG{k+kn}{import} \PYG{n}{datetime} \PYG{k}{as} \PYG{n}{dt}
+
+
+\PYG{k}{def} \PYG{n+nf}{ensure\PYGZus{}dir}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} directory = os.path.dirname(file\PYGZus{}path)}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{os}\PYG{o}{.}\PYG{n}{path}\PYG{o}{.}\PYG{n}{exists}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{):}
+        \PYG{n}{os}\PYG{o}{.}\PYG{n}{makedirs}\PYG{p}{(}\PYG{n}{file\PYGZus{}path}\PYG{p}{)}
+
+
+\PYG{n}{files} \PYG{o}{=} \PYG{n}{glob}\PYG{o}{.}\PYG{n}{glob}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}../ModifiedKnives/*.csv\PYGZdq{}}\PYG{p}{)}
+\PYG{c+c1}{\PYGZsh{}files = [\PYGZdq{}../ModifiedKnives/Glove Case.csv\PYGZdq{}]}
+
+
+\PYG{n}{throwoutDate} \PYG{o}{=} \PYG{n}{dt}\PYG{o}{.}\PYG{n}{strptime}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Feb 28 2018 01: +0\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}\PYGZpc{}b }\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s+s2}{ \PYGZpc{}Y \PYGZpc{}H: +0\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{for} \PYG{n+nb}{file} \PYG{o+ow}{in} \PYG{n}{files}\PYG{p}{:}
+    \PYG{k}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Investigating \PYGZdq{}} \PYG{o}{+} \PYG{n+nb}{file}\PYG{p}{)}
+    \PYG{k}{with} \PYG{n+nb}{open}\PYG{p}{(}\PYG{n+nb}{file}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rb\PYGZdq{}}\PYG{p}{)} \PYG{k}{as} \PYG{n}{csvFile}\PYG{p}{:}
+        \PYG{n}{simpleName} \PYG{o}{=} \PYG{n+nb}{file}\PYG{o}{.}\PYG{n}{split}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}}\PYG{p}{)[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+        \PYG{n}{transactionData} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}../Valuations/\PYGZdq{}} \PYG{o}{+} \PYG{n}{simpleName}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rb\PYGZdq{}}\PYG{p}{)}
+        \PYG{n}{valuationData} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}../Valuations/\PYGZdq{}} \PYG{o}{+}
+                             \PYG{n}{simpleName}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{4}\PYG{p}{]} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}\PYGZus{}Demand.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rb\PYGZdq{}}\PYG{p}{)}
+
+        \PYG{n}{transactionReader} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{reader}\PYG{p}{(}\PYG{n}{transactionData}\PYG{p}{,} \PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{transRows} \PYG{o}{=} \PYG{p}{[}\PYG{n}{r} \PYG{k}{for} \PYG{n}{r} \PYG{o+ow}{in} \PYG{n}{transactionReader}\PYG{p}{]}
+        \PYG{n}{valuationReader} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{reader}\PYG{p}{(}\PYG{n}{valuationData}\PYG{p}{,} \PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{valRows} \PYG{o}{=} \PYG{p}{[}\PYG{n}{r} \PYG{k}{for} \PYG{n}{r} \PYG{o+ow}{in} \PYG{n}{valuationReader}\PYG{p}{]}
+        \PYG{n}{reader} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{reader}\PYG{p}{(}\PYG{n}{csvFile}\PYG{p}{,} \PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{)}
+        \PYG{n}{rows} \PYG{o}{=} \PYG{p}{[}\PYG{n}{r} \PYG{k}{for} \PYG{n}{r} \PYG{o+ow}{in} \PYG{n}{reader}\PYG{p}{]}
+
+        \PYG{c+c1}{\PYGZsh{}sum(1 for line in transactionReader)}
+        \PYG{n}{gunData} \PYG{o}{=} \PYG{n}{np}\PYG{o}{.}\PYG{n}{zeros}\PYG{p}{(}
+            \PYG{p}{[(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{transRows}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{valRows}\PYG{p}{)),} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{rows}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{])}
+
+        \PYG{n}{boxCounter} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n}{price} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{n}{quantity} \PYG{o}{=} \PYG{l+m+mi}{0}
+
+        \PYG{c+c1}{\PYGZsh{} Loop through every item contained in the loot box.}
+        \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{rows}\PYG{p}{:}
+            \PYG{c+c1}{\PYGZsh{}print( row )}
+            \PYG{c+c1}{\PYGZsh{} Contents of the files here are}
+            \PYG{c+c1}{\PYGZsh{} Gun,Skin,Wear,Prob}
+            \PYG{n}{gun} \PYG{o}{=} \PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+            \PYG{n}{skin} \PYG{o}{=} \PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+            \PYG{n}{wear} \PYG{o}{=} \PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}
+            \PYG{n}{prob} \PYG{o}{=} \PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]}
+            \PYG{c+c1}{\PYGZsh{} Now we open the file for the gun in question.}
+            \PYG{n}{gunFile} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}/root/Classes/Behavioral/Paper/CSV/\PYGZdq{}} \PYG{o}{+}
+                           \PYG{n}{gun} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}} \PYG{o}{+} \PYG{n}{skin} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}/\PYGZdq{}} \PYG{o}{+} \PYG{n}{wear} \PYG{o}{+} \PYG{l+s+s2}{\PYGZdq{}.csv\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}rb\PYGZdq{}}\PYG{p}{)}
+            \PYG{n}{gunReader} \PYG{o}{=} \PYG{n}{csv}\PYG{o}{.}\PYG{n}{reader}\PYG{p}{(}\PYG{n}{gunFile}\PYG{p}{,} \PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s+s1}{\PYGZsq{},\PYGZsq{}}\PYG{p}{)}
+            \PYG{n}{gunRows} \PYG{o}{=} \PYG{p}{[}\PYG{n}{r} \PYG{k}{for} \PYG{n}{r} \PYG{o+ow}{in} \PYG{n}{gunReader}\PYG{p}{]}
+            \PYG{k}{for} \PYG{n}{gunRow} \PYG{o+ow}{in} \PYG{n}{gunRows}\PYG{p}{:}
+                \PYG{n}{gunRow}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dt}\PYG{o}{.}\PYG{n}{strptime}\PYG{p}{(}\PYG{n}{gunRow}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{l+s+s2}{\PYGZdq{}\PYGZpc{}b }\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s+s2}{ \PYGZpc{}Y \PYGZpc{}H: +0\PYGZdq{}}\PYG{p}{)}
+
+            \PYG{n}{transCounter} \PYG{o}{=} \PYG{l+m+mi}{0}
+            \PYG{c+c1}{\PYGZsh{} For every sale of the loot box at any time, find the price of the}
+            \PYG{c+c1}{\PYGZsh{} item at that time}
+            \PYG{k}{for} \PYG{n}{transaction} \PYG{o+ow}{in} \PYG{n}{transRows}\PYG{p}{:}
+                \PYG{c+c1}{\PYGZsh{}dt.strptime(\PYGZdq{}10/12/13\PYGZdq{}, \PYGZdq{}\PYGZpc{}m/\PYGZpc{}d/\PYGZpc{}y\PYGZdq{})}
+                \PYG{n}{date} \PYG{o}{=} \PYG{n}{dt}\PYG{o}{.}\PYG{n}{strptime}\PYG{p}{(}\PYG{n}{transaction}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{],} \PYG{l+s+s2}{\PYGZdq{}\PYGZpc{}b }\PYG{l+s+si}{\PYGZpc{}d}\PYG{l+s+s2}{ \PYGZpc{}Y \PYGZpc{}H: +0\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{if}\PYG{p}{(} \PYG{n}{date} \PYG{o}{\PYGZlt{}} \PYG{n}{throwoutDate}\PYG{p}{):}
+                    \PYG{k}{continue}
+                \PYG{n}{price} \PYG{o}{=} \PYG{n}{transaction}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{quantity} \PYG{o}{=} \PYG{n}{transaction}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}
+                \PYG{n}{gunCounter} \PYG{o}{=} \PYG{l+m+mi}{0}
+                \PYG{c+c1}{\PYGZsh{}print( \PYGZdq{}got gun rows\PYGZdq{})}
+                \PYG{k}{for} \PYG{n}{gunRow} \PYG{o+ow}{in} \PYG{n}{gunRows}\PYG{p}{:}
+                    \PYG{k}{if}\PYG{p}{(}\PYG{n}{gunRow}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{\PYGZgt{}} \PYG{n}{date}\PYG{p}{):}
+                        \PYG{k}{break}
+                    \PYG{n}{gunCounter} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                \PYG{c+c1}{\PYGZsh{}print( \PYGZdq{}survived teh break\PYGZdq{})}
+                \PYG{k}{if}\PYG{p}{(}\PYG{n}{gunCounter} \PYG{o}{==} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{gunRows}\PYG{p}{)):}
+                    \PYG{n}{gunPrice} \PYG{o}{=} \PYG{n}{gunRows}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{k}{else}\PYG{p}{:}
+                    \PYG{n}{gunPrice} \PYG{o}{=} \PYG{n}{gunRows}\PYG{p}{[}\PYG{n}{gunCounter}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]}
+                \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{boxCounter} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{]} \PYG{o}{=} \PYG{n}{gunPrice}
+                \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{1} \PYG{o}{+} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{boxCounter} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{]} \PYG{o}{=} \PYG{n}{prob}
+                \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{price}
+                \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{quantity}
+                \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{1}
+                \PYG{n}{transCounter} \PYG{o}{+=} \PYG{l+m+mi}{1}
+            \PYG{c+c1}{\PYGZsh{}print( \PYGZdq{}finished transactions\PYGZdq{})}
+
+            \PYG{n}{gunPrice} \PYG{o}{=} \PYG{n}{gunRows}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{]}
+            \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{:(}\PYG{n}{transCounter} \PYG{o}{+} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{valRows}\PYG{p}{)),}
+                    \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{boxCounter} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{]} \PYG{o}{=} \PYG{n}{gunPrice}
+            \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{:(}\PYG{n}{transCounter} \PYG{o}{+} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{valRows}\PYG{p}{)),}
+                    \PYG{l+m+mi}{1} \PYG{o}{+} \PYG{l+m+mi}{2} \PYG{o}{*} \PYG{n}{boxCounter} \PYG{o}{+} \PYG{l+m+mi}{3}\PYG{p}{]} \PYG{o}{=} \PYG{n}{prob}
+
+            \PYG{k}{if}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{valRows}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{):}
+                \PYG{k}{for} \PYG{n}{transaction} \PYG{o+ow}{in} \PYG{n}{valRows}\PYG{p}{:}
+                    \PYG{c+c1}{\PYGZsh{} Now we don\PYGZsq{}t have a date, just a price and a quantity.}
+                    \PYG{c+c1}{\PYGZsh{} The date is the latest posted by the market}
+                    \PYG{n}{price} \PYG{o}{=} \PYG{n}{transaction}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}
+                    \PYG{n}{quantity} \PYG{o}{=} \PYG{n}{transaction}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}
+                    \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{=} \PYG{n}{price}
+                    \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{=} \PYG{n}{quantity}
+                    \PYG{n}{gunData}\PYG{p}{[}\PYG{n}{transCounter}\PYG{p}{,} \PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+                    \PYG{n}{transCounter} \PYG{o}{+=} \PYG{l+m+mi}{1}
+
+            \PYG{c+c1}{\PYGZsh{}print( price )}
+            \PYG{c+c1}{\PYGZsh{}print( quantity )}
+            \PYG{n}{gunFile}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+            \PYG{c+c1}{\PYGZsh{}print( gunData[:,2*boxCounter+2])}
+            \PYG{c+c1}{\PYGZsh{}print( gunData[:,2*boxCounter+3])}
+            \PYG{n}{boxCounter} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{c+c1}{\PYGZsh{}print( gunData)}
+    \PYG{c+c1}{\PYGZsh{} Now we just export as a pandas csv}
+    \PYG{n}{np}\PYG{o}{.}\PYG{n}{savetxt}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}../Data/\PYGZdq{}} \PYG{o}{+} \PYG{n}{simpleName}\PYG{p}{,} \PYG{n}{gunData}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{:}\PYG{n}{transCounter}\PYG{p}{,:],} \PYG{n}{delimiter}\PYG{o}{=}\PYG{l+s+s2}{\PYGZdq{},\PYGZdq{}}\PYG{p}{)}
+\end{Verbatim}

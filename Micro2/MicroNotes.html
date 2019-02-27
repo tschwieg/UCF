@@ -1,0 +1,904 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>MicroNotes</title>
+<!-- 2018-04-26 Thu 10:00 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="root" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">MicroNotes</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Behavior under risk</a>
+<ul>
+<li><a href="#sec-1-1">1.1. Preferences Over Lotteries</a></li>
+<li><a href="#sec-1-2">1.2. Utility Functions</a>
+<ul>
+<li><a href="#sec-1-2-1">1.2.1. Expected Utility Property</a></li>
+<li><a href="#sec-1-2-2">1.2.2. Von Neumann-Morgenstern Utility Functions</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-3">1.3. Risk Preference</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1. Certainty Equivalent</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">1.4. Mean-preserving spread</a></li>
+<li><a href="#sec-1-5">1.5. Stochastic Dominance</a>
+<ul>
+<li><a href="#sec-1-5-1">1.5.1. First Order Stochastic Dominance</a></li>
+<li><a href="#sec-1-5-2">1.5.2. Second Order Stochastic Dominance</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-6">1.6. Arrow-Pratt Measure of Absolute Risk Aversion</a></li>
+<li><a href="#sec-1-7">1.7. Decreasing Absolute Risk Aversion</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2. Game Theory</a>
+<ul>
+<li><a href="#sec-2-1">2.1. Simultaneous Move Games</a>
+<ul>
+<li><a href="#sec-2-1-1">2.1.1. Dominant Strategies</a></li>
+<li><a href="#sec-2-1-2">2.1.2. Nash Equilibrium</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-2">2.2. Games of Incomplete Information</a>
+<ul>
+<li><a href="#sec-2-2-1">2.2.1. Harsanyi's Purification Theorem</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-3">2.3. Sequential Move Games</a>
+<ul>
+<li><a href="#sec-2-3-1">2.3.1. Subgame Perfect Nash Equilibria</a></li>
+<li><a href="#sec-2-3-2">2.3.2. Sequential Equilibrium</a></li>
+<li><a href="#sec-2-3-3">2.3.3. Trembling hand perfection</a></li>
+<li><a href="#sec-2-3-4">2.3.4. Correlated Equilibria</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-4">2.4. Repeated Play</a>
+<ul>
+<li><a href="#sec-2-4-1">2.4.1. Finitely Repeated Play</a></li>
+<li><a href="#sec-2-4-2">2.4.2. Infinitely repeated Games</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Behavior under risk</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+A lottery A contains \(\{ a_1, ... , a_n \}\) where \(a_i\) occurs with
+probability \(p_i\). WLOG these are ordered such that \(a_i \succeq a_{i+1}\)
+</p>
+</div>
+
+<div id="outline-container-sec-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> Preferences Over Lotteries</h3>
+<div class="outline-text-3" id="text-1-1">
+<ul class="org-ul">
+<li>Compelteness
+</li>
+<li>Transitivity
+</li>
+<li>State independence
+</li>
+<li>Reduction of complex lotteries
+</li>
+<li>Continuity - Can reproduce any lottery with the appropiate
+combination of the minimum and maximum values
+</li>
+<li>If an outcome \(x \succ y\), then \(px + (1-p)z \succ py + (1-p)z\)
+</li>
+</ul>
+</div>
+</div>
+
+
+<div id="outline-container-sec-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> Utility Functions</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+We wish to capture this preference relation in a continuous and
+real-valued utility function. This function should map from possible
+lotteries to the reals. \(u : L \to \mathbb{R}\)
+</p>
+
+<p>
+For notational purposes, denote the utility of an outcome of the
+lottery to denote the utility of the degernate gamble that only gives
+this outcome.
+</p>
+</div>
+
+<div id="outline-container-sec-1-2-1" class="outline-4">
+<h4 id="sec-1-2-1"><span class="section-number-4">1.2.1</span> Expected Utility Property</h4>
+<div class="outline-text-4" id="text-1-2-1">
+\begin{equation*}
+\forall l \in L \quad
+u(l) = \sum_{i=1}^n p_i u(a_i )
+\end{equation*}
+</div>
+</div>
+
+<div id="outline-container-sec-1-2-2" class="outline-4">
+<h4 id="sec-1-2-2"><span class="section-number-4">1.2.2</span> Von Neumann-Morgenstern Utility Functions</h4>
+<div class="outline-text-4" id="text-1-2-2">
+<p>
+If preferences satisfy these axioms then there is a Utility function
+that also exhibits the expected utility property. This can always be
+consructed by the continuity property.
+</p>
+
+<p>
+Since every element in the lottery is indifferent to a convex
+combination of the highest and lowest element, the number \(\alpha\) can
+be used as the utility of that element.
+</p>
+
+<p>
+These utility funtions are unique to an affline transformation. All
+that matters is that the ratio given by:
+</p>
+\begin{equation*}
+\frac{ u(a) - u(b) }{ u(b) - u(c) } = \frac{1 - \alpha}{\alpha}
+\end{equation*}
+<p>
+This ratio must be the same for all VNM utility functions, so they are
+unique to an affline transformation. Also note that this does not
+measure the intensity with which one lottery is preferred to another,
+simply the preference between them.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> Risk Preference</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Under Uncertainty, convexity of indifference curves means that
+individuals are risk averse, when considering lotteries over wealth.
+</p>
+
+<p>
+This is related to the shape of the VNM utility function. If the
+utility function is concave, then the indifference curve is convex.
+</p>
+
+<p>
+This can be simplified to risk aversion and expected values:
+</p>
+<ul class="org-ul">
+<li>Risk Averse: \(u( \mathbb{E}[l] ) > u(l)\)
+</li>
+<li>Risk Neutral: \(u( \mathbb{E}[l] ) = u(l)\)
+</li>
+<li>Risk Loving: \(u( \mathbb{E}[l] ) < u(l)\)
+</li>
+</ul>
+
+<p>
+If an individual is risk (something) for all lotteries \(l \in L\), then
+it is said that he is simply risk (something).
+</p>
+
+<p>
+Jenson's Inequality: For any random Variable W, and any strictly
+concave function u(W)
+</p>
+
+<p>
+\(\mathbb{E}[ u(W) ] < u( \mathbb{E}[W] )\)
+</p>
+</div>
+
+<div id="outline-container-sec-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> Certainty Equivalent</h4>
+<div class="outline-text-4" id="text-1-3-1">
+<p>
+Certaintiy Equivalent: The amount of wealth required in certiantity
+such that: \(u(l) = u( CE )\)
+</p>
+
+<p>
+Risk Premium: The amount of wealth willing to pay to avoid the
+lottery. P such that: $u(l) = u( \mathbb{E[l]} - P ). P =
+\mathbb{E}[l] - CE.$
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> Mean-preserving spread</h3>
+<div class="outline-text-3" id="text-1-4">
+<p>
+Mean-preserving spread: a variable with the same mean but more
+risk. Consider a random variable \(z\). A mean preserving spread is:
+\(z^+ = z + e\) where \(\mathbb{E[e|z]} = 0\) Effectively, mass is moved
+out of the center and into the tails.
+</p>
+
+<p>
+Expected utility of a risk-averse person falls when he faces a mean
+preserving spread of his old distribution. It rises for a risk loving
+person.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> Stochastic Dominance</h3>
+<div class="outline-text-3" id="text-1-5">
+</div><div id="outline-container-sec-1-5-1" class="outline-4">
+<h4 id="sec-1-5-1"><span class="section-number-4">1.5.1</span> First Order Stochastic Dominance</h4>
+<div class="outline-text-4" id="text-1-5-1">
+<p>
+\(\forall x F(x) \leq G(x)\).
+This is equivalent to: for every weakly increasing u, \(\int u(x) dF
+\geq \int u(x) dG\).
+</p>
+<ul class="org-ul">
+<li>FOSD means that the Distribution function of F is
+</li>
+</ul>
+<p>
+to the right of G.
+</p>
+<ul class="org-ul">
+<li>It can also be thought of as everyone prefers F to G, and
+\(\mathbb{E_G} \geq \mathbb{E_G}\)
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1-5-2" class="outline-4">
+<h4 id="sec-1-5-2"><span class="section-number-4">1.5.2</span> Second Order Stochastic Dominance</h4>
+<div class="outline-text-4" id="text-1-5-2">
+<p>
+X Second Order Stochastically Dominates Y if
+</p>
+\begin{equation*}
+\int_0^k \bar{ F(x) }dx \geq \int_0^k \bar{ G(x) }dx
+\end{equation*}
+
+<p>
+Obviously FSC \(\to\) SSD.
+</p>
+
+<p>
+Less obvious is that: If X SSD Y, then \(\mathbb{E}[X] \geq
+\mathbb{E}[Y]\).
+</p>
+
+<p>
+In fact, for all risk averse utility functions. If X SSD Y, then
+\(\mathbb{E}[U(X)] \geq \mathbb{E}[U(Y)]\).
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> Arrow-Pratt Measure of Absolute Risk Aversion</h3>
+<div class="outline-text-3" id="text-1-6">
+<p>
+\(R_a(w) = \frac{ -u''(w) }{ u'(w) }\)
+</p>
+
+<p>
+The sign of this gives us the question of risk aversion, positive
+means risk averse, and negative implies they are risk loving. This
+measurement is also unchanged by any affline transformation.
+</p>
+
+<p>
+The magnitude of \(R_a\) gives how risk averse consumers are in the
+sense of lower certainty equivalents, and accept fewer gambles.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> Decreasing Absolute Risk Aversion</h3>
+<div class="outline-text-3" id="text-1-7">
+<p>
+\(R_a(w)\) is a local measure of risk aversion, it can change with an
+individuals level of wealth. Based on how this measure changes with
+wealth gives decreasing absolute risk aversion, or possibly constant
+or increasing depending.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Game Theory</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> Simultaneous Move Games</h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+Strategic form game is a tuple defining the available strategies, and
+payoff functions which map the product of the strategies to the reals.
+This sucks to write out, so for finite games we like to try to use
+matrices.
+</p>
+</div>
+
+<div id="outline-container-sec-2-1-1" class="outline-4">
+<h4 id="sec-2-1-1"><span class="section-number-4">2.1.1</span> Dominant Strategies</h4>
+<div class="outline-text-4" id="text-2-1-1">
+<p>
+A strategy is strictly dominant if it is strictly better off than all
+other stragies, or formally: \(\hat{s_i}\) is dominant if: \(u_i (
+\hat{s_i}, s_{-i} ) > u_i( s_i, s_{-i} ) \quad \forall (s_i, s_{-i} )
+\in S, s_i \neq \hat{s_i}\)
+</p>
+
+<p>
+If this happens for one strategy \(s_i\) we say that \(\hat{s_i}\)
+strictly dominates \(s_i\), and \(s_i\) is strictly dominated.
+</p>
+
+<p>
+Weakly Dominant: Same thing but with non-strict inequalities.
+</p>
+
+<p>
+These strategies can be iteratively applied to remove strategies and
+find the dominant strategy. When doing this with weakly dominant
+strategies order does matter.
+</p>
+
+<p>
+Mixed strategies can dominate pure strategies. JR p322 Ex 7.4
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-1-2" class="outline-4">
+<h4 id="sec-2-1-2"><span class="section-number-4">2.1.2</span> Nash Equilibrium</h4>
+<div class="outline-text-4" id="text-2-1-2">
+<p>
+There isn't always a dominant strategy, and this is rarely the case in
+a complicated mechanism.
+</p>
+
+<p>
+A Nash Equilibrium is an equilibrium where every player is playing a
+best response to every other player's strategy. There can be many of
+these in a single game. If we get one of these is another thing
+entirely.
+</p>
+
+<p>
+Mixed strategy Nash Equilibriums occur where each player is mixing
+precisely in the manner that makes the other player indifferent. That
+is the weak part of the inequality is driving everything, so there is
+no incentive leading to this result.
+</p>
+
+<p>
+However when these are included we get a result that every finite
+strategic form game posses at least one Nash Equilibrium. This result
+uses Kakutani's fixed point theorem.
+</p>
+
+<p>
+Generally: It is just required that the strategy space is compact and
+payoff functions are continuous.
+</p>
+
+<p>
+For a finite strategic form game G, a joint strategy \(\hat{m}\) is a
+Nash Equibrium if for each player i, $u<sub>i</sub> ( \hat{m} ) &ge; u<sub>i</sub>( m<sub>i</sub>,
+\hat{m<sub>-i</sub>} ) This seems like a lot of work, we would have to check
+all infinite mixed strategies, but there is a faster way.
+</p>
+
+<p>
+These following are equivalent:
+</p>
+<ul class="org-ul">
+<li>\(\hat{m} \in M\) is a Nash Equilibrium
+</li>
+<li>\(\forall i, u_i( \hat{m} ) = u_i ( s_i, \hat{m_{-i}} ) \quad \forall
+  s_i \in S_i\) as long as \(s_i\) is given positive weight by
+\(\hat{m_i}\) and \(u_i( \hat{m} ) \geq u_i( s_i, \hat{m_{-i}} )\) for
+the ones given zero weight.
+</li>
+<li>For every player i, \(u_i( \hat{m} ) \geq u_i( s_i, \hat{m_{-i}} )
+  \quad \forall s_i \in S_i\)
+</li>
+</ul>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> Games of Incomplete Information</h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+Sometimes we do not know the payoffs of the other players. We will
+need each player to have beliefs about the other players. Beliefs are
+updated according to Bayes' Rule. These are represented in the form of
+types. This adds another dimension to the formal definition of a Game,
+and requires a common prior distribution of the types players can be.
+</p>
+
+<p>
+This is the same as the interpretation that every type of a player is
+a seperate player, and which type they are is chosen at the start of
+the game by "Nature". However each player chooses his strategy before
+seeing nature's choice.
+</p>
+
+<p>
+This allows us to view the game of incomplete information as one of
+complete information, where the payoffs for that player are the
+expected payoffs based on the probabilities of them occuring updated
+with the information we have.
+</p>
+
+<p>
+The Nash Equilibrium of this complete information game is the
+Bayes-Nash Equilibrium of the Incomplete Information game.
+</p>
+</div>
+
+<div id="outline-container-sec-2-2-1" class="outline-4">
+<h4 id="sec-2-2-1"><span class="section-number-4">2.2.1</span> Harsanyi's Purification Theorem</h4>
+<div class="outline-text-4" id="text-2-2-1">
+<p>
+All Mixed-Strategy Nash Equilibriums in a game of complete information
+can be viewed as the limit of a pure Bayesian Nash Equilibrium in a
+game of incomplete information converging to the complete info game.
+</p>
+
+<p>
+If the payoffs of a game are private information, then there is a pure
+strategy that uses a threshold to make a decision, and this converges
+to the mixed Nash Equilibrium.
+</p>
+
+<p>
+For example: If we have a strategy profile, to each possible strategy
+assign an error term that has support [-1,1]. Change the payout
+function for each strategy to be the old payout, plus &epsilon; times
+this error term. The limit as &epsilon; goes to zero is the mixed
+strategy equilibrium.
+</p>
+
+<p>
+Formally: For all independent P<sub>i</sub>, any mixed strategy equilibrium of
+the complete information game is the limit of a sequence of pure
+strategy equilibria of an &epsilon; perturbed game.
+</p>
+</div>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> Sequential Move Games</h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+We usually consider game trees and use backwards induction to find the
+optimal strategy. However we also have to take into account
+information sets. Players cannot distinguish between nodes in an
+information set.
+</p>
+
+<p>
+Pure strategies now specify what action to take among those available
+at each of his information set. Even ones that we do not believe we
+will ever reach. Nature takes his action at the beginning of the game,
+and doesn't have any payoffs. Strategy should tell you what to do for
+each realization from nature.
+</p>
+
+<p>
+Backwards induction strategies are a Nash Equilibrium. In fact, every
+finite extensive form game of perfect information possesses a pure
+strategy Nash Equilibrium. But not every NE of the game will come from
+backwards induction. Note that for imperfect information, backwards
+induction will not always work.
+</p>
+</div>
+
+<div id="outline-container-sec-2-3-1" class="outline-4">
+<h4 id="sec-2-3-1"><span class="section-number-4">2.3.1</span> Subgame Perfect Nash Equilibria</h4>
+<div class="outline-text-4" id="text-2-3-1">
+<p>
+A subgame is a subset of the original game that has not split any of
+the information sets. Subgame Perfect means that it induces a Nash
+Equilibrium on every subgame of the original game.
+</p>
+
+<p>
+The set of backwards induction strategies are the set of subgame
+perfect Nash Equilibria when there is perfect information.
+</p>
+
+<p>
+Randomness can arise from mixed strategies, where you simply assign
+probabilities to pure strategies, and randomize once at the start, and
+stick with it throughout, or you can mix over available actions at
+every information set.
+</p>
+
+<p>
+These are equivalent. Kuhn's theorem: For every mixed strategy, there
+is a corresponding behaviorally mixed strategy which is equivalent, as
+in leading to the same distribution of outcomes, and vice versa. So we
+will use behavioral mixing.
+</p>
+
+<p>
+This leads us to the fact that every finite extensive form game with
+perfect recall possesses a subgame perfect equilibrium. To handle the
+case of incomplete information, have nature pick the type of player at
+the start, and have it not be observed by the other players. This
+changes it to simply unobserved information.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3-2" class="outline-4">
+<h4 id="sec-2-3-2"><span class="section-number-4">2.3.2</span> Sequential Equilibrium</h4>
+<div class="outline-text-4" id="text-2-3-2">
+<p>
+Subgame perfect doesn't take into account a player's beliefs over the
+nodes within his information sets. We would like these beliefs to be
+consistent with the strategies of the players, so we will require that
+they will derived from strategies using Bayes' Rule when possible.
+</p>
+
+<p>
+Assessment: is a set of behavioral strategies and system of beliefs of
+all the players at each information set.
+</p>
+
+<p>
+Sequentially ration: An assessment is sequentially ration if for every
+player, information set and behavioral strategy, the expected payoff
+from using that strategy given their beliefs is weakly higher than the
+expected payoff of every other behavioral strategy.
+A behavioral strategy b is called sequentially ration if there are
+some beliefs that make this strategy sequentially rational.
+</p>
+
+<p>
+Basically this means you are doing your best given what you believe. A
+sequential equilibrium is an assessment that is sequentially rational
+and confroms to Bayes' rule.
+</p>
+
+<p>
+Every finite eextensive form game with perfect recall possess at least
+one sequential equilibrium. For all sequentially rational behavioral
+strategies, the behavioral strategy is a subgame perfect equilibrium.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-3-3" class="outline-4">
+<h4 id="sec-2-3-3"><span class="section-number-4">2.3.3</span> Trembling hand perfection</h4>
+<div class="outline-text-4" id="text-2-3-3">
+<p>
+There is some small chance that other players make a mistake and don't
+play their best reponse, if your strategy survives this possibility,
+it is trembling hand.
+</p>
+
+<p>
+Formally: Sequence of strictly mixed strategies which each one is a
+nash equilibrium, then the limit of this sequence is a trembling-hand
+perfect Nash Equilibrium.
+</p>
+
+<p>
+Every Finite extensive form game has a trembling-hand perfect
+equilibrium. And every tremblind-hand perfect Nash Equilibrium is a
+sequential equilibrium, and therefore subgame perfect.
+</p>
+</div>
+</div>
+
+
+<div id="outline-container-sec-2-3-4" class="outline-4">
+<h4 id="sec-2-3-4"><span class="section-number-4">2.3.4</span> Correlated Equilibria</h4>
+<div class="outline-text-4" id="text-2-3-4">
+<p>
+Requires a disinterested neutral party that will inform people of some
+set of events not observed by either. This allows for players to
+correlate their actions in a self-enforcing manner. This allows for
+players to recieve payoffs outside the convex hull of their NE
+payoffs.
+</p>
+</div>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> Repeated Play</h3>
+<div class="outline-text-3" id="text-2-4">
+</div><div id="outline-container-sec-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> Finitely Repeated Play</h4>
+<div class="outline-text-4" id="text-2-4-1">
+<p>
+Let G be a stage game, and G(T) is the finitely repeated game where G
+is played T times. The payoffs for G(T) are the sum of payoffs from
+the T stage games.
+</p>
+
+<p>
+If the stage game G has a unique NE, then for any finite T, the
+repeated game G(T) has a unique subgame perfect outcome where the NE
+is played in every stage. 
+</p>
+
+<p>
+When there is more than one NE, there can be many more NE in the
+repeated game. Worse yet, when there are multiple NE, the repated
+games can have outcomes in stages t &lt; T that are not Nash Equilibria
+of G. These outcomes can be thought of as avoiding punishment
+locations and playing nice because of the fear of future punishment.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2"><span class="section-number-4">2.4.2</span> Infinitely repeated Games</h4>
+<div class="outline-text-4" id="text-2-4-2">
+<p>
+We are going to require a discount factor &delta;. It is the present value
+of payoffs, and can be thought of as an exogenous probability of the
+game prcoeeding.
+</p>
+
+<p>
+Trigger strategies can induce cooperation in every stage of a
+SPNE. There is a fear of being punished infinitely in the future. 
+</p>
+
+<p>
+A payoff is considered feasible if they are a convex combination of
+the pure strategy payoffs of G.
+</p>
+
+<p>
+The average payoff of the infinite
+sequence of payoffs: \(\{ \pi_i \}\) is \(( 1 - \delta) \sum_{t=1}^\infty \delta^{t-1}
+\pi_t\). 
+</p>
+
+<p>
+For a finite static game of complete information, with payoffs e<sub>i</sub>, and
+x<sub>i</sub> feasible payoffs. For some &delta; that is sufficiently close to one, and
+if \(x_i > e_i \quad \forall i\), then there exists a SPNE of the infinitely
+repeated game that acheives \((x_j)\) as the average payoff.
+</p>
+
+<p>
+This basically means in an infinitely repeated game there is a lot of
+behavioral that is consistent. 
+</p>
+
+<p>
+Folk Theorem: For every feasible payoff vector that is better than the
+minimax payoff for every player, there exists a <span class="underline">&delta;_&lt; 1 such that $&forall; &delta;
+&isin; (</span>&delta;_,1). There is a Nash Equilibrium of G(&delta;) with those payoffs. 
+</p>
+
+<p>
+If we make the dimension of V equal the number of players, this can be
+strengthened to a subgame-perfect Nash Equilibrium. 
+</p>
+
+<p>
+Proof basically follows from threatening to minimax players and
+convincing everyone to do so by giving them a slightly higher payoff
+than they had before when they minimax.
+</p>
+
+<p>
+In an infinitely repeated n-person game with finite action sets at
+each reptiition, any profile of actions observed in any finite number
+of repitions in the unique outcome of some subgame perfect equilibrium
+given. Basically theory isn't telling us anything because of trigger
+strategies. 
+</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: root</p>
+<p class="date">Created: 2018-04-26 Thu 10:00</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.1.1 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

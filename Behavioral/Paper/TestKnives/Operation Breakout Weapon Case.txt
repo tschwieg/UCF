@@ -1,0 +1,34 @@
+Bayonet_Vanilla,0.00013
+Gut Knife_Vanilla,0.00013
+Flip Knife_Vanilla,0.00013
+M9 Bayonet_Vanilla,0.00013
+Karambit_Vanilla,0.00013
+Butterfly Knife_Vanilla,0.00013
+Butterfly Knife_Boreal Forest,0.00013
+Butterfly Knife_Case Hardened,0.00013
+Butterfly Knife_Crimson Web,0.00013
+Butterfly Knife_Damascus Steel,0.00013
+Butterfly Knife_Blue Steel,0.00013
+Butterfly Knife_Fade,0.00013
+Butterfly Knife_Forest DDPAT,0.00013
+Butterfly Knife_Night,0.00013
+Butterfly Knife_Safari Mesh,0.00013
+Butterfly Knife_Scorched,0.00013
+Butterfly Knife_Slaughter,0.00013
+Butterfly Knife_Stained,0.00013
+Butterfly Knife_Urban Masked,0.00013
+Bowie Knife_Vanilla,0.00013
+M4A1-S | Cyrex,0.0032
+P90 | Asiimov,0.0032
+Glock-18 | Water Elemental,0.016
+Five-SeveN | Fowl Play,0.0799
+Desert Eagle | Conspiracy,0.3996
+P250 | Supernova,0.3996
+Nova | Koi,0.3996
+CZ75-Auto | Tigris,0.3996
+PP-Bizon | Osiris,0.3996
+UMP-45 | Labyrinth,0.3996
+SSG 08 | Abyss,0.3996
+P2000 | Ivory,0.3996
+Negev | Desert-Strike,0.3996
+MP7 | Urban Hazard,0.3996

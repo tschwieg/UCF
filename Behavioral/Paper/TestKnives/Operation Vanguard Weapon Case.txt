@@ -1,0 +1,20 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+P2000 | Fire Elemental,0.0032
+AK-47 | Wasteland Rebel,0.0032
+XM1014 | Tranquility,0.016
+SCAR-20 | Cardiac,0.0799
+P250 | Cartel,0.3996
+Sawed-Off | Highwayman,0.3996
+M4A4 | Griffin,0.3996
+M4A1-S | Basilisk,0.3996
+Glock-18 | Grinder,0.3996
+UMP-45 | Delusion,0.3996
+Five-SeveN | Urban Hazard,0.3996
+MP9 | Dart,0.3996
+MAG-7 | Firestarter,0.3996
+G3SG1 | Murky,0.3996

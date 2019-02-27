@@ -1,0 +1,23 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+M4A1-S | Chantico's Fire,0.0032
+PP-Bizon | Judgement of Anubis,0.0032
+UMP-45 | Primal Saber,0.016
+P250 | Asiimov,0.0799
+AUG | Fleet Flock,0.0799
+XM1014 | Black Tie,0.3996
+Tec-9 | Re-Entry,0.3996
+SSG 08 | Ghost Crusader,0.3996
+Galil AR | Firefight,0.3996
+CZ75-Auto | Red Astor,0.3996
+SG 553 | Atlas,0.3996
+Sawed-Off | Fubar,0.3996
+P2000 | Oceanic,0.3996
+MP9 | Bioleak,0.3996
+M249 | Spectre,0.3996
+G3SG1 | Orange Crash,0.3996
+Dual Berettas | Ventilators,0.3996

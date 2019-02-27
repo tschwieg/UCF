@@ -1,0 +1,60 @@
+The question of adding a second machine added several technical issues to our project. Now the question was 
+no longer one of finding the lowest cost cycle throughout the graph, but one of finding the best partition of
+the graph that gave the lowest sum of the cost of both cycles. There was also an added constraint of equal workload
+between the machines that we took to mean that the minutes spent making crayons between the two machines had to be equal.
+Since there are 2^16 partitions available to select from, it was obviously infeasible to loop through them and run a traveling
+salesperson in each paritition and find the lowest cost to traverse. While we may have been able to prune the set
+of available partitions by only looking at the ones that had nearly equal work load, we believed that this problem
+would still be intractable.
+	This led us to consider the multiple traveling salesperson problem, which is where several salespeople leave
+the same node and complete distinct cycles and return to that same node. This was almost what we were looking for, as
+in our equivalent model, the only difference is that the machines start in different nodes. Instead of altering the model
+to allow for the salespeople to start at different locations, we added a "dummy" color where both machines would start at.
+This node had zero cost to enter and exit. A Multiple traveling  salesperson almost fits our current problem. However it gives
+no cost to move from the last node to the first. We will resolve this problem later.
+	The constraint of equal work between the machines will be quite complicated to resolve. The first measure we need is a way
+to differentiate between the colors worked on by machine 1, and the colors worked on by machine 2. To this end, we
+doubled the number of indicators, creating a Yij for each Xij. All of the constraints that related to Xij for the
+regular traveling salesperson were changed to (Xij + Yij). For the dummy node though, we wished to restrict exiting and
+entering to be one per each indicator. that is: 
+sum from i = 0 to 16, Xij = 1,
+sum from i = 0 to 16, Yij = 1
+sum from j = 0 to 16, Xij = 1,
+sum from j = 0 to 16, Yij = 1
+	One possibly subtle issue with this formation is that none of these constraints as of yet have forced the entire cycle
+to be the indicators X or Y. they are free to "hop" between indicators as long as only one X or Y leaves and enters each of the nodes.
+To fix this, we added a constraint that required if you left a node on the X indicator, you would move to a node on the X indicator as well.
+This effectively stopped the hopping, and allowed the output for each cycle to be read from the output of the Xij and Yij.
+	All this work has only allowed us to tell between the two cycles that each machine does, we have not yet added any constraint that balances
+the amount of work that each of the machines is going to do. To do this we create Indicators that each machine produces a color, then we multiply
+the number of weekly batches that each machine produces for each color times the Indicator. The sum of this must be "equal" between each machine.
+However, since we cannot make them exactly equal, we introduce a slack parameter, requiring that the machines only be within s minutes of each other.
+We set s = 100. All the remains is to determine the indicator. We choose to sum over the paths entered to build indicator, but paths exiting would return the same value.
+Note that we did not consider inventory in this, as we are not forming a seperate model to estimate each week. We simply balance the workload
+as if there was no leftover inventory. This may lead us to be slightly off on the balanced workload, but should affect it by far less than the inbalance introduced
+by having the slack parameter. If the slight imbalance is a problem, the machines can be alternated between weeks to ensure true symmetry. 
+sum from i = 1 to 16 ceil( D[i]*1000/(2100*50)) IXj = sum from i = 1 to 16 ceil( D[i]*1000/(2100*50)) IYj + s
+	The only issue left to reconcile is the way in which the dummynode does not considers the cost of moving from the last node to the dummy node to first node as zero
+To this end, we considered two possible options. The first maintained the structure of the problem as an integer linear program, but created a huge amount of variables,
+and the second did not create extra variables, but introduced a quadratic objective function, leading to a much more difficult to solve, numerically, problem.
+	Our first approach was based around creating an indicator for when the machine passed to the dummy node and then left the node. The basic theory behind it
+was: 
+X0i + Xj0 - IXij - MXij = 0
+This constraint reads as: if you leave j to go to the dummy node, and leave the dummy node to go to i, both IXij and MXij must be equal to one.
+sum from i = 1 to 16 sum from j = 1 to 16 IXij = 1
+This second constraint requires that this path of leaving j to dummy, and going from the dummy to i may only happen once. While MXij may be 0 or 1 depending
+on whether or not you X0i and Xj0 are 1, if they are both one, it requires IX and MX to be equal to one, and the second constraint only allows this to happen
+for exactly one ij in the entire graph. This ensures that IXij is an indicator for leaving node j to the dummy and then moving from
+the dummy to node i. The same procedure is done for the Y's. Leads to there already being six times as many variables as the traveling salesperson problem,
+which leads to problems in computation time. Running this on an Amazon Web Services T2 Micro Instance, we were unable to reach a solution, and ran out of cpu credits.
+Our objective function is then:
+min sum from i = 1 to 16 sum from j = 1 to 16 Xij + Yij + IXij + IYij
+	This leads us to an easier solution that breaks the linearity of the problem. If we are seeking an indicator for leaving j to 0 and leaving 0 to i, we need both 
+Xj0 and Xi0 to be equal to 1. If either are equal to zero, it has either arrived from a different node or left to a different one. The easiest way to verify that both are
+equal to 1 is to multply the two together, and if either are equal to zero, the product will be zero. This allows us to create a simple objective
+min sum from i = 1 to 16 sum from j = 1 to 16 Xij + Yij + Xj0*X0i + Yj0*Y0i
+	This nonlinearity makes solving it quite a bit more complicated, as this is a quadratic program. Using the program Julia we utilized the package
+Pajarito in conjunction with Cbc and Ipopt, we were able to reach a solution in the quick run-time of: 5343.74585 sec.
+The final model that we estimated is as follows:
+
+

@@ -1,0 +1,15 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+P90 | Death by Kitty,0.0064
+AWP | BOOM,0.032
+AK-47 | Red Laminate,0.1598
+P250 | Splash,0.7992
+Sawed-Off | Orange DDPAT,0.7992
+Galil AR | Orange DDPAT,0.7992
+FAMAS | Doomkitty,0.7992
+MAG-7 | Memento,0.7992
+M4A4 | Faded Zebra,0.7992

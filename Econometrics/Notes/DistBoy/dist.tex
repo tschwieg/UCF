@@ -1,0 +1,81 @@
+\documentclass[10pt]{paper}
+
+\usepackage{minted}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{amssymb}
+\usepackage{geometry}
+
+\title{Poisson or Geometric}
+\author{Timothy Schwieg}
+
+\begin{document}
+\section*{Are we alone?}
+\begin{minted}[mathescape, fontsize=\small, xleftmargin=0.5em]{julia}
+using Distributions
+\end{minted}
+\begin{minted}[fontsize=\small, xleftmargin=0.5em, mathescape, frame = leftline]{text}
+Error: ArgumentError: Module Distributions not found in current path.
+Run `Pkg.add("Distributions")` to install the Distributions package.
+\end{minted}
+
+\begin{minted}[mathescape, fontsize=\small, xleftmargin=0.5em]{julia}
+simulations = 10000
+ChiSize = 500
+ChiBuckets = exp(-1)*[1,1,1/2,1/6,exp(1)-(8/3)]
+GeoBuckets = .5*[1,.5,.25,.125,(2-1.75-.125)]
+
+PBigGBOne =0
+PBigGBTwo = 0
+
+500^2 + 37
+
+i = 0
+j = 0
+
+for i in 1:simulations
+    Poissons = rand(Poisson(1),ChiSize)
+    PChiBins = zeros(5)
+    GChiBins = zeros(5)
+    Geometrics = rand(Geometric( .5 ),ChiSize)
+    
+    for j in 1:ChiSize
+        #print( min(Poissons[j],4)+1)
+        PChiBins[min(Poissons[j],4)+1] += 1
+        GChiBins[min(Geometrics[j],4)+1] += 1
+    end
+    CPBONE = 0
+    CGBONE = 0
+    CPBTWO = 0
+    CGBTWO = 0
+    for j in 1:5
+        CPBONE += ((PChiBins[j]- ChiBuckets[j])/ChiBuckets[j])^2
+        CGBONE += ((GChiBins[j]- ChiBuckets[j])/ChiBuckets[j])^2
+        CPBTWO += ((PChiBins[j]- GeoBuckets[j])/GeoBuckets[j])^2
+        CGBTWO += ((GChiBins[j]- GeoBuckets[j])/GeoBuckets[j])^2
+    end
+    if CPBONE > CGBONE
+        PBigGBOne += 1
+    end
+    if CPBTWO > CGBTWO 
+        PBigGBTwo += 1
+    end
+end
+\end{minted}
+\begin{minted}[fontsize=\small, xleftmargin=0.5em, mathescape, frame = leftline]{text}
+Error: UndefVarError: Poisson not defined
+\end{minted}
+
+\begin{minted}[mathescape, fontsize=\small, xleftmargin=0.5em]{julia}
+
+PBigGBOne / simulations
+1 - (PBigGBTwo / simulations)
+\end{minted}
+\begin{minted}[fontsize=\small, xleftmargin=0.5em, mathescape, frame = leftline]{text}
+1.0
+\end{minted}
+
+
+
+Probably. Just Look at you.
+\end{document}

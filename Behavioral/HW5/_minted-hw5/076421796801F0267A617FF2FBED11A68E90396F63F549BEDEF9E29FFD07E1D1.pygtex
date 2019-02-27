@@ -1,0 +1,50 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+For 2 bidders the expected log of the winning bid is: μ + σ\PYGZhy{}0.56444736669
+87905
+For 3 bidders the expected log of the winning bid is: μ + σ\PYGZhy{}0.00085997710
+1351355
+For 4 bidders the expected log of the winning bid is: μ + σ0.297640084560
+16194
+For 5 bidders the expected log of the winning bid is: μ + σ0.493805829791
+0976
+For 6 bidders the expected log of the winning bid is: μ + σ0.640939116328
+2142
+For 7 bidders the expected log of the winning bid is: μ + σ0.757854688855
+0225
+For 8 bidders the expected log of the winning bid is: μ + σ0.852071422169
+5671
+For 9 bidders the expected log of the winning bid is: μ + σ0.932841742561
+5763
+For 10 bidders the expected log of the winning bid is: μ + σ1.00065284148
+16465
+For 11 bidders the expected log of the winning bid is: μ + σ1.06208850718
+14823
+For 12 bidders the expected log of the winning bid is: μ + σ1.11673061491
+15144
+For 13 bidders the expected log of the winning bid is: μ + σ1.16440946939
+014
+For 14 bidders the expected log of the winning bid is: μ + σ1.20824250188
+73177
+For 15 bidders the expected log of the winning bid is: μ + σ1.24784245443
+90028
+For 16 bidders the expected log of the winning bid is: μ + σ1.28583752975
+29507
+For 17 bidders the expected log of the winning bid is: μ + σ1.31837021642
+64428
+For 18 bidders the expected log of the winning bid is: μ + σ1.35108717900
+66885
+For 19 bidders the expected log of the winning bid is: μ + σ1.37946996964
+01138
+For 20 bidders the expected log of the winning bid is: μ + σ1.40757574622
+2661
+For 21 bidders the expected log of the winning bid is: μ + σ1.43423741182
+3506
+For 22 bidders the expected log of the winning bid is: μ + σ1.45781526727
+1685
+For 23 bidders the expected log of the winning bid is: μ + σ1.48112819855
+26676
+For 24 bidders the expected log of the winning bid is: μ + σ1.50323364331
+7129
+For 25 bidders the expected log of the winning bid is: μ + σ1.52463132789
+33847
+\end{Verbatim}

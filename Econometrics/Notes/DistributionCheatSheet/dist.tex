@@ -1,0 +1,39 @@
+\documentclass[landscape]{standalone}
+
+
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{array}
+\usepackage{bm}
+\usepackage{setspace}
+\newcolumntype{L}{>{$}l<{$}}
+
+\linespread{2.5}
+
+\begin{document}
+\begin{tabular}{l|LLLLLLL}
+  Distribution&Parameters&Support&pmf/pdf&cdf&Mean&Variance&MGF\\\hline
+  Bernoulli&\theta&\{0,1\}&\theta^y(1-\theta)^{1-y}&&\theta&
+            \theta(1-\theta)&(1-\theta) + \theta e^t\\
+  Binomial&\theta,N&\mathbb{Z}_+&\binom{N}{y} \theta^y
+   (1-\theta)^{N-y}&&N\theta&N\theta(1-\theta)&(1-\theta+\theta e^t)^N\\
+  Geometric&\theta&\mathbb{N}&(1-\theta)^{y-1}\theta&&\frac{1}{\theta}&
+ \frac{1-\theta}{\theta^2}&\frac{\theta e^t}{1-(1-\theta)e^t}\\
+  Poisson&\lambda&\mathbb{Z}_+&\frac{\lambda^y e^{-\lambda}}{y!}&&
+  \lambda&\lambda&e^{\lambda(e^t-1)}\\
+  Log Series&\theta&\mathbb{N}&\frac{-\theta^y}{y \log{1-\theta}}&&\frac{-\theta}{\log{1-\theta} (1-\theta)}&\frac{-\theta}{\log{1-\theta} (1-\theta)^2} \big [ 1 - \frac{-\theta}{\log{1-\theta}} \big ]&\frac{\log{ 1 - \theta e^t }}{\log{ 1- \theta}}\\
+  Multinomial&N,\theta_1 ... \theta_k&\{0,1, ... , n\}\text{ where }\sum x_i = N&\frac{n!}{x_1! ... x_k!}\theta_1^{x_1} ... \theta_k^{x_k}&&N \theta_i&n\theta_i(1-\theta_i)&(\sum_{n=1}^N \theta_n e^{t_n})^N\\\hline
+  Uniform&a,b&x\subset\mathbb{R}, x\in[a,b]&\frac{1}{b-a}&\frac{x-a}{b-a}&\frac{a+b}{2}&\frac{(b-a)^2}{12}&\frac{e^{tb}-e^{ta}}{t(b-a)}\\
+  Exponential&\lambda&\mathbb{R}_+&\lambda e^{- \lambda y}&1-e^{-\lambda y}&\frac{1}{\lambda}&\frac{1}{\lambda^2}&\frac{\lambda}{\lambda - t}\\
+  Gamma&\alpha,\beta&\mathbb{R}_{++}&\frac{\beta^\alpha}{\Gamma ( \alpha)} y^{\alpha-1} e^{-\beta y}& \frac{1}{\Gamma ( \alpha)}\gamma(\alpha,\beta y)& \frac{\alpha}{\beta} & \frac{\alpha}{\beta^2}& (1-\frac{t}{\beta})^{-\alpha}\\
+  Chi-Squared&k&\mathbb{R}_+&\frac{1}{2^{\frac{k}{2}}\Gamma(\frac{k}{2})} y^{\frac{k}{2} - 1} e^{\frac{-y}{2}}&\frac{1}{\Gamma(\frac{k}{2})}\gamma(\frac{k}{2},\frac{y}{2})&k&2k&(1-2t)^{\frac{-k}{2}}\\
+  Normal Distribution&\mu,\sigma^2&\mathbb{R}&\frac{1}{\sqrt{ 2 \pi \sigma^2 }} e^{ -\frac{(x-\mu)^2}{2\sigma^2}}&&\mu&\sigma^2&e^{\mu t + \frac{1}{2} \sigma^2 t^2}\\
+  Weibull&\lambda,k&\mathbb{R}_+&\frac{k}{\lambda}(\frac{x}{\lambda})^{k-1} e^{-(\frac{x}{\lambda})^k}&1-e^{-(\frac{x}{\lambda})^k}&\lambda \Gamma( 1 + \frac{1}{k})& \lambda^2 \big [ \Gamma( 1 + \frac{2}{k} ) - ( \Gamma ( 1 + \frac{1}{k}))^2 \big ]&\sum_{n=0}^\infty \frac{t^n \lambda^n}{n!} \Gamma( 1 + \frac{n}{k} )\\
+  F&d_1,d_2&\mathbb{R}_+&\frac{\sqrt{\frac{(d_1 y)^{d_1} d_2^{d_2}}{(d_1 y + d_2 )^{d_1 + d_2}}}}{y B( \frac{d_1}{2}, \frac{d_2}{2})}&&\frac{d_2}{d_2 - 2}&\frac{2d_2^2 (d_1 + d_2 - 2 )}{d_1 (d_2 - 2)^2 (d_2 - 4 )}&\text{Undefined}\\
+  Students t&v&\mathbb{R}&\frac{\Gamma( \frac{v+1}{2}}{\sqrt{ v \pi } \Gamma( \frac{v}{2})}( 1 + \frac{y^2}{v})^{-\frac{v+1}{2}}&&0&\frac{v}{v-2}&\text{Undefined}\\
+  Dirichelet&K,\alpha_1,...,\alpha_K&x_i \in (0,1) \sum_{i=1}^K x_i = 1&\frac{\Gamma( \sum_{i=1}^K \alpha_i )}{\Pi_{i=1}^K \Gamma(\alpha_i)} \Pi_{i=1}^K x_i^{\alpha_i - 1}&&\frac{\alpha_i}{\sum \alpha_i}&\frac{\alpha_i( \alpha_0 - \alpha_i )}{\alpha_0^2 ( \alpha_0 +1 )} \text{ where } \alpha_0 = \sum \alpha_i\\
+  MultiVariate Normal& \bm{ \mu } \bm{ \Sigma }& \mu + \text{span}( \bm{ \Sigma } )&(det( 2\pi \bm{ \Sigma} )^{\frac{-1}{2}}e^{\frac{-1}{2}(x-\bm{\mu})^T \bm{\Sigma^{-1}}(x-\bm{\mu})}&&\bm{\mu}&\bm{\Sigma}&e^{ \bm{\mu}^T \bm{t} + \frac{1}{2}\bm{t}^T \bm{\Sigma} \bm{t} }\\
+  Pareto Distribution&x_m, \alpha& [x_m, \infty)&\frac{\alpha x_m^\alpha}{x^{\alpha+1}}&1-\frac{x_m}{x}^\alpha&\frac{\alpha x_m}{\alpha-1}&\frac{x_m^2}{(\alpha-1)^2(\alpha-2)}&\alpha(-x_mt)^\alpha \Gamma( -\alpha, -x_m t)\\
+\end{tabular}
+\end{document}

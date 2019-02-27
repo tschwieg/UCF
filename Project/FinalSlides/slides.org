@@ -1,0 +1,315 @@
+#+STARTUP: beamer 
+#+LATEX_CLASS: beamer
+#+BEAMER_THEME: Montpellier
+#+LaTeX_CLASS_OPTIONS: [bigger]
+#+OPTIONS: H:2 toc:nil
+#+toc: nil
+#+LATEX_HEADER: \DeclareMathOperator*{\argmin}{arg\,min}
+#+LATEX_HEADER: \usepackage{subcaption}
+#+LATEX_HEADER: \usepackage{graphicx}
+
+#+TITLE: Valuations of Items in Counter-Strike: Global Offensive
+#+AUTHOR: Timothy Schwieg
+
+* Anyone Want a Pool Table?
+
+** The Problem
+
+- People are randomly distributed items in the game. 
+- They have private valuations for each item that are not known to the
+  designers
+- A market is created in order to ensure an efficient outcome.
+- Takes the form of a double auction - converging to competitive equilibrium
+
+** Matching
+- One context to think of the problem as one of matching individuals
+  in order to maximize the total surplus. 
+- We know from Micro2 that this is equivalent to thinking about a
+  decentralized market. 
+- The Objective function is valuation of the buyers and the sellers
+
+** Who Gets What
+- Both buyers and sellers have the same distribution of valuations
+- However, the masses of the buyers and sellers are not equal.
+- Only some percentage are endowed with the item
+- Market is efficient - highest valuations end up with the item.
+
+** The Planner's Problem
+\begin{align*}
+\max_{\alpha_{i,j}} & \sum_{i=1}^I \sum_{j=1}^J \left ( V_i - V_j ) \alpha_{i,j} \\
+\text{subject to: } & \forall j, 1 \leq j \leq J \quad \sum_{i=1}^I \alpha_{i,j} \leq 1 \\
+& \forall i, 1 \leq i \leq I \quad \sum_{j=1}^J \alpha_{i,j} \leq 1\\
+\end{align*}
+
+** Planner's Problem (cont)
+- The solution to this is not unique.
+- The difference in valuations is both sub and super-modular. This
+  implies that both PAM and NAM are supported, and all permutations
+  between the sellers and buyers selected are supported.
+- This means we know who is matched but not with whom.
+
+** The dual
+ 
+\begin{align*}
+\min_{x,j} & \sum_{i=1}^I x_i + \sum_{j=1}^J y_j \\
+\text{subject to: } & \forall i,j; \quad 1 \leq j \leq J, \quad 1 \le i \leq I\\
+& x_i + y_j \geq V_i - V_j \\ 
+\end{align*}
+
+- This has a unique solution - for each buyer and seller it gives the
+  shadow price: the surplus that each commands.
+- Because the function is modular, the valuation plus the surplus for
+  all sellers is equal - this is the price the market supports.
+
+** What it looks like
+[[../Scripts/evenStevens.pdf]]
+
+** Unequal Buyers and Sellers
+[[../Scripts/oneTenth.pdf]]
+
+** Equilibrium
+- Let the proportion of the population that received the item be
+  denoted \xi.
+- For normally distributed valuations, the price is defined by:
+
+\begin{align*}
+\Phi \left ( \frac{ p^* - \mu }{\sigma} \right ) &= \frac{1-\xi}{\xi} \left [ 1 - \Phi \left
+( \frac{ p^* - \mu }{\sigma} \right ) \right ]\\
+p^* &= \mu + \sigma \Phi^{-1} ( 1- \xi )\\
+\end{align*}
+
+
+** Known \xi
+- If we knew \xi, this model could be estimated via linear regression
+- Can handle even if there is measurement error in calculating \xi.
+- However, even if we know the quantity of sales, and the number of
+  people playing, no idea of people engaging in the market.
+- Need to use the price to endogenize \xi.
+
+** Dynamic Approach
+- Let this process repeat over many time intervals. 
+- Assume no entry into the market. 
+- Since this market is efficient, the top portion of the buyers always
+  purchases the item, and the price slowly falls
+- This can only support a decreasing price.
+
+** A Simulation
+- $\mu = 0, \sigma = 1, \xi = .05, N = 1000, T = 40$
+[[../Plots/Sim.pdf]]
+
+** Specification
+\begin{align*}
+\mathbb{E}[ q_s ] &= N \prod_{t=0}^{T-1} (1-\xi_t ) \xi_T \frac{\Phi \left ( \frac{ \log ( p_T^* ) - \mu }{\sigma} \right )}{ \prod_{t=0}^{T-1} ( 1 - \xi_t ) }\\
+\mathbb{E}[ q_d ] &= N \prod_{t=0}^{T} ( 1- \xi_t ) \left [ 1 - \frac{ \Phi \left ( \frac{
+\log ( p_T^* ) - \mu }{ \sigma } \right ) }{ \prod_{t=0}^{T-1} (1 - \xi_t ) } \right ]\\
+\log ( p_T^* ) &= \mu + \sigma \Phi^{-1} \left [ \prod_{t=0}^T ( 1 - \xi_t ) \right ]\\
+q_T^* &= N \prod_{t=0}^T ( 1 - \xi_t ) \xi_T \\
+\end{align*}
+
+
+
+** Problems with Data
+- This model cannot support the prices increasing.
+- One possibility is to add white noise, which increases the variance
+  on all observations, and can explain some jumps in prices.
+- This cannot explain trends in prices that are observed in some items.
+- Worse yet, it predicts price to eventually fall to zero, which is
+  not represented by some of the cases
+
+** Failure in Prediction
+[[../Plots/Cases/Cases/HuntsmanWeaponCase.pdf]]
+
+** What can we predict?
+- We are predicting the price to eventually drop to zero, but we do
+  not have an equilibrium specification. So for data where the price
+  is driven on a downward trend, we can estimate the data. 
+- We choose to group together data in periods of 5 days. Assume model
+  is in equilibrium in each of those days. This generates moments for
+  estimation
+
+** Generalized Method of Moments
+- Function g(Y_t ,\mu,\sigma,\xi) which gives the moment condition for
+  each time period
+\begin{equation*}
+\mathbb{E}[ g( Y_t, \mu, \sigma, \xi ) ] = 0
+\end{equation*}
+- Sample Analog: $\hat{m} ( \mu, \sigma, \xi ) = \frac{ 1 }{ M } \sum_{m=1}^M g( Y_m,
+  \mu, \sigma, \xi )$
+
+\begin{equation*}
+\hat{\theta} = \argmin_{\theta} \hat{m}( \theta )' W \hat{m}( \theta )
+\end{equation*}
+
+** Generalized Method of Moments
+- What is this W matrix? How do we get it?
+- Using Iterated GMM Estimator
+
+\begin{align*}
+\hat{W_i} &= \left [ \frac{1}{M} \sum_{m=1}^M g(Y_m, \hat{\theta_{i-1}} ) g( Y_m, \hat{\theta_{i-1}} )' \right ]^{-1} \\
+\hat{\theta_i} &= \argmin_{\theta} \hat{m}( \theta_i )' \hat{W_i} \hat{m}( \theta_i ) \\
+\end{align*}
+
+** Complication?
+- Forming W this way involves inverting a matrix that may not be of
+  full rank.
+- Add some positive number times the identity matrix in order to
+  obtain full rank as well as positive definiteness.
+- One advantage of the Iterated Method is that the W matrix formed is
+  invariant to the scale of the data, which is especially important
+  for this data
+
+** Monte Carlo
+- However, we are still estimating a dynamic system, and that is
+  notoriously difficult. 
+- This is especially the case in our model since early estimated
+  values of \xi have a large impact on the later values. 
+- These tests were not conducted near the magnitude of the data
+  collected, as solving LPs of that size ( 10^13 ) is not feasible
+- These simulations may overstate the role of random noise.
+
+** Monte Carlo
+- I ran 1000 simulations of this model, all with N = 1000, \mu = 0, \sigma =
+  1, \xi = 0.05, T = 50.
+- Tested: Sargan Hansen Test, LR Test for \xi constant, LR Test for \mu
+  =0, \sigma = 1, \xi = 0.05
+- Rejected with \alpha = 0.05
+
+|          | Sargan Hansen | \xi constant | Simulation Primitives |
+| Reject % |           3.7 |       44.0 |                 100.0 |
+
+
+** Some Predictions
+[[../Plots/Cases/Cases/Chroma3Case.pdf]]
+
+** Some Predictions
+[[../Plots/Cases/Cases/Spectrum2Case.pdf]]
+
+** Some Predictions
+[[../Plots/Cases/Cases/Chroma2Case.pdf]]
+
+** Some Predictions
+[[../Plots/Cases/Cases/SpectrumCase.pdf]]
+
+
+** Market Entry
+- For the price to be able to increase, there must be new people
+  entering the market.
+- Let \lambda_t denote the percent of new entrants into the market.
+- Since each new entrant has the original valuations, we must consider
+  all owners of the item, even past owners.
+- This leads to both buyers and sellers having a mixing distribution
+  of valuations
+
+** Masses of Buyers and Sellers
+\begin{align*}
+M_B(T) &= N (1-\xi_T ) \prod_{t=0}^{T-1} ( 1 - \xi_t + \lambda_t ) \\
+M_S(T) &= N \sum_{i = 0}^T \xi_i \prod_{t=0}^{i-1} ( 1- \xi_t + \lambda_t )\\
+M_B(T) &= N B_T ( p_T )\\
+M_S(T) &= N \left ( 1 - B_T(p_T) + \sum_{t=1}^{T-1}  R_{t}(\lambda,p) \right )\\
+R_i(\lambda,p) &= \lambda_i \left [ B_{i-1}(p_{i-1} ) + R_{i-1}(\lambda, p) \right ]\\
+R_0 (\lambda,p) &= \lambda_0 \\
+\end{align*}
+
+** Valuations of Buyers and Sellers
+\begin{align*}
+B_T (p) &= \frac{ B_{T-1 }(p_{T-1}) }{ B_{T-1 }(p_{T-1}) + \lambda_1 } \min \left \{ 1, \frac{ B_{T-1} ( p ) }{B_{T-1 }(p_{T-1 })} \right \}\\
+ & \quad + \frac{ \lambda_1 }{ B_{T-1 }(p_{T-1}) + \lambda_1 } B_0 (p) \\
+S_T (p) &= \frac{ M_S(T-1) }{ M_S(T) } \max \left \{ 0, \frac{ B_{T-1}(p) - B_{T-1}( p_{T-1} ) }{ 1 - B_{T-1} ( p_{T-1} ) } \right \}\\
+ & \quad + \frac{ M_S(T) - M_S(T-1)_{} }{M_S(T)} B_T (p)\\
+\end{align*}
+
+
+- $B_t(p)$ and $S_t(p)$ are strictly increasing functions of p, so the
+  intersection between $q_d, q_s$ is uniquely defined.
+** Problems
+- There are some serious identification problems with this
+model
+- 2T Moments, but 2T+2 Primitives in the model.
+- Assuming \xi constant over the lifetime is one possible identification
+  strategy.
+- However, a bigger problem with the estimation presents itself.
+
+** Behavior Over Time
+
+#+CAPTION: Time 1
+[[../Plots/gif/000001.png]]
+
+
+** Behavior Over Time
+
+#+CAPTION: Time 2
+[[../Plots/gif/000002.png]]
+
+
+** Behavior Over Time
+
+#+CAPTION: Time 10
+[[../Plots/gif/000010.png]]
+
+
+** Behavior Over Time
+#+CAPTION: Time 15
+[[../Plots/gif/000015.png]]
+
+
+** Behavior Over Time
+- As we can see, the supply becomes extremely elastic above the
+  previous equilibrium price
+- The demand also becomes very elastic below the equilibrium price of
+  last period.
+- This means that the quantity sold will be extremely volatile, and
+  the price can be for large increases/decreases.
+
+
+
+** Non-Constant Valuations
+- While the valuation of some items in the game might remain constant
+- Items of interest such as the loot boxes have their values
+  influenced by the prices as well as rarity of the items contained.
+- Of interest is the magnitude of this over the lifetime of the item
+- Use the fact that the distribution of the items reveals the
+  quantiles of the distribution
+
+** Quantile Regression
+- In the model without any growth: 
+\begin{equation*}
+\prod_{t=0}^T ( 1- \xi_t) &= F_V \left ( p^* \right )
+\end{equation*}
+- The proportion of people given the item reveals quantiles of the
+  true valuations.
+
+** Quantile Regression
+- If we want to remain agnostic about the percent of people given the
+  item, the only choice we have is to examine how different quantiles
+  of the pricing distribution are affected.
+- This involves quantile regression, and abandoning many of the
+  structural results hoped for.
+- One approach is to estimate many different quantiles and plot them
+
+** Multivariate Quantile Regression
+- However, each loot box is drawn from a different distribution, so
+  the quantile regression becomes a question of vector optimization.
+- Following some fun in Convex Optimization, the scalarization where
+  each box is given equal weight reduces to the simple weighted
+  quantile regression problem.
+
+** Formulation
+\begin{align*}
+\min \sum_{j=1}^J \tau  q_j^T u_j + (1-\tau) q_j^T v_j \right )&\\
+X_j \beta + Z_j \delta_j+ u_j - v_j &= Y_j \quad \forall j\\
+u,v &\geq 0\\
+\end{align*}
+
+\delta_j can be equivalently treated as indicators contained in X_j, and the
+problem treated as quantile regression over the entire data set,
+weighted by the quantities sold.
+
+** Loot box Averages
+[[../Plots/QuantRegQuality.pdf]]
+
+** Loot box Averages
+[[../Plots/QuantRegNumInBox.pdf]]
+
+** Loot box Averages
+[[../Plots/QuantRegGuns.pdf]]
+

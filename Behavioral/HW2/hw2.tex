@@ -1,0 +1,150 @@
+\documentclass[12pt]{paper}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{geometry}
+\usepackage{tikz}
+\usepackage{float}
+
+\begin{document}
+\section*{Question 1}
+
+\subsection*{a}
+
+
+\begin{figure}[H]
+  \centering
+  \input{Rplots.tex}
+  \caption{Level Sets of a Leontief Production Function}
+\end{figure}
+
+
+$\alpha$ and $\beta$ are technology parameters that control how much of each input to
+reach a certain amount of output. To reach q level of output, one needs
+$\frac{q}{\alpha} h$ and $\frac{q}{\beta} \ell$. We may note that this production function
+has constant returns to scale, so it has a linear scale effect.
+
+\subsection*{b}
+
+
+$$C( q, w,s,\alpha,\beta) = \min_{h,\ell}   hw + \ell s \quad \text{ s.t. }\min\{ \alpha h, \beta \ell \} \geq q$$
+Since w and s are input prices, we will assume they are positive, so the
+constraint will bind. Since the constraint binds, we know that: $\min( \alpha h, \beta \ell )
+= q$ and that $\alpha h = \beta \ell = q$. If it were otherwise, the firm could lower the usage
+of either h or $\ell$ and minimize the objective function without effecting the
+constraint. Therefore: $h = \frac{q}{\alpha}$ and $\ell = \frac{q}{\beta}$. The cost
+function is therefore: $$C( \alpha, \beta, w, s, q ) = \frac{wq\beta+ sq\alpha}{\alpha\beta} = q \frac{w\beta +
+  s\alpha}{\alpha\beta}$$ \newline
+The marginal cost of this function is the derivative with respect to
+q, and is: $$m( \alpha, \beta, w, s ) =  \frac{w\beta + s\alpha}{\alpha\beta}$$
+
+
+\begin{figure}[H]
+  \centering
+  \input{1bp1.tex}
+  \caption{Total and Marginal Cost}
+\end{figure}
+
+\section*{Question 2}
+
+The purpose of game theory is to be able to study strategic interaction between
+agents when all agents have some power. The two main branches of Game Theory are
+strategic and coalitional games. In Strategic Games player's available moves are
+specified, and optimal behavior is derived. In Coalitional games, optimal
+behavior is described. All games feature:
+\begin{itemize}
+\item Players: $P$
+\item Rules: $R$
+\item Information structure stating what each player knows: $I$
+\item Set of Strategies available to players: $S_i$
+\item Payoff functions for strategies: $U_i$
+\item Some Notion of equilibrium
+\end{itemize}
+
+Two notions of equilibrium used to solve games are Nash-Equilibrium, where each
+player is playing the best-response to opponents' best response functions; and
+Dominant equilibrium, where a player plays a strategy irrespective of the
+actions taken by the other players.
+
+One example of a game is a student who wishes to ask questions to a certain
+professor, but if he asks a dumb question, the professor will chastise him in
+front of his colleagues. He must strategically estimate how the professor will
+react to his question based on prior knowledge to decide whether or not he
+should ask it, while the professor must decide whether or not to harshly respond
+in order to either minimize or maximize questions depending on his preferences
+of class. In this case $P = \{ $Student, Professor$\}$, the Rules are that the
+student may ask any question, and the professor may respond in any way. The
+student may continue to ask questions as long as class is still in session.
+\newline We assume that the professor has full knowledge of the subject, so he has perfect
+information about if the question is stupid or not, while the student only has
+partial information, but with each question successfully asked gains
+information. The student has no knowledge of how the professor will respond, and
+the professor knows that a certain amount of belittling will dissuade the
+student from asking questions, but he does not know the threshold.\newline Therefore the
+set of strategies for the student is a distribution of questions where the more
+informative questions are more likely to be viewed by the professor as stupid,
+and no questions, for when the student has been sufficiently chastised. This is
+crossed with itself for a countably infinite number of times. The professor's
+strategy is a continuum of how well to answer the question (encouraging
+questions and learning at the cost of time) and how much to berate the student
+(discouraging questions and increasing time available for lecture.)\newline The student
+faces an increasing utility for information gained, and some negative quantity
+for when he is berated by the professor. The professor may have an increasing
+utility for increasing student knowledge, or any other utility function
+depending on his desires while teaching. \newline It is unclear whether or not this
+game would lead to a Bayes-Nash equilibrium because of very little being stated
+about the payoffs of the Professor, and more structure may need to be imposed to
+enforce an equilibrium arises.
+\newline \newline
+Another example would be deciding where to go to lunch. The players in the game
+are all the other people seeking lunch, and everyone dislikes waiting in a line,
+so there is a negative effect caused by others going to the same restaurant as
+you. The set of players is everyone who is seeking lunch.\newline The rules are that
+they must wait in line when they arrive behind everyone else who has already
+arrived. \newline The information structure is such that each person knows when they
+leave for lunch, and the distribution of when everyone is getting lunch, but not
+specific times when each person has gone for lunch. \newline The payoff functions are
+such that each person has preferences over restaurants and in waiting in line,
+and the combination of this forms their utility for the lunch.
+
+\section*{Question 3}
+
+\subsection*{a.}
+
+By inspection, we may note that child A finds confess to be a dominant strategy,
+since $-1 > -2$ and $0 > -2$. By the same logic, child B finds confession to be
+a dominant strategy, so the equilibrium will be both confess and face payoffs of
+-1 apiece. This equilibrium is a Dominant Equilibrium, as both chose strategies
+that were best for them regardless of the other's choice.
+
+\subsection*{b}
+
+If child A knew B would confess, his best response would be to confess as well,
+and if he knew that B would be silent, his best response is to be silent. By
+symmetry, the best response for B is the same. We can clearly see that both
+children have a best response of being silent when the other is silent, and to
+confess when the other confesses. Thus there are two Nash Equilibria, both
+confessing, and both being silent.
+
+\section*{Question 4}
+
+Extensive form games are games that allow for sequential play, leading to
+dynamics. This element allows them to accommodate incomplete
+information. This is managed through the use of the decision tree, which allows
+for an easy representation of not only their available moves at each stage, but
+what information they have been exposed to and can therefore act upon.
+
+One phenomena involving incomplete information is a private-values auction,
+where the buyers all have private valuations of an object that they are very
+unlikely to disclose, especially to a seller. This can cause the participants to
+lie about their valuations, particularly if they have high private valuations
+and they are forced to pay their bid.
+
+Another phenomena is a game of poker, where the cards held by each player are
+private information, and the only information given is by bets placed at each
+round as public information (flop turn river) is given out. Players have an
+incentive to lie in order to give the false idea that they have a better or
+worse hand than they do.
+
+
+\end{document}

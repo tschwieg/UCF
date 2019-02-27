@@ -1,0 +1,107 @@
+\documentclass[grey,handout]{beamer}
+%\usetheme{Pittsburgh}
+\usetheme{Montpellier}
+\usepackage{amsmath}
+
+\renewcommand{\frametitle}[1]{\begin{center}\textbf{#1}\end{center}}
+
+\def\dd{{\rm d}}
+\def\E{\mathbb{E}}
+\def\BigO{{\cal O}}
+
+\begin{document}
+\title{The Signal and the Noise}
+
+\author{Timothy M Schwieg}
+\date{24 March 2018}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}
+\frametitle{ROADMAP OF SEMINAR}
+  \begin{enumerate}[<+->]
+  \item Introduction to Scheduling
+  \item Parts of each algorithm
+  \item Earliest Due Date
+  \item Shortest Processing Time
+  \item Moore's Algorithm
+  \item Preemption costs
+  \end{enumerate}
+\end{frame}
+
+\section{Introduction}
+
+\begin{frame}
+  \frametitle{Prediction}
+  \begin{enumerate}
+  \item Seperate Signal from the Noise
+  \item We're Mostly bad at this. Very Bad.
+  \item Information Overload - Printing Press
+  \item Productivity Paradox - Information Age
+  \end{enumerate}
+\end{frame}
+
+\section{Prediction - Where it Works and Doesn't Work}
+
+
+\subsection{The Great Recession}
+
+\begin{frame}
+  \frametitle{Rating Agencies}
+  \begin{enumerate}
+  \item Forcasted the risk of CDOs at 0.12\%
+  \item Actual Default Rate at 28\%
+  \item Rating Quality had little effect on their profits
+  \item Benefitted almost solely from rating securities
+  \item Simulated under assumptions and missed risk they were taking
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Risk and Uncertainty}
+  \begin{enumerate}
+  \item Depending on the Dependence structure of the underlying
+    assets, bundled securities can be much less or more risky than
+    under assumptions such as indepdence.
+  \item The Nature of the dependence is not known - Knightian
+    Uncertainty
+  \item Rating agencies claimed this uncertainty was risk - Moody's
+    increased their estimate of default by 50\%. Which did nothing to mollify.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Prediction in the Housing Bubble}
+  \begin{enumerate}
+  \item Homeowners assumed the prices would continue to rise -
+    ignoring the bubble
+  \item Banks and rating agencies did not understand the system risk present
+  \item Economists did not understand how the leveraged bank sector
+    was tied to the housing market
+  \item Policy makers were overconfident in the rate of Recovery of
+    the Economy - basing it falsely on recessions instead of financial crises.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Understanding Your Sample}
+  \begin{enumerate}
+  \item Drunk Drive or Call Uber?
+  \item Rating Agencies and new assets
+  \item Avoid False Confidence
+  \end{enumerate}
+\end{frame}
+
+
+\subsection{Political Predictions}
+
+\begin{frame}
+  \frametitle{}
+\end{frame}
+
+
+
+
+\end{document}

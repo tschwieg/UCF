@@ -1,0 +1,378 @@
+\documentclass[10pt, letterpaper]{paper}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+\usepackage{blindtext}
+\usepackage[utf8]{inputenc}
+\usepackage{forest}
+\usepackage{float}
+\input julialisting.tex
+
+\lstset{
+  columns=fullflexible,
+  breaklines=true,
+  postbreak=\mbox{\textcolor{red}{$\hookrightarrow$}\space},
+}
+
+
+\title{ Operations Research HW5 }
+\author{ Timothy Schwieg }
+\date{ November 5th 2017 }
+
+\begin{document}
+
+\maketitle
+
+\section*{Question 1 }
+
+If we let the cost vector be denoted c, the time spent vector be denoted P, due date denoted D, we may construct artifical variables $s_i$ which is the delay on job i, and $y_{ij}$ is an indicator if job i precedes job j, as well as Z which is 1 if job 4 precedes job 3.
+\newline
+This problem becomes:
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{min }&c^T s&\\
+&\text{s.t. } &x_i - s_i&\leq D_i - P_i\\
+& &M y_{ji} + x_j - x_i  &\geq P_i\\
+& &M y_{ij} + x_i - x_j  &\geq P_j\\
+& &y_{ij} + y_{ji} &= 1\\
+& &x_3 - x_4 - P_4 &\leq M( 1 - Z ) - \epsilon\\
+& &x_9 + P_9 - x_3 &\leq Z M\\
+& &x,s \in \mathbb{R}_+ \quad& y_{ij},Z \in \{0,1\}\\
+\end{alignedat}
+\end{equation*}
+Since there are so many constraints, Julia code to solve this will be generated in python.
+
+\lstinputlisting[language=python]{printJulia.py}
+
+Solving this system using the computer generated code in Julia:
+
+%\lstinputlisting[language=Julia]{juliacode.txt}
+
+
+\begin{lstlisting}[language=sh]
+julia> println( "Objective Value: ", getobjectivevalue(m))
+Objective Value: 318.0
+
+julia> println( getvalue(x))
+x: 1 dimensions:
+[0] = 0.0
+[1] = 82.99999999999999
+[2] = 86.0
+[3] = 115.99999999999999
+[4] = 32.0
+[5] = 10.0
+[6] = 99.0
+[7] = 41.0
+[8] = 71.0
+[9] = 130.99999999999997
+
+
+julia> println( getvalue(s))
+s: 1 dimensions:
+[0] = 0.0
+[1] = 0.0
+[2] = 0.0
+[3] = 96.99999999999999
+[4] = 0.0
+[5] = 0.0
+[6] = 84.0
+[7] = 11.0
+[8] = 2.9999999999999925
+[9] = 0.0
+\end{lstlisting}
+
+
+
+
+
+\section*{Question 2}
+
+We set $x_1,x_2,x_3$ to be production of product 1,2,3 respectively, and let $s_1$ be a binary predictor of if product 3 is produced.
+It is clear that $x_3 \leq 100$ so by setting $x_3 \leq 100 s_1$ this ensures $x_3$ = 0 if $s_1$ = 0, and $x_3$ is otherwise unaffected.
+
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{max }&25x_1 + 30x_2 + 45x_3&\\
+&\text{s.t. } &3x_1 + 4x_2 + 5x_3  &\leq 100\\
+& &4x_1+3x_2+6x_3  &\leq 100\\
+& &x_3 - 5s_1 &\geq 0\\
+& &x_3 - 100s_1 &\leq 0\\
+& &x_1, x_2, x_3& \in \mathbb{R}_+, s_1 \in \{0,1\}\\
+\end{alignedat}
+\end{equation*}
+
+Solving the Relaxed Linear Program:
+
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{max }&25x_1 + 30x_2 + 45x_3&\\
+&\text{s.t. } &3x_1 + 4x_2 + 5x_3  &\leq 100\\
+& &4x_1+3x_2+6x_3  &\leq 100\\
+& &x_3 - 5s_1 &\geq 0\\
+& &x_3 - 100s_1 &\leq 0\\
+& &s_1 &\leq 1\\
+& &x_1, x_2, x_3, s_1& \in \mathbb{R}_+\\
+\end{alignedat}
+\end{equation*}
+
+This has a maximal value of: $\frac{2500}{3}$ at a maximizer of: $x^* = (0,\frac{100}{9},\frac{100}{9}), s_1 = \frac{1}{9}$
+
+
+Branching on $s_1 = 0$ and $s_1 = 1$
+\newline
+Case: $s_1 = 1$
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{max }&25x_1 + 30x_2 + 45x_3&\\
+&\text{s.t. } &3x_1 + 4x_2 + 5x_3  &\leq 100\\
+& &4x_1+3x_2+6x_3  &\leq 100\\
+& &x_3 - 5s_1 &\geq 0\\
+& &x_3 - 100s_1 &\leq 0\\
+& &s_1 &\leq 1\\
+& &s_1 &\geq 1\\
+& &x_1, x_2, x_3, s_1& \in \mathbb{R}_+\\
+\end{alignedat}
+\end{equation*}
+
+This has a maximal value of: $\frac{2500}{3}$ at a maximizer of: $x^* = (0,\frac{100}{9},\frac{100}{9}), s_1 = 1$
+\newline
+\newline 
+Case: $s_1 = 0$
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{max }&25x_1 + 30x_2 + 45x_3&\\
+&\text{s.t. } &3x_1 + 4x_2 + 5x_3  &\leq 100\\
+& &4x_1+3x_2+6x_3  &\leq 100\\
+& &x_3 - 5s_1 &\geq 0\\
+& &x_3 - 100s_1 &\leq 0\\
+& &s_1 &\leq 0\\
+& &x_1, x_2, x_3, s_1& \in \mathbb{R}_+\\
+\end{alignedat}
+\end{equation*}
+
+This has maximal value of: $\frac{5500}{7}$ at a maximizer of: $x^* = (\frac{100}{7},\frac{100}{7},0), s_1 = 0$
+\newline
+\newline
+Since $\frac{2500}{3} > \frac{ 5500}{7}$ We choose to utilize $x_3$ and produce: $\frac{2500}{3} $ at a maximizer of: $x^* = (0,\frac{100}{9},\frac{100}{9})$
+
+The Tree for this process is shown below:
+\newline
+\begin{forest}
+  [Start[{$s_1$ = 0}[{$(\frac{100}{7},\frac{100}{7},0)$}[{Z=$\frac{5500}{7}$}]]][{$s_1$ = 1}[{$(0,\frac{100}{9},\frac{100}{9})$}[{Z=$\frac{2500}{3}$}]]]]
+\end{forest}
+
+\section*{Question 3}
+Solving the Linear Program with no Integer constraints. 
+We arrive at the optimal solution of $Z=\frac{311}{7}$ where the maximizer is $x=(1,\frac{3}{7},0,0,0,1)$
+\newline
+Branching on $x_2 = 0,1$
+\newline
+\indent Case: $x_2 = 0:$ We reach the optimal solution of: 44 located at: $x=(1,0,\frac{3}{4},0,0,1)$
+\indent \newline
+\indent Branching upon $x_3 = 0,1$
+\indent \newline
+\indent \indent Case: $x_3 = 0:$ We arrive at: $Z = 43.25$ located at: $x=(1,0,0,0,\frac{3}{4},1)$
+\indent \indent \newline
+\indent \indent Branching upon $x_5 = 0,1$
+\indent \indent \newline
+\indent \indent \indent Case: $x_5 = 0.$ Z=43 located at: $x=(1,0,0,1,0,1)$ This is our Best Feasible Solution.
+\indent \indent \indent \newline
+\indent \indent \indent Case: $x_5 = 1. Z=42.8333$ This is below our current best Feasible Solution: 43.
+\indent \indent \indent \newline
+\indent \indent Case: $x_3 = 1: Z = \frac{263}{6}$ located at: $x=(1,0,1,0,0,\frac{5}{6})$
+\indent \indent \newline
+\indent \indent Branching upon: $x_6 = 0,1$
+\indent \indent \newline
+\indent \indent \indent Case: $x_6 = 0. Z=41.6667$ This is below our current best Feasible Solution: 43
+\indent \indent \indent \newline
+\indent \indent \indent Case: $x_6 = 1. Z=43.8$ located at: $x=( \frac{4}{5},0,1,0,0,1)$
+\indent \indent \indent \newline
+\indent \indent \indent Branching on $x_1 = 0,1$
+\indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_1 = 0. Z=42.$ This is below BFS.
+\indent \indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_1 = 1.$ This is infeasible.
+\indent \indent \indent \indent \newline
+\indent Case: $x_2 = 1:$ This has solution: 44.333 located at: $x= (1,1,0,0,0,\frac{1}{3})$
+\indent \newline
+\indent Branching upon $x_6 = 0,1$
+\indent \newline
+\indent \indent Case: $x_6 = 0: Z=44$ located at $x=(1,1,\frac{1}{2},0,0,0)$
+\indent \indent \newline
+\indent \indent Branching on $x_3 = 0,1$
+\indent \indent \newline
+\indent \indent \indent Case: $x_3 = 0: Z=43.5$ located at $x=(1,1,0,0,\frac{1}{2},0$
+\indent \indent \indent \newline
+\indent \indent \indent Branching on $x_5 = 0,1$
+\indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_5 = 0.$ $Z = 43.333$ located at $x=(1,1,0,\frac{2}{3},0,0)$
+\indent \indent \indent \indent \newline
+\indent \indent \indent \indent Branching on $x_4 = 0,1$
+\indent \indent \indent \indent \newline
+\indent \indent \indent \indent \indent Case: $x_4 = 0. Z = 38.$ This is below our BFS
+\indent \indent \indent \indent \indent \newline
+\indent \indent \indent \indent \indent Case: $x_4 = 1. Z = 42.8.$ This is below our BFS
+\indent \indent \indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_5 = 1. Z = 42.6.$ This is below our BFS
+\indent \indent \indent \indent \newline
+\indent \indent \indent Case: $x_3 = 1. Z=43.6$ located at: $x=(\frac{3}{5},1,1,0,0,0)$
+\indent \indent \indent \newline
+\indent \indent \indent Branching upon $x_1 = 0,1$
+\indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_1 = 0. Z=42.25.$ This is below our BFS
+\indent \indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_1 = 1.$ This is Infeasible.
+\indent \indent \indent \indent \newline
+\indent \indent Case: $x_6 = 1. Z=44.2$ located at $x=(\frac{1}{5},1,0,0,0,1)$
+\indent \indent \newline
+\indent \indent Branching on $x_1 = 0,1$
+\indent \indent \newline
+\indent \indent \indent Case: $x_1 = 0. Z=44$ at $x=(0,1,\frac{1}{4},0,0,1)$
+\indent \indent \indent \newline
+\indent \indent \indent Branching on $x_3 = 0,1$
+\indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_3 = 0. Z=43.75$ at $x=(0,1,0,0,\frac{1}{4}, 1)$
+\indent \indent \indent \indent \newline
+\indent \indent \indent \indent Branching on $x_5 = 0,1$
+\indent \indent \indent \indent \newline
+\indent \indent \indent \indent \indent Case: $x_5 = 0. Z = 43.667$ at $x=(0,1,0,\frac{1}{3},0,1)$
+\indent \indent \indent \indent \indent \newline
+\indent \indent \indent \indent \indent Branching on $x_4 = 0,1$
+\indent \indent \indent \indent \indent \newline
+\indent \indent \indent \indent \indent \indent Case: $x_4 = 0. Z = 41.$ This is below our BFS
+\indent \indent \indent \indent \indent \indent \newline
+\indent \indent \indent \indent \indent \indent Case: $x_4 = 1.$ Infeasible
+\indent \indent \indent \indent \indent \indent \newline
+\indent \indent \indent \indent \indent Case: $x_5 = 1$ Infeasible
+\indent \indent \indent \indent \indent \newline
+\indent \indent \indent \indent Case: $x_3 = 1$ Infeasible
+\indent \indent \indent \indent \newline
+\indent \indent \indent Case: $x_1 = 1. $ Infeasible
+\newline \newline 
+Our best Feasible Solution is Z=43 located at: $x=(1,0,0,1,0,1)$
+
+
+\section*{Question 4}
+Let $b_0 = a_0$ mod d, $b_j = a_j$ mod d
+\subsection*{a}
+$31x_1 + 32x_2 + 9x_3 - 29x_4 = 51$, d = 15
+\newline
+$x_1 + 2x_2 + 9x_3 + x_4 \geq 6$
+\subsection*{b}
+$20x_1 + 30x_2 - 5x_3 + 17x_4 + 11x_5 = 168$, d = 17
+\newline
+$3x_1 + 13x_2 + 12x_3 + 11x_5 \geq 15$
+
+
+
+
+\section*{Question 5}
+
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{max }&3x_1 + 2x_2&\\
+&\text{s.t. } &4x_1 +2x_2&\leq 15\\
+& &x_1 + 2x_2  &\leq 8\\
+& &x_1 + x_2 &\leq 5\\
+& &x_1,x_2 \in \mathbb{Z}_+ &\\
+\end{alignedat}
+\end{equation*}
+
+This has a relaxed linear program of:
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{max }&3x_1 + 2x_2&\\
+&\text{s.t. } &4x_1 +2x_2 + s_1&= 15\\
+& &x_1 + 2x_2 + s_2  &= 8\\
+& &x_1 + x_2 + s_3 &= 5\\
+& &x_1,x_2,s_1,s_2,s_3 \in \mathbb{R}_+ &\\
+\end{alignedat}
+\end{equation*}
+
+
+
+Putting it into Clean Table form
+\[
+	\left[ {\begin{array}{cccccc|c}
+	Z & x_1 & x_2 & s_1 & s_2 & s_3 &  RHS\\ \cline{1-7}
+	1 & -3 & -2 & 0 & 0 & 0  &0 \\
+	0 & 4 & 2 & 1 & 0 & 0 & 15 \\
+	0 & 1 & 2 & 0 & 1 & 0 & 8 \\
+	0 & 1 & 1 & 0 & 0 & 1 & 5  \\
+	\end{array} } \right]
+\]
+
+\[
+	\left[ {\begin{array}{cccccc|c}
+	Z & x_1 & x_2 & s_1 & s_2 & s_3 &  RHS\\ \cline{1-7}
+	1 & 0  & \frac{-1}{2} & \frac{3}{4} & 0 & 0  &\frac{45}{4} \\
+	0 & 1 & \frac{1}{2} & \frac{1}{4} & 0 & 0 & \frac{15}{4} \\
+	0 & 0 & \frac{3}{2} & \frac{-1}{4} & 1 & 0 & \frac{17}{4} \\
+	0 & 0 & \frac{1}{2} & \frac{-1}{4} & 0 & 1 & \frac{5}{4}  \\
+	\end{array} } \right]
+\]
+
+\[
+	\left[ {\begin{array}{cccccc|c}
+	Z & x_1 & x_2 & s_1 & s_2 & s_3 &  RHS\\ \cline{1-7}
+	1 & 0 & \frac{-1}{2} & \frac{3}{4} & 0 & 0  &\frac{45}{4} \\
+	0 & 1 & \frac{1}{2} & \frac{1}{4} & 0 & 0 & \frac{15}{4} \\
+	0 & 0 & \frac{3}{2} & \frac{-1}{4} & 1 & 0 & \frac{17}{4} \\
+	0 & 0 & \frac{1}{2} & \frac{-1}{4} & 0 & 1 & \frac{5}{4}  \\
+	\end{array} } \right]
+\]
+
+\[
+	\left[ {\begin{array}{cccccc|c}
+	Z & x_1 & x_2 & s_1 & s_2 & s_3 &  RHS\\ \cline{1-7}
+	1 & 0 & 0 & \frac{1}{2} & 0 & 0  &\frac{25}{2} \\
+	0 & 1 & 0 & \frac{1}{2} & 0 & -1 & \frac{5}{2} \\
+	0 & 0 & 0 & \frac{1}{2} & 1 & -3 & \frac{1}{2} \\
+	0 & 0 & 1 & \frac{-1}{2} & 0 & 2 & \frac{5}{2}  \\
+	\end{array} } \right]
+\]
+
+This is the final tableau for the relaxed linear program. Since it yeilds maximizers of:
+$x_1 = \frac{5}{2}, x_2 = \frac{5}{2},$ we are not at a feasible integer program solution, and we will take the first constraint from the tableau to make our Gomory cut.
+\newline
+$x_1 + \frac{1}{2} s_1 - s_3 = \frac{5}{2}$
+\newline
+$(1+\frac{0}{1})x_1 + (0 + \frac{1}{2})s_1 + (-1 + \frac{0}{1})s_3 = (2 + \frac{1}{2})$
+\newline
+So by adding the constraint: $\frac{1}{2} s_1 \geq \frac{1}{2}$ We have a new LP.
+
+\begin{equation*}
+\begin{alignedat}{3}
+&\text{max }&3x_1 + 2x_2&\\
+&\text{s.t. } &4x_1 +2x_2 + s_1&= 15\\
+& &x_1 + 2x_2 + s_2  &= 8\\
+& &x_1 + x_2 + s_3 &= 5\\
+& &\frac{1}{2} s_1 &\geq \frac{1}{2}\\
+& &x_1,x_2,s_1,s_2,s_3 \in \mathbb{R}_+ &\\
+\end{alignedat}
+\end{equation*}
+This has solution Z = 12 located at $x = (2,3,1,0,0)$.
+
+\section*{Question 6}
+\subsection*{a}
+$\frac{5}{2} y_1 + \frac{7}{3} y_2 + \frac{1}{5} y_3 + 2x_1 \leq \frac{17}{4} + x_2$
+\newline
+We can see that: $f = \frac{1}{4}, f_1 = \frac{1}{2}, f_2 = \frac{1}{3}, f_3 = {1}{5}$
+\newline
+So our MIR is: $(2+\frac{\frac{1}{4}^+}{\frac{3}{4}})y_1 + (2+\frac{\frac{1}{12}^+}{\frac{3}{4}})y_2 + (0 + \frac{(\frac{1}{5} -\frac{1}{4})^+}{\frac{3}{4}})y_3 \leq 4 + \frac{x_2}{\frac{3}{4}}$
+\newline
+This simplifies to: $\frac{7}{3} y_1 + \frac{19}{9} y_2 \leq 4 + \frac{4x_2}{3}$
+
+\subsection*{b}
+$\frac{5}{2}y_1 + \frac{5}{2} y_2 + \frac{19}{6}y_3 - x_1 \leq \frac{73}{5} + 2x_2$
+\newline
+$\frac{5}{2}y_1 + \frac{5}{2} y_2 + \frac{19}{6}y_3 \leq \frac{73}{5} + x_1 + 2x_2 $
+\newline
+We can see that: $f = \frac{3}{5}, f_1 = \frac{2}{3}, f_2 = \frac{1}{2}, f_3 = {1}{6}$
+\newline
+So our MIR is: $(2+\frac{(\frac{2}{3} - \frac{3}{5})^+}{\frac{2}{5}})y_1 + (2+\frac{(\frac{1}{2}-\frac{3}{5})^+}{\frac{2}{5}})y_2 + (3 + \frac{(\frac{1}{6} - \frac{3}{5})^+}{\frac{2}{5}})y_3 \leq 14 + \frac{x_1 + 2x_2}{\frac{2}{5}}$
+\newline
+This simplifies to: $\frac{13}{6} y_1 + 2y_2 + 3y_3 \leq 14 + \frac{5}{2}x_1 + 5x_2$
+\end{document}

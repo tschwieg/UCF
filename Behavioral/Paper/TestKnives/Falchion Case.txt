@@ -1,0 +1,22 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+AWP | Hyper Beast,0.0032
+AK-47 | Aquamarine Revenge,0.0032
+SG 553 | Cyrex,0.016
+MP7 | Nemesis,0.0799
+CZ75-Auto | Yellow Jacket,0.0799
+P2000 | Handgun,0.3996
+Negev | Loudmouth,0.3996
+MP9 | Ruby Poison Dart,0.3996
+M4A4 | Evil Daimyo,0.3996
+FAMAS | Neural Net,0.3996
+USP-S | Torque,0.3996
+UMP-45 | Riot,0.3996
+P90 | Elite Build,0.3996
+Nova | Ranger,0.3996
+Glock-18 | Bunsen Burner,0.3996
+Galil AR | Rocket Pop,0.3996

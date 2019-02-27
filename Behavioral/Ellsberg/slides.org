@@ -1,0 +1,160 @@
+#+STARTUP: beamer 
+#+LATEX_CLASS: beamer
+#+BEAMER_THEME: Montpellier
+#+LaTeX_CLASS_OPTIONS: [bigger]
+#+OPTIONS: H:2 toc:nil
+#+toc: nil
+#+TITLE: Risk, Ambiguity, and the Savage Axioms
+#+AUTHOR: Timothy Schwieg
+#+COLUMNS: %40ITEM %10BEAMER_env(Env) %9BEAMER_envargs(Env Args) %4BEAMER_col(Col) %10BEAMER_extra(Extra)
+#+LATEX_HEADER: \usepackage{mathtools}
+#+LATEX_HEADER: \usepackage{tikz}
+#+LATEX_HEADER: \makeatletter
+#+LATEX_HEADER: \newcommand\mathcircled[1]{%
+#+LATEX_HEADER:   \mathpalette\@mathcircled{#1}%
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \newcommand\@mathcircled[2]{%
+#+LATEX_HEADER:   \tikz[baseline=(math.base)] \node[draw,circle,inner sep=1pt] (math) {$\m@th#1#2$};%
+#+LATEX_HEADER: }
+#+LATEX_HEADER: \makeatother
+
+
+* Uncertainty
+** How much uncertainty is there?
+- Even though Knight claims uncertainty dominates, people tend to
+  behave "as if" they have numerical probabilities assigned to events.
+- Shackle's Cricket Match
+- Can we provide odds we are willing to back?
+
+** 
+- "The race is not always to the swift nor the battle to the strong,
+  but that's the way to bet." - Damon Runyon
+- Do these bets reveal anything about our "hidden probabilities?"
+- If this were possible, we could turn these uncertainties that people
+  were willing to bet on, and transform them into something alike
+  risk.
+
+** Enter Savage
+- Savage claims that for someone who is "rational" all uncertainties
+  can be reduced into risks.
+- A willingness to bet on 2:1 odds means a belief in a probability of
+  $\frac{1}{3}$ 
+- Must still somehow untangle probabilities from preferences, but in a
+  controlled setting this is feasible. 
+- What does "rational" mean?
+
+** What can we infer from behavior?
+- What does indifference between two gambles imply?
+- Equal probabilities, given you assigned probabilities.
+- May just be attempting to mimimax - this only reflects they have the
+  same worst-case. 
+- Seek an operator $\mathcircled { \geq }$ - Qualitative Probability
+
+** What the operator gives us:
+- $\mathcircled { \geq }$ is a complete ordering among events
+- If an event \alpha is more probable than \beta, then $\bar{\alpha}$ is less
+  probable than $\bar{\beta}$. 
+- If \alpha and \gamma are mutually exclusive and so are \beta and \gamma, then if \alpha is
+  more probable than \beta, $\alpha \cup \gamma$ is more probable than $\beta \cup \gamma$
+- Under the Savage axioms, $\mathcircled { \geq }$ holds these
+  properties.
+
+** The Savage axioms
+- Gambles have a complete ordering
+- If two gambles have the same payoff, its value is irrelevant.
+- Dominated Actions are always rejected - "noncontroversial"
+- Choice in a gamble is independent of the relative magnitudes of the
+  rewards, only the ranking.
+
+ Size of the prize doesn't affect choice.
+
+** What happens when these are not fulfilled?
+- We cannot infer probabilities from actions
+- There is no VNM Utility function that we can apply.
+- These are not met in a particular class of situations
+- These situations are where ambiguity rules.
+
+* Do the Axioms Apply? 
+** Experiment Time
+- Which would you prefer to bet on?
+| Box I  | 10 Red M&Ms, 10 Green M&Ms            |
+| Box II | 20 M&Ms All of which are Red or Green |
+- Red M&M or Green M&M from Box I?
+- Red M&M or Green M&M from Box II?
+- Red M&M from Box I or Red from BoxII?
+- Green from Box I or Green from BoxII?
+
+** Honey I broke the axioms
+- Preferring Box I to Box II in both violates the savage axioms.
+- If you prefer Box I Red, then you must view it as more probable, and
+  therefore Box I Green as less probable than Box II Green.
+- However you also prefer Box II Green to Box I Green, and we have a
+  contradiction. 
+
+** Do we really have total ignorance?
+- Lets take a few samples out of Box II.
+- Have your preferences for betting changed?
+- This is typical, and it only changes willingness to bet slightly.
+
+** Another Experiment
+- There are 20 known blue M&Ms, and forty M&Ms that are all red or
+  green.
+| Bet on Blue          | Bet on Red           |
+| Bet on Blue or Green | Bet on Red or Green  |
+- When the ambiguity is removed by Red or Green being an option, it is
+  suddenly the preferred case.
+- Sophisticated individuals still continue to violate the axioms even
+  on reflection with the notion they are violating them.
+
+* Ambiguity
+** Standard uncertainty behaviors
+- Individuals are not minimaxing purely. 
+- Nor are they maximizing any weighted average of the best and worst
+  case. 
+- They aren't even minimaxing regret, as these examples are designed
+  so that their regret would be identical.
+- Yet these choices are fairly obvious and intuitive.
+
+** Ambiguity Aversion
+- We have some information about the problem, but we just aren't sure
+  how good our information is.
+- However we aren't "completely ignorant" so common techniques for
+  handling uncertainty don't apply either. 
+- Limited to distributions $(\frac{1}{3}, \lambda, \frac{2}{3} - \lambda)$.
+- No real knowledge of which of these distributions is more "likely"
+- This is different from the uninformed prior!
+
+** Further Problems
+- Even if an individual could assign relative weights to each possible
+  distribution and apply a prior, he does not know how useful the data
+  is.
+- Information can still be ambiguous, for example hearing about a
+  players' FG% in basketball may inform you on their chances in the
+  playoffs this year more or less depending on your knowledge. 
+- This cannot be expressed in terms of likelihoods.
+
+** Where does ambiguity apply?
+- Where information can often be unreliable.
+- New processes. (Vegas Games rely on the same stochastic devices).
+- Returning to the Cricket Game:
+
+ You would be certain to bet on who bats first
+
+ How certain are you on betting on who wins the game?
+
+** A possible Computational Device
+- It is possible that maybe there is an expected distribution (prior),
+  but since the individual is not certain that he is correct, he
+  weights it against the worst possible case. 
+- Ellsberg uses a linear combination for simplicity, but it could be
+  more complex.
+- Provides nothing more than a heuristic.
+- No formal model presented.
+
+
+** How does this predict behavior?
+- When we are less sure of our predictions, we become more
+  conservative. 
+- A bet on known things is preferred to a bet on unknown odds.
+- This doesn't mean that people are not acting optimally, nor are they
+  being "irrational"

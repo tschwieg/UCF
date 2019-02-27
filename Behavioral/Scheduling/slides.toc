@@ -1,0 +1,7 @@
+\beamer@endinputifotherversion {3.36pt}
+\beamer@sectionintoc {1}{Introduction To Scheduling}{3}{0}{1}
+\beamer@sectionintoc {2}{Earliest Due Date}{5}{0}{2}
+\beamer@sectionintoc {3}{Shortest Processing Time}{8}{0}{3}
+\beamer@sectionintoc {4}{Moore's Algorithm}{11}{0}{4}
+\beamer@sectionintoc {5}{Preemption Costs}{15}{0}{5}
+\beamer@sectionintoc {6}{Summary and Conclusions}{16}{0}{6}

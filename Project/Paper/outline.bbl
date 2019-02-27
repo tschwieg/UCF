@@ -1,0 +1,94 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citeauthoryear{??}{Liq}{}]{Liquidpedia}
+Counter-strike weapon cases.
+\newblock
+  \url{http://liquipedia.net/counterstrike/Portal:Containers/Weapon_cases}.
+\newblock Accessed: 2018-03-10.
+
+\bibitem[\protect\citeauthoryear{??}{Ste}{}]{SteamMarket}
+Steam community market.
+\newblock \url{https://steamcommunity.com/market/}.
+\newblock Accessed: 2018-03-10.
+
+\bibitem[\protect\citeauthoryear{Boyd and Vandenberghe}{Boyd and
+  Vandenberghe}{2004}]{Boyd:2004:CO:993483}
+Boyd, S. and L.~Vandenberghe (2004).
+\newblock {\em Convex Optimization}.
+\newblock New York, NY, USA: Cambridge University Press.
+
+\bibitem[\protect\citeauthoryear{Chade, Eeckhout, and Smith}{Chade
+  et~al.}{2017}]{LitReview}
+Chade, H., J.~Eeckhout, and L.~Smith (2017, 6).
+\newblock Sorting through search and matching models in economics.
+\newblock {\em Journal of Economic Literature\/}~{\em 55\/}(2), 493--544.
+
+\bibitem[\protect\citeauthoryear{Cripps and Swinkels}{Cripps and
+  Swinkels}{2006}]{Efficiency}
+Cripps, M.~W. and J.~M. Swinkels (2006).
+\newblock Efficiency of large double auctions.
+\newblock {\em Econometrica\/}~{\em 74\/}(1), 47--92.
+
+\bibitem[\protect\citeauthoryear{Hall}{Hall}{2005}]{hall2005generalized}
+Hall, A. (2005).
+\newblock {\em Generalized Method of Moments}.
+\newblock Advanced texts in econometrics. Oxford University Press.
+
+\bibitem[\protect\citeauthoryear{Koenker}{Koenker}{2018}]{quantreg}
+Koenker, R. (2018).
+\newblock {\em quantreg: Quantile Regression}.
+\newblock R package version 5.36.
+
+\bibitem[\protect\citeauthoryear{Koenker and Bassett}{Koenker and
+  Bassett}{1978}]{10.2307/1913643}
+Koenker, R. and G.~Bassett (1978).
+\newblock Regression quantiles.
+\newblock {\em Econometrica\/}~{\em 46\/}(1), 33--50.
+
+\bibitem[\protect\citeauthoryear{Koenker and Zhao}{Koenker and
+  Zhao}{1996}]{10.2307/3532912}
+Koenker, R. and Q.~Zhao (1996).
+\newblock Conditional quantile estimation and inference for arch models.
+\newblock {\em Econometric Theory\/}~{\em 12\/}(5), 793--813.
+
+\bibitem[\protect\citeauthoryear{Li}{Li}{2015}]{PriceDataOnly}
+Li, H. (2015).
+\newblock Nonparametric identification of k-double auctions using price data.
+\newblock Job Market Paper.
+
+\bibitem[\protect\citeauthoryear{Low and Meghir}{Low and
+  Meghir}{2017}]{StructuralEconometrics}
+Low, H. and C.~Meghir (2017, May).
+\newblock The use of structural models in econometrics.
+\newblock {\em Journal of Economic Perspectives\/}~{\em 31\/}(2), 33--58.
+
+\bibitem[\protect\citeauthoryear{Ostroy, Zame, and E~Gretsky}{Ostroy
+  et~al.}{1992}]{NonAtomic}
+Ostroy, J., W.~Zame, and N.~E~Gretsky (1992, 02).
+\newblock The nonatomic assignment model.
+\newblock ~{\em 2}, 103--27.
+
+\bibitem[\protect\citeauthoryear{Paarsch}{Paarsch}{2018}]{LimeBoy}
+Paarsch, H.~J. (2018).
+\newblock The foundations of empirical intuition.
+\newblock Version: Sunday 7th January, 2018.
+
+\bibitem[\protect\citeauthoryear{Parsons, Macinkiewicz, Niu, and
+  Phelps}{Parsons et~al.}{2006}]{DoubleAuc}
+Parsons, S., M.~Macinkiewicz, J.~Niu, and S.~Phelps (2006).
+\newblock Everything you wanted to know about double auctions, but were afraid
+  to (bid or) ask.
+\newblock Unpublished Paper.
+
+\bibitem[\protect\citeauthoryear{{Revels}, {Lubin}, and {Papamarkou}}{{Revels}
+  et~al.}{2016}]{ForwardDiff}
+{Revels}, J., M.~{Lubin}, and T.~{Papamarkou} (2016).
+\newblock Forward-mode automatic differentiation in julia.
+\newblock {\em arXiv:1607.07892 [cs.MS]\/}.
+
+\bibitem[\protect\citeauthoryear{Rothschild}{Rothschild}{1973}]{Rothschild}
+Rothschild, M. (1973, 01).
+\newblock Models of market organization with imperfect information: A survey.
+\newblock {\em Journal of Political Economy\/}~{\em 81}, 1283--1308.
+
+\end{thebibliography}

@@ -1,0 +1,21 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{k}{using} \PYG{n}{JuMP}
+\PYG{k}{using} \PYG{n}{SCIP}
+\PYG{n}{m} \PYG{o}{=} \PYG{n}{Model}\PYG{p}{(}\PYG{n}{solver}\PYG{o}{=}\PYG{n}{SCIPSolver}\PYG{p}{())}
+
+\PYG{n}{MSRP} \PYG{o}{=} \PYG{l+m+mi}{36150}
+\PYG{n}{Main} \PYG{o}{=} \PYG{l+m+mi}{229}
+\PYG{n}{Fuel} \PYG{o}{=} \PYG{l+m+mi}{15000}\PYG{o}{*}\PYG{l+m+mi}{25}\PYG{o}{*}\PYG{l+m+mf}{2.607}\PYG{o}{/}\PYG{l+m+mi}{12}
+\PYG{n}{r} \PYG{o}{=} \PYG{l+m+mf}{0.07}\PYG{o}{/}\PYG{l+m+mf}{12.0}
+\PYG{n}{beta} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{o}{/}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{r}\PYG{p}{)}
+\PYG{n}{T} \PYG{o}{=} \PYG{l+m+mi}{36}
+\PYG{n}{Y} \PYG{o}{=} \PYG{l+m+mi}{10}
+\PYG{n+nb}{I} \PYG{o}{=} \PYG{l+m+mi}{227}
+\PYG{n}{Reg\PYGZus{}initial} \PYG{o}{=} \PYG{l+m+mi}{225}
+\PYG{n}{Reg} \PYG{o}{=} \PYG{l+m+mf}{72.40}
+
+\PYG{n+nd}{@variable}\PYG{p}{(} \PYG{n}{m}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{o}{\PYGZlt{}=}\PYG{n}{D}\PYG{o}{\PYGZlt{}=}\PYG{n}{MSRP}\PYG{p}{)}
+\PYG{n+nd}{@expression}\PYG{p}{(} \PYG{n}{m}\PYG{p}{,} \PYG{n}{P}\PYG{p}{,} \PYG{p}{(}\PYG{n}{r}\PYG{o}{*}\PYG{p}{(}\PYG{n}{MSRP}\PYG{o}{\PYGZhy{}}\PYG{n}{D}\PYG{p}{))}\PYG{o}{/} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{\PYGZhy{}}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{o}{+}\PYG{n}{r}\PYG{p}{)}\PYG{o}{\PYGZca{}}\PYG{p}{(}\PYG{o}{\PYGZhy{}}\PYG{n}{T}\PYG{p}{)} \PYG{p}{)} \PYG{p}{)}
+\PYG{n+nd}{@objective}\PYG{p}{(}\PYG{n}{m}\PYG{p}{,} \PYG{n}{Min}\PYG{p}{,} \PYG{n}{Reg\PYGZus{}initial} \PYG{o}{+}  \PYG{n}{sum}\PYG{p}{(} \PYG{n}{beta}\PYG{o}{\PYGZca{}}\PYG{n}{i} \PYG{o}{*}\PYG{p}{(}\PYG{n}{P}\PYG{o}{+}\PYG{n+nb}{I}\PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{T} \PYG{p}{)} \PYG{o}{+} \PYG{n}{sum}\PYG{p}{(} \PYG{n}{beta}\PYG{o}{\PYGZca{}}\PYG{p}{(}\PYG{l+m+mi}{12}\PYG{o}{*}\PYG{n}{i}\PYG{p}{)} \PYG{o}{*} \PYG{p}{(} \PYG{n}{Fuel} \PYG{o}{+} \PYG{n}{Main} \PYG{o}{+} \PYG{n}{Reg} \PYG{p}{)} \PYG{k}{for} \PYG{n}{i} \PYG{o}{=}\PYG{l+m+mi}{1}\PYG{o}{:}\PYG{n}{Y} \PYG{p}{)}  \PYG{p}{)}
+\PYG{n}{status} \PYG{o}{=} \PYG{n}{solve}\PYG{p}{(}\PYG{n}{m}\PYG{p}{)}
+\end{Verbatim}

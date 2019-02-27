@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\},codes={\catcode`\$=3\catcode`\^=7\catcode`\_=8}]
+\PYG{n}{PBigGBOne} \PYG{o}{/} \PYG{n}{simulations}
+\PYG{l+m+mi}{1} \PYG{o}{\PYGZhy{}} \PYG{p}{(}\PYG{n}{PBigGBTwo} \PYG{o}{/} \PYG{n}{simulations}\PYG{p}{)}
+\end{Verbatim}

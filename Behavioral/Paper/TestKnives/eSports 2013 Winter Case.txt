@@ -1,0 +1,18 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+M4A4 | X-Ray,0.0064
+Desert Eagle | Cobalt Disruption,0.032
+AWP | Electric Hive,0.032
+FAMAS | Afterimage,0.7992
+P90 | Blind Spot,0.7992
+AK-47 | Blue Laminate,0.7992
+P250 | Steel Disruption,0.7992
+G3SG1 | Azure Zebra,0.7992
+Nova | Ghost Camo,0.7992
+PP-Bizon | Water Sigil,0.7992
+Five-SeveN | Nightshade,0.7992
+Galil AR | Blue Titanium,0.7992

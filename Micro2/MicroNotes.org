@@ -1,0 +1,324 @@
+* Behavior under risk
+
+A lottery A contains $\{ a_1, ... , a_n \}$ where $a_i$ occurs with
+probability $p_i$. WLOG these are ordered such that $a_i \succeq a_{i+1}$
+
+** Preferences Over Lotteries
+
+- Compelteness
+- Transitivity
+- State independence
+- Reduction of complex lotteries
+- Continuity - Can reproduce any lottery with the appropiate
+  combination of the minimum and maximum values
+- If an outcome $x \succ y$, then $px + (1-p)z \succ py + (1-p)z$
+
+
+** Utility Functions
+
+We wish to capture this preference relation in a continuous and
+real-valued utility function. This function should map from possible
+lotteries to the reals. $u : L \to \mathbb{R}$
+
+For notational purposes, denote the utility of an outcome of the
+lottery to denote the utility of the degernate gamble that only gives
+this outcome.
+
+*** Expected Utility Property
+
+\begin{equation*}
+\forall l \in L\\
+u(l) = \sum_{i=1}^n p_i u(a_i )\\
+\end{equation*}
+
+*** Von Neumann-Morgenstern Utility Functions
+If preferences satisfy these axioms then there is a Utility function
+that also exhibits the expected utility property. This can always be
+consructed by the continuity property.
+
+Since every element in the lottery is indifferent to a convex
+combination of the highest and lowest element, the number $\alpha$ can
+be used as the utility of that element.
+
+These utility funtions are unique to an affline transformation. All
+that matters is that the ratio given by:
+\begin{equation*}
+\frac{ u(a) - u(b) }{ u(b) - u(c) } = \frac{1 - \alpha}{\alpha}
+\end{equation*}
+This ratio must be the same for all VNM utility functions, so they are
+unique to an affline transformation. Also note that this does not
+measure the intensity with which one lottery is preferred to another,
+simply the preference between them.
+
+** Risk Preference
+
+Under Uncertainty, convexity of indifference curves means that
+individuals are risk averse, when considering lotteries over wealth.
+
+This is related to the shape of the VNM utility function. If the
+utility function is concave, then the indifference curve is convex.
+
+This can be simplified to risk aversion and expected values:
+- Risk Averse: $u( \mathbb{E}[l] ) > u(l)$
+- Risk Neutral: $u( \mathbb{E}[l] ) = u(l)$
+- Risk Loving: $u( \mathbb{E}[l] ) < u(l)$
+
+If an individual is risk (something) for all lotteries $l \in L$, then
+it is said that he is simply risk (something).
+
+Jenson's Inequality: For any random Variable W, and any strictly
+concave function u(W)
+
+$\mathbb{E}[ u(W) ] < u( \mathbb{E}[W] )$
+
+*** Certainty Equivalent
+Certaintiy Equivalent: The amount of wealth required in certiantity
+such that: $u(l) = u( CE )$
+
+Risk Premium: The amount of wealth willing to pay to avoid the
+lottery. P such that: $u(l) = u( \mathbb{E[l]} - P ). P =
+\mathbb{E}[l] - CE.$
+
+** Mean-preserving spread
+
+Mean-preserving spread: a variable with the same mean but more
+risk. Consider a random variable $z$. A mean preserving spread is:
+$z^+ = z + e$ where $\mathbb{E[e|z]} = 0$ Effectively, mass is moved
+out of the center and into the tails.
+
+Expected utility of a risk-averse person falls when he faces a mean
+preserving spread of his old distribution. It rises for a risk loving
+person.
+
+** Stochastic Dominance
+
+*** First Order Stochastic Dominance
+$\forall x F(x) \leq G(x)$.
+This is equivalent to: for every weakly increasing u, $\int u(x) dF
+\geq \int u(x) dG$.
+- FOSD means that the Distribution function of F is
+to the right of G.
+- It can also be thought of as everyone prefers F to G, and
+  $\mathbb{E_G} \geq \mathbb{E_G}$
+
+*** Second Order Stochastic Dominance
+
+X Second Order Stochastically Dominates Y if
+\begin{equation*}
+\int_0^k \bar{ F(x) }dx \geq \int_0^k \bar{ G(x) }dx\\
+\end{equation*}
+
+Obviously FSC $\to$ SSD.
+
+Less obvious is that: If X SSD Y, then $\mathbb{E}[X] \geq
+\mathbb{E}[Y]$.
+
+In fact, for all risk averse utility functions. If X SSD Y, then
+$\mathbb{E}[U(X)] \geq \mathbb{E}[U(Y)]$.
+
+** Arrow-Pratt Measure of Absolute Risk Aversion
+
+$R_a(w) = \frac{ -u''(w) }{ u'(w) }$
+
+The sign of this gives us the question of risk aversion, positive
+means risk averse, and negative implies they are risk loving. This
+measurement is also unchanged by any affline transformation.
+
+The magnitude of $R_a$ gives how risk averse consumers are in the
+sense of lower certainty equivalents, and accept fewer gambles.
+
+** Decreasing Absolute Risk Aversion
+
+$R_a(w)$ is a local measure of risk aversion, it can change with an
+individuals level of wealth. Based on how this measure changes with
+wealth gives decreasing absolute risk aversion, or possibly constant
+or increasing depending.
+
+* Game Theory
+
+** Simultaneous Move Games
+
+Strategic form game is a tuple defining the available strategies, and
+payoff functions which map the product of the strategies to the reals.
+This sucks to write out, so for finite games we like to try to use
+matrices.
+
+*** Dominant Strategies
+
+A strategy is strictly dominant if it is strictly better off than all
+other stragies, or formally: $\hat{s_i}$ is dominant if: $u_i (
+\hat{s_i}, s_{-i} ) > u_i( s_i, s_{-i} ) \quad \forall (s_i, s_{-i} )
+\in S, s_i \neq \hat{s_i}$
+
+If this happens for one strategy $s_i$ we say that $\hat{s_i}$
+strictly dominates $s_i$, and $s_i$ is strictly dominated.
+
+Weakly Dominant: Same thing but with non-strict inequalities.
+
+These strategies can be iteratively applied to remove strategies and
+find the dominant strategy. When doing this with weakly dominant
+strategies order does matter.
+
+Mixed strategies can dominate pure strategies. JR p322 Ex 7.4
+
+*** Nash Equilibrium
+
+There isn't always a dominant strategy, and this is rarely the case in
+a complicated mechanism.
+
+A Nash Equilibrium is an equilibrium where every player is playing a
+best response to every other player's strategy. There can be many of
+these in a single game. If we get one of these is another thing
+entirely.
+
+Mixed strategy Nash Equilibriums occur where each player is mixing
+precisely in the manner that makes the other player indifferent. That
+is the weak part of the inequality is driving everything, so there is
+no incentive leading to this result.
+
+However when these are included we get a result that every finite
+strategic form game posses at least one Nash Equilibrium. This result
+uses Kakutani's fixed point theorem.
+
+Generally: It is just required that the strategy space is compact and
+payoff functions are continuous.
+
+For a finite strategic form game G, a joint strategy $\hat{m}$ is a
+Nash Equibrium if for each player i, $u_i ( \hat{m} ) \geq u_i( m_i,
+\hat{m_{-i}} ) This seems like a lot of work, we would have to check
+all infinite mixed strategies, but there is a faster way.
+
+These following are equivalent:
+- $\hat{m} \in M$ is a Nash Equilibrium
+- $\forall i, u_i( \hat{m} ) = u_i ( s_i, \hat{m_{-i}} ) \quad \forall
+  s_i \in S_i$ as long as $s_i$ is given positive weight by
+  $\hat{m_i}$ and $u_i( \hat{m} ) \geq u_i( s_i, \hat{m_{-i}} )$ for
+  the ones given zero weight.
+- For every player i, $u_i( \hat{m} ) \geq u_i( s_i, \hat{m_{-i}} )
+  \quad \forall s_i \in S_i$
+
+** Games of Incomplete Information
+
+Sometimes we do not know the payoffs of the other players. We will
+need each player to have beliefs about the other players. Beliefs are
+updated according to Bayes' Rule. These are represented in the form of
+types. This adds another dimension to the formal definition of a Game,
+and requires a common prior distribution of the types players can be.
+
+This is the same as the interpretation that every type of a player is
+a seperate player, and which type they are is chosen at the start of
+the game by "Nature". However each player chooses his strategy before
+seeing nature's choice.
+
+This allows us to view the game of incomplete information as one of
+complete information, where the payoffs for that player are the
+expected payoffs based on the probabilities of them occuring updated
+with the information we have.
+
+The Nash Equilibrium of this complete information game is the
+Bayes-Nash Equilibrium of the Incomplete Information game.
+
+*** Harsanyi's Purification Theorem
+All Mixed-Strategy Nash Equilibriums in a game of complete information
+can be viewed as the limit of a pure Bayesian Nash Equilibrium in a
+game of incomplete information converging to the complete info game.
+
+If the payoffs of a game are private information, then there is a pure
+strategy that uses a threshold to make a decision, and this converges
+to the mixed Nash Equilibrium.
+
+For example: If we have a strategy profile, to each possible strategy
+assign an error term that has support [-1,1]. Change the payout
+function for each strategy to be the old payout, plus \epsilon times
+this error term. The limit as \epsilon goes to zero is the mixed
+strategy equilibrium.
+
+Formally: For all independent P_i, any mixed strategy equilibrium of
+the complete information game is the limit of a sequence of pure
+strategy equilibria of an \epsilon perturbed game.
+
+
+** Sequential Move Games
+
+We usually consider game trees and use backwards induction to find the
+optimal strategy. However we also have to take into account
+information sets. Players cannot distinguish between nodes in an
+information set.
+
+Pure strategies now specify what action to take among those available
+at each of his information set. Even ones that we do not believe we
+will ever reach. Nature takes his action at the beginning of the game,
+and doesn't have any payoffs. Strategy should tell you what to do for
+each realization from nature.
+
+Backwards induction strategies are a Nash Equilibrium. In fact, every
+finite extensive form game of perfect information possesses a pure
+strategy Nash Equilibrium. But not every NE of the game will come from
+backwards induction. Note that for imperfect information, backwards
+induction will not always work.
+
+*** Subgame Perfect Nash Equilibria
+A subgame is a subset of the original game that has not split any of
+the information sets. Subgame Perfect means that it induces a Nash
+Equilibrium on every subgame of the original game.
+
+The set of backwards induction strategies are the set of subgame
+perfect Nash Equilibria when there is perfect information.
+
+Randomness can arise from mixed strategies, where you simply assign
+probabilities to pure strategies, and randomize once at the start, and
+stick with it throughout, or you can mix over available actions at
+every information set.
+
+These are equivalent. Kuhn's theorem: For every mixed strategy, there
+is a corresponding behaviorally mixed strategy which is equivalent, as
+in leading to the same distribution of outcomes, and vice versa. So we
+will use behavioral mixing.
+
+This leads us to the fact that every finite extensive form game with
+perfect recall possesses a subgame perfect equilibrium. To handle the
+case of incomplete information, have nature pick the type of player at
+the start, and have it not be observed by the other players. This
+changes it to simply unobserved information.
+
+*** Sequential Equilibrium
+
+Subgame perfect doesn't take into account a player's beliefs over the
+nodes within his information sets. We would like these beliefs to be
+consistent with the strategies of the players, so we will require that
+they will derived from strategies using Bayes' Rule when possible.
+
+Assessment: is a set of behavioral strategies and system of beliefs of
+all the players at each information set.
+
+Sequentially ration: An assessment is sequentially ration if for every
+player, information set and behavioral strategy, the expected payoff
+from using that strategy given their beliefs is weakly higher than the
+expected payoff of every other behavioral strategy.
+A behavioral strategy b is called sequentially ration if there are
+some beliefs that make this strategy sequentially rational.
+
+Basically this means you are doing your best given what you believe. A
+sequential equilibrium is an assessment that is sequentially rational
+and confroms to Bayes' rule.
+
+Every finite eextensive form game with perfect recall possess at least
+one sequential equilibrium. For all sequentially rational behavioral
+strategies, the behavioral strategy is a subgame perfect equilibrium.
+
+*** Trembling hand perfection
+
+There is some small chance that other players make a mistake and don't
+play their best reponse, if your strategy survives this possibility,
+it is trembling hand.
+
+Formally: Sequence of strictly mixed strategies which each one is a
+nash equilibrium, then the limit of this sequence is a trembling-hand
+perfect Nash Equilibrium.
+
+Every Finite extensive form game has a trembling-hand perfect
+equilibrium. And every tremblind-hand perfect Nash Equilibrium is a
+sequential equilibrium, and therefore subgame perfect.
+
+
+*** Correlated Equilibria

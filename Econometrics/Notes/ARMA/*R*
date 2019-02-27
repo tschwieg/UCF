@@ -1,0 +1,262 @@
+
+R version 3.3.3 (2017-03-06) -- "Another Canoe"
+Copyright (C) 2017 The R Foundation for Statistical Computing
+Platform: x86_64-pc-linux-gnu (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+  Natural language support but running in an English locale
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> > if (identical(getOption('pager'), file.path(R.home('bin'), 'pager'))) options(pager='cat') # rather take the ESS one 
+> options(STERM='iESS', str.dendrogram.last="'", editor='emacsclient', show.error.locations=TRUE)
+> .ess.source('~/.emacsPrinter.r', visibly = FALSE, output = TRUE)
+Error in file(filename, "r", encoding = encoding) : 
+  cannot open the connection
+In addition: Warning message:
+In file(filename, "r", encoding = encoding) :
+  cannot open file '/root/.emacsPrinter.r': No such file or directory
+Sourced file ~/.emacsPrinter.r
+> acf( x= c(.5 ), lag.max = 10, type="correlation"
++ )
+> acf( x= c(.5, .25, .15, .1, .05, .03, .02 ), lag.max = 10, type="correlation")
+> acf( x= c(.5, .25, .15, .1, .05, .03, .02 ), y = c( .6, .5, .4, .3 ), lag.max = 10, type="correlation")
+Error in plot.acf(acf.out, ...) : 
+  argument 2 matches multiple formal arguments
+> ARMAacf( ar=c(.5, .25, .15), ma=c(.5,.25,.15), lax.max = 10 )
+Error in ARMAacf(ar = c(0.5, 0.25, 0.15), ma = c(0.5, 0.25, 0.15), lax.max = 10) : 
+  unused argument (lax.max = 10)
+> ARMAacf( ar=c(.5, .25, .15), ma=c(.5,.25,.15), lag.max = 10 )
+        0         1         2         3         4         5         6         7 
+1.0000000 0.9538040 0.9053297 0.8543748 0.7965904 0.7476884 0.7011480 0.6569847 
+        8         9        10 
+0.6159326 0.5773847 0.5412232 
+> acf( ARMAacf( ar=c(.5, .25, .15), ma=c(.5,.25,.15), lag.max = 10 ), lag.max = 10 )
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+Loading required package: knitr
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+There were 11 warnings (use warnings() to see them)
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |......................                                           |  33%
+  ordinary text without R code
+
+  |...........................................                      |  67%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+  |.................................................................| 100%
+  ordinary text without R code
+
+
+output file: plots.tex
+
+[1] "plots.tex"
+There were 15 warnings (use warnings() to see them)
+> .ess_weave(knit, "/root/Classes/Econometrics/Notes/ARMA/plots.Rnw", encoding = "utf-8")
+
+
+processing file: /root/Classes/Econometrics/Notes/ARMA/plots.Rnw
+  |.............                                                    |  20%
+  ordinary text without R code
+
+  |..........................                                       |  40%
+label: setup (with options) 
+List of 2
+ $ include: logi FALSE
+ $ cache  : logi FALSE
+
+  |.......................................                          |  60%
+  ordinary text without R code
+
+  |....................................................             |  80%
+label: plotter (with options) 
+List of 1
+ $ echo: logi FALSE
+
+Quitting from lines 23-51 (/root/Classes/Econometrics/Notes/ARMA/plots.Rnw) 
+Error in loadNamespace(name) : there is no package called 'digest'
+In addition: Warning message:
+You used a knitr feature that depends on the digest package. Make sure it is installed. 
+
+> install.packages( "digest" )
+Installing package into ‘/usr/local/lib/R/site-library’
+(as ‘lib’ is unspecified)
+--- Please select a CRAN mirror for use in this session ---
+trying URL 'https://cran.revolutionanalytics.com/src/contrib/digest_0.6.15.tar.gz'
+Content type 'application/octet-stream' length 122095 bytes (119 KB)
+==================================================
+downloaded 119 KB
+
+* installing *source* package ‘digest’ ...
+** package ‘digest’ successfully unpacked and MD5 sums checked
+** libs
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c aes.c -o aes.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c crc32.c -o crc32.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c digest.c -o digest.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c init.c -o init.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c md5.c -o md5.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c pmurhash.c -o pmurhash.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c raes.c -o raes.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c sha1.c -o sha1.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c sha2.c -o sha2.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c sha256.c -o sha256.o
+gcc -std=gnu99 -I/usr/share/R/include -DNDEBUG      -fpic  -g -O2 -fdebug-prefix-map=/build/r-base-3.3.3=. -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g  -c xxhash.c -o xxhash.o
+gcc -std=gnu99 -shared -L/usr/lib/R/lib -Wl,-z,relro -o digest.so aes.o crc32.o digest.o init.o md5.o pmurhash.o raes.o sha1.o sha2.o sha256.o xxhash.o -L/usr/lib/R/lib -lR
+installing to /usr/local/lib/R/site-library/digest/libs
+** R
+** inst
+** preparing package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** installing vignettes
+** testing if installed package can be loaded
+* DONE (digest)
+
+The downloaded source packages are in
+	‘/tmp/RtmpF7GQzT/downloaded_packages’
+> 

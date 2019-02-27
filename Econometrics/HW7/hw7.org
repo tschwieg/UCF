@@ -1,0 +1,109 @@
+* Question 1
+** a
+He could simply drive the same distance back and forth many times,
+that is, drive the distance he walked n times in a row. There will
+still be the same error on his starting odometer, and error on his
+ending odometer, but since the value he is after is nd, his estimate
+of d which is $\frac{nd}{n}$ has all the errors divided by n. By using
+this strategy he may drive the error down to however small he wishes,
+at the cost of the time spent driving that distance.
+
+** b
+Our measurement equation is given by:
+
+\begin{align*}
+S + nd + \xi_s &= E + \xi_e \\
+nd &= E - S + \xi_e - \xi_s \\
+d &= \frac{ E - S + \xi_e -\xi_s}{n}
+\end{align*}
+where $\xi_i \sim U(0,1)$
+
+Our estimator $\hat{d}$ is given by $\frac{E - S}{n} = d + \frac{ \xi_s - \xi_e }{n}$
+
+Since it is known that the mean-squared error is the bias squared plus
+the variance, we need only calculate the bias and variance of $\hat{d}$.
+
+\begin{align*} 
+\mathbb{E}[ \hat{d} ] = d + \frac{ \mathbb{E}[\xi_s ] - \mathbb{E}[\xi_e ] }{n} = d \\
+\mathbb{V} ( \hat{d} ) = \frac{1}{n^2} \mathbb{V}( \xi_s - \xi_e ) = \frac{1}{n^2} \left ( \mathbb{V}(\xi_s) + \mathbb{V}(\xi_e) \right ) \\
+\frac{1}{n^2} \left ( \frac{1}{12} + \frac{1}{12} \right )  = \frac{ 1 }{6n^2}
+\end{align*}
+
+Thus the mean-squared error is given by: $\frac{1}{6n^2}$
+
+** c
+Following the notion on page 69 of Foundations of Empirical Intuition
+by Harry Paarsch, it is known that the distribution of the difference
+between two uniform random variables is given by:
+$$F_x(x) = \int_0^1 \int_{-1}^x 1 dxdy = 
+\begin{cases}
+\frac{1}{2} + x + \frac{x^2}{2} \quad &-1 \leq x \leq 0 \\
+\frac{1]{2} + x - \frac{x^2}{2} \quad &0 \leq x \leq 1
+\end{cases}$$
+
+The density of the distribution is given by the derivative and is
+thus:
+
+$$f_x(x) = \begin{cases}
+1 + x \quad &-1 \leq x \leq 0 \\
+1 - x \quad &0 \leq x \leq 1
+\end{cases}$$
+
+Now for a series of random samples on n days, we can note that
+\begin{align*}
+S + d + \xi_s &= E + \xi_e \\
+E - S &= d + \xi_s - \xi_e \\
+\end{align*}
+
+Thus the distribution of E-S is the difference of two uniforms,
+shifted over to the right by d. Thus the distribution of the
+difference is given by: 
+\begin{align*}
+F_Y(y) = P( d + \xi_s - \xi_e \leq y ) = P( \xi_s -\xi_e \leq y - d) \\
+F_x( y - d ) = \begin{cases}
+\frac{1}{2} + (y - d) + \frac{(y - d)^2}{2} \quad &d-1 \leq y \leq d \\
+\frac{1]{2} + (y - d) - \frac{(y - d)^2}{2} \quad &d \leq x \leq d+1
+\end{cases}
+\end{align*}
+
+and its density is given by:
+
+\begin{align*}
+f_x(x) = \begin{cases}
+1 + y - d \quad &d-1 \leq y \leq d \\
+1 - y - d \quad &d \leq y \leq d+1
+\end{cases}
+\end{align*}
+
+The mean and variance of the measurement error are given by: 
+\begin{align*}
+\mathbb{E}[ \xi_s - \xi_e ] = .5 - .5 = 0 \\
+\mathbb{V}( \xi_s - \xi_e ) = \mathbb{V}( \xi_s ) + \mathbb{V}( \xi_e ) = \frac{1}{6} \\
+\end{align*}
+
+** d
+
+Since Y is given by the truth plus an error which has mean zero, its
+bias will be zero, and by the linearity of expected value, any linear
+combination of Y will be unbiased as well.
+
+\begin{align*}
+\mathbb{V}(\bar{Y}) = \mathbb{V}( \frac{1}{N} \sum_{n=1}^N y_n ) = \frac{1}{N^2} \sum_{n=1}^N \mathbb{V}( y_n ) = \frac{1}{6N}
+\end{align*}
+
+By applying the Lindinberg-Levy Central Limit theorem, we may note
+that $\sqrt{N} \frac{ \bar{Y} - d }{ \sqrt{ \mathbb{V}(Y) } } \sim
+N(0,1)$ Since $\bar{Y}$ is constructed by linear combinations of
+uniform distributions, this will converge in distribution to the
+normal quite quickly.
+
+** e
+Since the variance of the sample average is convergign on an order of
+O( \frac{1}{N} ) it is converging relatively slower than part a which
+is converging at a rate of O( \frac{1}{N^2} ). This means that you need
+far fewer measurements, which makes intuitive sense, as the method in
+part A only has the two errors which are uniform(0,1) present, while
+the method suggested in the latter part has 2N errors which are all
+uniform(0,1).
+
+* Question 2

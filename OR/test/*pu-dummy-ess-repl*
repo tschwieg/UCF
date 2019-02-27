@@ -1,0 +1,6 @@
+test = 4
+numlist = [1,2,3,4,5]
+for i in numlist:
+    test += i
+#I'm not sure what I should be doing here
+print( test )

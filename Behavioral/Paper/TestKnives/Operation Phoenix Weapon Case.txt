@@ -1,0 +1,19 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+AUG | Chameleon,0.0032
+AWP | Asiimov,0.0032
+Nova | Antique,0.016
+P90 | Trigon,0.0799
+AK-47 | Redline,0.3996
+USP-S | Guardian,0.3996
+FAMAS | Sergeant,0.3996
+SG 553 | Pulse,0.3996
+MAC-10 | Heat,0.3996
+MAG-7 | Heaven Guard,0.3996
+Tec-9 | Sandstorm,0.3996
+Negev | Terrain,0.3996
+UMP-45 | Corporal,0.3996

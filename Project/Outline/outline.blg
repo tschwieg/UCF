@@ -1,0 +1,71 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: outline.aux
+The style file: chicago.bst
+Database file #1: biblio.bib
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--to sort, need author or key in Liquidpedia
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--to sort, need author or key in SteamMarket
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--no key, author in Liquidpedia
+Warning--no author, editor, or organization in Liquidpedia
+Warning--empty year in Liquidpedia
+Warning--no key, author in SteamMarket
+Warning--no author, editor, or organization in SteamMarket
+Warning--empty year in SteamMarket
+Warning--no journal in Efficiency
+Warning--no number and no volume in Efficiency
+Warning--page numbers missing in Efficiency
+Warning--no journal in NonAtomic
+You've used 9 entries,
+            2861 wiz_defined-function locations,
+            669 strings with 6079 characters,
+and the built_in function-call counts, 5303 in all, are:
+= -- 451
+> -- 356
+< -- 0
++ -- 110
+- -- 120
+* -- 473
+:= -- 928
+add.period$ -- 26
+call.type$ -- 9
+change.case$ -- 61
+chr.to.int$ -- 9
+cite$ -- 41
+duplicate$ -- 142
+empty$ -- 336
+format.name$ -- 140
+if$ -- 985
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 4
+newline$ -- 47
+num.names$ -- 70
+pop$ -- 54
+preamble$ -- 1
+purify$ -- 115
+quote$ -- 0
+skip$ -- 148
+stack$ -- 0
+substring$ -- 252
+swap$ -- 43
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 180
+warning$ -- 24
+while$ -- 62
+width$ -- 0
+write$ -- 115
+(There were 24 warnings)

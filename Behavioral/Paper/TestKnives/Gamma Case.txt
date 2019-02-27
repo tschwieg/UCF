@@ -1,0 +1,23 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+M4A1-S | Mecha Industries,0.0032
+Glock-18 | Wasteland Rebel,0.0032
+SCAR-20 | Bloodsport,0.016
+P2000 | Imperial Dragon,0.0799
+M4A4 | Desolate Space,0.0799
+Sawed-Off | Limelight,0.3996
+R8 Revolver | Reboot,0.3996
+P90 | Chopper,0.3996
+AWP | Phobos,0.3996
+AUG | Aristocrat,0.3996
+Tec-9 | Ice Cap,0.3996
+SG 553 | Aerial,0.3996
+PP-Bizon | Harvester,0.3996
+P250 | Iron Clad,0.3996
+Nova | Exo,0.3996
+MAC-10 | Carnivore,0.3996
+Five-SeveN | Violent Daimyo,0.3996

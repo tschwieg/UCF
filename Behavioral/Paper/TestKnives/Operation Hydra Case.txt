@@ -1,0 +1,23 @@
+Bayonet_Vanilla,0.0004333333333333333
+Gut Knife_Vanilla,0.0004333333333333333
+Flip Knife_Vanilla,0.0004333333333333333
+M9 Bayonet_Vanilla,0.0004333333333333333
+Karambit_Vanilla,0.0004333333333333333
+Bowie Knife_Vanilla,0.0004333333333333333
+AWP | Oni Taiji,0.0032
+Five-SeveN | Hyper Beast,0.0032
+M4A4 | Hellfire,0.016
+Galil AR | Sugar Rush,0.0799
+Dual Berettas | Cobra Strike,0.0799
+SSG 08 | Death's Head,0.3996
+P90 | Death Grip,0.3996
+P250 | Red Rock,0.3996
+P2000 | Woodsman,0.3996
+AK-47 | Orbit Mk01,0.3996
+UMP-45 | Metal Flowers,0.3996
+Tec-9 | Cut Out,0.3996
+MAG-7 | Hard Water,0.3996
+MAC-10 | Aloha,0.3996
+M4A1-S | Briefing,0.3996
+FAMAS | Macabre,0.3996
+USP-S | Blueprint,0.3996
